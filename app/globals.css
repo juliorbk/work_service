@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark-mode *));
 
 :root {
   --background: #fff8f5;
@@ -15,14 +15,14 @@
   --secondary: #4f606e;
   --secondary-foreground: #ffffff;
   --muted: #f0dfd3;
-  --muted-foreground: #877463;
-  --accent: #00b3f0;
+  --muted-foreground: #6e5c4a;
+  --accent: #007a9e;
   --accent-foreground: #ffffff;
   --destructive: #ba1a1a;
   --destructive-foreground: #ffffff;
   --border: #dac2af;
   --input: #dac2af;
-  --ring: #ED9121;
+  --ring: #8b5000;
   --chart-1: #ED9121;
   --chart-2: #00b3f0;
   --chart-3: #4f606e;
@@ -33,12 +33,12 @@
   --sidebar-foreground: #221a13;
   --sidebar-primary: #8b5000;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #00b3f0;
+  --sidebar-accent: #007a9e;
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #dac2af;
-  --sidebar-ring: #ED9121;
+  --sidebar-ring: #8b5000;
 
-  --primary-container: #ED9121;
+  --primary-container: #A85A00;
   --on-primary-container: #5a3200;
   --secondary-container: #d0e2f3;
   --on-secondary-container: #546573;
@@ -54,6 +54,59 @@
   --outline: #877463;
   --outline-variant: #dac2af;
   --surface-tint: #8b5000;
+}
+
+.dark-mode {
+  --background: #171210;
+  --foreground: #f5e9dd;
+  --card: #211a16;
+  --card-foreground: #e8d7c8;
+  --popover: #211a16;
+  --popover-foreground: #f5e9dd;
+  --primary: #ffb871;
+  --primary-foreground: #4c2a00;
+  --secondary: #c2d3e3;
+  --secondary-foreground: #2d3942;
+  --muted: #2a221c;
+  --muted-foreground: #c1ad99;
+  --accent: #00b3f0;
+  --accent-foreground: #001f2c;
+  --destructive: #ffb4ab;
+  --destructive-foreground: #690005;
+  --border: #3e322a;
+  --input: #3e322a;
+  --ring: #ffb871;
+  --chart-1: #ffb871;
+  --chart-2: #00b3f0;
+  --chart-3: #c2d3e3;
+  --chart-4: #d98100;
+  --chart-5: #4fd8ff;
+  --radius: 0.25rem;
+  --sidebar: #171210;
+  --sidebar-foreground: #f5e9dd;
+  --sidebar-primary: #ffb871;
+  --sidebar-primary-foreground: #4c2a00;
+  --sidebar-accent: #00b3f0;
+  --sidebar-accent-foreground: #001f2c;
+  --sidebar-border: #3e322a;
+  --sidebar-ring: #ffb871;
+
+  --primary-container: #6a3e00;
+  --on-primary-container: #ffdcbe;
+  --secondary-container: #3d4d5c;
+  --on-secondary-container: #d0e2f3;
+  --tertiary-container: #00567a;
+  --on-tertiary-container: #7fd4ff;
+  --surface-container-lowest: #120e0c;
+  --surface-container-low: #1f1915;
+  --surface-container: #241d19;
+  --surface-container-high: #2e2621;
+  --surface-container-highest: #393028;
+  --surface-variant: #4a413a;
+  --on-surface-variant: #cdc0b4;
+  --outline: #96897e;
+  --outline-variant: #4a413a;
+  --surface-tint: #ffb871;
 }
 
 @theme inline {
@@ -198,5 +251,54 @@
   @keyframes slide-up {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.65s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: vt-stay;
+}
+
+::view-transition-new(root) {
+  clip-path: circle(0% at 50% 50%);
+  animation-name: vt-grow;
+}
+
+html[data-theme-reveal='shrink']::view-transition-old(root) {
+  clip-path: circle(120% at 50% 50%);
+  z-index: 1;
+  animation-name: vt-shrink;
+}
+
+html[data-theme-reveal='shrink']::view-transition-new(root) {
+  clip-path: none;
+  z-index: 0;
+  animation-name: vt-stay;
+}
+
+@keyframes vt-grow {
+  from { clip-path: circle(0% at 50% 50%); }
+  to { clip-path: circle(120% at 50% 50%); }
+}
+
+@keyframes vt-shrink {
+  from { clip-path: circle(120% at 50% 50%); }
+  to { clip-path: circle(0% at 50% 50%); }
+}
+
+@keyframes vt-stay {
+  from { }
+  to { }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
 }

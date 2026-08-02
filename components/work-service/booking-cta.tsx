@@ -1,8 +1,7 @@
 'use client';
 
 import { ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { AnimatedButton } from '@/components/ui/animated-button';
 
 export function BookingCTA() {
   return (
@@ -12,10 +11,10 @@ export function BookingCTA() {
           {/* Left content */}
           <div className="flex-1">
             <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-6 leading-tight text-foreground">
-              Ready to reserve your space?
+              ¿Listo para reservar tu espacio?
             </h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-xl">
-              Our streamlined booking process makes it simple to reserve the perfect space for your next meeting, collaborative session, or corporate event.
+              Nuestro proceso de reservación es simple: reserva el espacio perfecto para tu próxima reunión, sesión colaborativa o evento corporativo.
             </p>
 
             {/* Features list */}
@@ -24,28 +23,30 @@ export function BookingCTA() {
                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
                   <span className="text-primary font-bold text-sm">✓</span>
                 </div>
-                <span className="text-foreground font-medium">Instant confirmation</span>
+                <span className="text-foreground font-medium">Confirmación inmediata</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
                   <span className="text-primary font-bold text-sm">✓</span>
                 </div>
-                <span className="text-foreground font-medium">Flexible cancellation</span>
+                <span className="text-foreground font-medium">Cancelación flexible</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
                   <span className="text-primary font-bold text-sm">✓</span>
                 </div>
-                <span className="text-foreground font-medium">24/7 support</span>
+                <span className="text-foreground font-medium">Soporte 24/7</span>
               </div>
             </div>
 
-            <Link href="/work-service/booking">
-              <Button size="lg" className="bg-primary-container hover:bg-primary text-white px-8 h-12 text-base group">
-                Start Booking
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
+            <AnimatedButton
+              href="/booking"
+              label="Iniciar Reservación"
+              icon={ArrowRight}
+              interaction="slide-arrow"
+              variant="primary"
+              className="px-8 h-12 text-base"
+            />
           </div>
 
           {/* Right visual */}
@@ -54,19 +55,19 @@ export function BookingCTA() {
               <div className="h-48 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border border-border flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary mb-2">30s</div>
-                  <p className="text-xs text-muted-foreground">Average booking time</p>
+                  <p className="text-xs text-muted-foreground">Tiempo promedio de reserva</p>
                 </div>
               </div>
               <div className="h-48 rounded-2xl bg-gradient-to-br from-accent/10 to-accent/5 border border-border flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-accent mb-2">100%</div>
-                  <p className="text-xs text-muted-foreground">Satisfaction rate</p>
+                  <p className="text-xs text-muted-foreground">Tasa de satisfacción</p>
                 </div>
               </div>
               <div className="col-span-2 h-40 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 border border-border flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-secondary mb-2">24/7</div>
-                  <p className="text-xs text-muted-foreground">Available for reservations</p>
+                  <p className="text-xs text-muted-foreground">Disponible para reservaciones</p>
                 </div>
               </div>
             </div>

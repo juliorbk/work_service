@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Instagram, MapPin } from 'lucide-react';
 
 export function WorkServiceFooter() {
   return (
@@ -11,28 +12,39 @@ export function WorkServiceFooter() {
           {/* Brand */}
           <div className="col-span-1">
             <h3 className="text-lg font-bold mb-4">Work Service</h3>
-            <p className="text-sm text-background/70">
-              Premium corporate spaces designed for excellence and productivity.
+            <p className="text-sm text-background/70 mb-6">
+              Espacios corporativos premium en Maracaibo para trabajar, reunirte, capacitar y crecer.
             </p>
+            <div className="flex items-start gap-2.5">
+              <MapPin className="w-5 h-5 text-background/70 shrink-0 mt-0.5" />
+              <p className="text-sm text-background/70 leading-relaxed">
+                Torre Banco Industrial, Av. 9B con 5 de Julio, Maracaibo, Zulia, Venezuela
+              </p>
+            </div>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wide">Services</h4>
+            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wide">Servicios</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="#" className="text-sm text-background/70 hover:text-background transition-colors">
-                  Coworking Spaces
+                <Link href="/#espacios" className="text-sm text-background/70 hover:text-background transition-colors">
+                  Espacios de Coworking
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-background/70 hover:text-background transition-colors">
-                  Meeting Rooms
+                <Link href="/#espacios" className="text-sm text-background/70 hover:text-background transition-colors">
+                  Salas de Reuniones
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-background/70 hover:text-background transition-colors">
-                  Seminar Halls
+                <Link href="/#espacios" className="text-sm text-background/70 hover:text-background transition-colors">
+                  Salones de Eventos
+                </Link>
+              </li>
+              <li>
+                <Link href="/#espacios" className="text-sm text-background/70 hover:text-background transition-colors">
+                  Aulas para Cursos
                 </Link>
               </li>
             </ul>
@@ -40,21 +52,21 @@ export function WorkServiceFooter() {
 
           {/* Company */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wide">Company</h4>
+            <h4 className="font-semibold mb-4 text-sm uppercase tracking-wide">Empresa</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="#" className="text-sm text-background/70 hover:text-background transition-colors">
-                  About
+                <Link href="/#espacios" className="text-sm text-background/70 hover:text-background transition-colors">
+                  Nosotros
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-background/70 hover:text-background transition-colors">
-                  Locations
+                <Link href="/#locations" className="text-sm text-background/70 hover:text-background transition-colors">
+                  Sedes
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-sm text-background/70 hover:text-background transition-colors">
-                  Contact
+                <Link href="/booking" className="text-sm text-background/70 hover:text-background transition-colors">
+                  Reservaciones
                 </Link>
               </li>
             </ul>
@@ -66,12 +78,12 @@ export function WorkServiceFooter() {
             <ul className="space-y-2">
               <li>
                 <Link href="#" className="text-sm text-background/70 hover:text-background transition-colors">
-                  Privacy Policy
+                  Política de Privacidad
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-sm text-background/70 hover:text-background transition-colors">
-                  Terms & Conditions
+                  Términos y Condiciones
                 </Link>
               </li>
             </ul>
@@ -79,10 +91,19 @@ export function WorkServiceFooter() {
         </div>
 
         {/* Footer bottom */}
-        <div className="border-t border-background/20 pt-8">
+        <div className="border-t border-background/20 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-center text-sm text-background/60">
-            &copy; 2026 Work Service. All rights reserved.
+            &copy; 2026 Work Service. Todos los derechos reservados.
           </p>
+          <a
+            href="https://www.instagram.com/workservicesve/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-background/70 hover:text-background transition-colors"
+          >
+            <Instagram className="w-4 h-4" />
+            @workservicesve
+          </a>
         </div>
       </div>
     </footer>

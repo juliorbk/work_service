@@ -1,24 +1,25 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { AnimatedWave } from "./animated-wave";
 
 const testimonials = [
   {
-    quote: "Moving our headquarters to WORK Services was a game-changer. The architectural beauty of the space immediately elevates our brand in the eyes of visiting clients, while the tech infrastructure is flawless.",
-    author: "Sarah Jenkins",
-    role: "Director of Operations",
+    quote: "Mudar nuestras oficinas a Work Service fue un gran acierto. La calidad del espacio eleva nuestra imagen frente a los clientes que nos visitan y la infraestructura tecnológica es impecable.",
+    author: "María Fernández",
+    role: "Directora de Operaciones",
     company: "TechFlow",
   },
   {
-    quote: "As a solo consultant, I needed a space that offered both quiet areas for deep work and impressive meeting rooms for pitches. The monthly coworking plan delivers exactly that, with a premium feel throughout.",
-    author: "Marcus Thorne",
-    role: "Independent Consultant",
+    quote: "Como consultora independiente, necesitaba zonas de silencio para concentrarme y salas de reuniones para presentar a mis clientes. El plan mensual de coworking cumple con todo, con un ambiente de primer nivel.",
+    author: "Laura Castillo",
+    role: "Consultora Independiente",
     company: "",
   },
   {
-    quote: "The conference facilities here are unmatched. The AV equipment always works, the design is sophisticated, and the staff ensures every meeting we host feels like a VIP experience for our guests.",
-    author: "Elena Rodriguez",
-    role: "VP Sales",
+    quote: "Las instalaciones para eventos son insuperables. El equipo audiovisual siempre funciona, el diseño es sofisticado y el staff hace que cada evento se sienta como una experiencia VIP para nuestros invitados.",
+    author: "Elena Rodríguez",
+    role: "VP de Ventas",
     company: "GlobalReach",
   },
 ];
@@ -45,18 +46,21 @@ export function TestimonialsSection() {
       className="relative py-24 lg:py-32 bg-surface-container-highest overflow-hidden"
     >
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-surface-container-high/50 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-56 lg:h-72 opacity-40 pointer-events-none hidden md:block">
+        <AnimatedWave />
+      </div>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         {/* Header */}
         <div className="mb-12 lg:mb-16">
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] uppercase mb-6">
-            Member Perspectives
+            Testimonios de Clientes
           </span>
           <h2
             className={`text-4xl lg:text-6xl font-bold tracking-tight text-foreground transition-all duration-700 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            What our members say
+            Lo que dicen nuestros clientes
           </h2>
         </div>
 

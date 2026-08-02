@@ -2,7 +2,7 @@
 
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { AnimatedButton } from '@/components/ui/animated-button';
 
 export function WorkServiceHero() {
   return (
@@ -14,51 +14,53 @@ export function WorkServiceHero() {
         {/* Eyebrow */}
         <div className="mb-6 inline-block">
           <span className="text-sm font-medium text-secondary tracking-wider uppercase">
-            Premium Corporate Spaces
+            Coworking en Maracaibo
           </span>
         </div>
 
         {/* Main headline */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-foreground mb-8 max-w-4xl tracking-tight">
-          Executive Workspaces
-          <span className="block text-primary">Built for Excellence</span>
+        <h1 className="text-[2rem] sm:text-6xl lg:text-7xl font-bold leading-[1.2] sm:leading-tight text-foreground mb-8 max-w-4xl tracking-tight">
+          Tu espacio de trabajo
+          <span className="block text-primary">en el corazón de Maracaibo</span>
         </h1>
 
         {/* Description */}
-        <p className="text-xl text-muted-foreground max-w-2xl mb-12 leading-relaxed">
-          Reserve premium coworking spaces, private meeting rooms, and professional seminar halls designed for corporate excellence. Every detail crafted for productivity and sophistication.
+        <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mb-12 leading-relaxed">
+          Renta oficinas privadas, espacios de coworking, talleres y áreas creativas en la Torre Banco Industrial. Cada detalle diseñado para que trabajes, colabores y crezcas.
         </p>
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
-          <Link href="/work-service/booking">
-            <Button size="lg" className="bg-primary-container hover:bg-primary text-white px-8 h-12 text-base group w-full sm:w-auto">
-              Book Now
-              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </Link>
+          <AnimatedButton
+            href="/booking"
+            label="Reservar Ahora"
+            icon={ArrowRight}
+            interaction="slide-arrow"
+            variant="primary"
+            className="w-full sm:w-auto px-8 h-12 text-base min-h-11"
+          />
           <Button
             size="lg"
             variant="outline"
-            className="h-12 px-8 text-base border-secondary text-foreground hover:bg-muted w-full sm:w-auto"
+            className="h-12 px-8 text-base border-secondary text-foreground hover:bg-muted w-full sm:w-auto min-h-11"
           >
-            View Spaces
+            Ver Espacios
           </Button>
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-3 gap-8 pt-12 border-t border-border">
-          <div>
+        <div className="grid grid-cols-3 gap-4 sm:gap-8 pt-12 border-t border-border">
+          <div className="min-w-0">
             <p className="text-2xl sm:text-3xl font-bold text-foreground mb-2">50+</p>
-            <p className="text-sm text-muted-foreground">Premium Spaces</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Espacios Premium</p>
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="text-2xl sm:text-3xl font-bold text-foreground mb-2">1000+</p>
-            <p className="text-sm text-muted-foreground">Corporate Clients</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Clientes Corporativos</p>
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="text-2xl sm:text-3xl font-bold text-foreground mb-2">100%</p>
-            <p className="text-sm text-muted-foreground">Client Satisfaction</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">Satisfacción del Cliente</p>
           </div>
         </div>
       </div>

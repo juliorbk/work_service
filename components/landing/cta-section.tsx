@@ -1,8 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight, Check, MessageCircle } from "lucide-react";
+import { AnimatedButton } from "@/components/ui/animated-button";
+
+const ctaFeatures = [
+  "Confirmación inmediata",
+  "Cancelación flexible",
+  "Soporte 24/7",
+];
 
 export function CtaSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,32 +38,47 @@ export function CtaSection() {
             <div className="flex flex-col items-center text-center gap-8">
               <div className="max-w-2xl">
                 <h2 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6 text-foreground leading-[1.1]">
-                  Ready to elevate your workspace?
+                  ¿Listo para reservar tu espacio?
                 </h2>
 
                 <p className="text-lg text-secondary mb-10 leading-relaxed">
-                  Join leading professionals and enterprises transforming how they work.
-                  Start your premium membership today.
+                  Reserva en minutos el espacio perfecto para tu próxima reunión,
+                  jornada de coworking, taller o evento.
                 </p>
 
+                <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 mb-10">
+                  {ctaFeatures.map((feature) => (
+                    <div key={feature} className="flex items-center gap-2.5">
+                      <span className="w-6 h-6 rounded-full bg-primary-container/10 flex items-center justify-center shrink-0">
+                        <Check className="w-4 h-4 text-primary-container" />
+                      </span>
+                      <span className="text-sm font-medium text-foreground">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Link
+                  <AnimatedButton
                     href="/booking"
-                    className="btn-premium bg-primary-container text-white px-8 py-4 rounded-md font-medium text-sm tracking-[0.05em] hover:bg-primary inline-flex items-center gap-2"
-                  >
-                    Start Free Trial
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                  <Link
-                    href="#contact"
-                    className="btn-premium border border-outline text-secondary px-8 py-4 rounded-md font-medium text-sm tracking-[0.05em] hover:border-primary hover:text-primary"
-                  >
-                    Schedule Demo
-                  </Link>
+                    label="Reservar Ahora"
+                    icon={ArrowRight}
+                    interaction="slide-arrow"
+                    variant="primary"
+                    className="min-w-[190px]"
+                  />
+                  <AnimatedButton
+                    href="https://wa.me/58XXXXXXXXXX"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    label="Escríbenos por WhatsApp"
+                    icon={MessageCircle}
+                    interaction="pulse"
+                    variant="outline"
+                  />
                 </div>
 
                 <p className="text-sm text-secondary mt-8">
-                  No credit card required &bull; 30-day free trial
+                  Agenda una visita sin compromiso &bull; Atención personalizada
                 </p>
               </div>
             </div>

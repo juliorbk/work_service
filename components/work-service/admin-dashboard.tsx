@@ -1,8 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetClose,
+} from '@/components/ui/sheet';
 import {
   LayoutDashboard,
   Calendar,
@@ -11,9 +20,80 @@ import {
   Settings,
   LogOut,
   ChevronRight,
+  Menu,
 } from 'lucide-react';
 
 type NavItem = 'dashboard' | 'bookings' | 'spaces' | 'clients' | 'settings';
+
+const navItems = [
+  { id: 'dashboard' as NavItem, label: 'Panel', icon: LayoutDashboard },
+  { id: 'bookings' as NavItem, label: 'Reservaciones', icon: Calendar },
+  { id: 'spaces' as NavItem, label: 'Espacios', icon: Home },
+  { id: 'clients' as NavItem, label: 'Clientes', icon: Users },
+  { id: 'settings' as NavItem, label: 'Ajustes', icon: Settings },
+];
+
+const statusLabels: Record<string, string> = {
+  confirmed: 'Confirmado',
+  pending: 'Pendiente',
+  completed: 'Completado',
+};
+
+function getStatusColor(status: string) {
+  switch (status) {
+    case 'confirmed':
+      return 'bg-green-50 text-green-700 border-green-200';
+    case 'pending':
+      return 'bg-yellow-50 text-yellow-700 border-yellow-200';
+    case 'completed':
+      return 'bg-blue-50 text-blue-700 border-blue-200';
+    default:
+      return 'bg-gray-50 text-gray-700 border-gray-200';
+  }
+}
+
+function NavList({
+  activeNav,
+  onSelect,
+  dismissible = false,
+}: {
+  activeNav: NavItem;
+  onSelect: (id: NavItem) => void;
+  dismissible?: boolean;
+}) {
+  const item = (item: (typeof navItems)[number]) => {
+    const Icon = item.icon;
+    const isActive = activeNav === item.id;
+    return (
+      <button
+        key={item.id}
+        onClick={() => onSelect(item.id)}
+        className={`w-full flex items-center gap-3 px-4 py-3 min-h-11 rounded-lg text-sm font-medium transition-colors ${
+          isActive
+            ? 'bg-primary text-primary-foreground'
+            : 'text-background/70 hover:text-background hover:bg-foreground/50'
+        }`}
+      >
+        <Icon className="w-5 h-5 shrink-0" />
+        <span className="text-left">{item.label}</span>
+      </button>
+    );
+  };
+
+  return (
+    <nav className="space-y-2">
+      {navItems.map((itemData) =>
+        dismissible ? (
+          <SheetClose asChild key={itemData.id}>
+            {item(itemData)}
+          </SheetClose>
+        ) : (
+          item(itemData)
+        )
+      )}
+    </nav>
+  );
+}
 
 interface Booking {
   id: string;
@@ -29,159 +109,180 @@ const mockBookings: Booking[] = [
   {
     id: '001',
     client: 'Acme Corporation',
-    space: 'Seminar Hall A',
+    space: 'Salón de Eventos A',
     date: '2026-06-22',
     time: '10:00 AM',
-    duration: '4 hours',
+    duration: '4 horas',
     status: 'confirmed',
   },
   {
     id: '002',
     client: 'Tech Startup Inc',
-    space: 'Meeting Room 3',
+    space: 'Sala de Reuniones 3',
     date: '2026-06-22',
     time: '2:00 PM',
-    duration: '1 hour',
+    duration: '1 hora',
     status: 'confirmed',
   },
   {
     id: '003',
     client: 'Global Partners LLC',
-    space: 'Coworking Desk',
+    space: 'Escritorio de Coworking',
     date: '2026-06-23',
     time: '9:00 AM',
-    duration: 'Full day',
+    duration: 'Día completo',
     status: 'pending',
   },
   {
     id: '004',
     client: 'Finance Group',
-    space: 'Meeting Room 1',
+    space: 'Sala de Reuniones 1',
     date: '2026-06-21',
     time: '3:00 PM',
-    duration: '2 hours',
+    duration: '2 horas',
     status: 'completed',
+  },
+  {
+    id: '005',
+    client: 'Instituto de Capacitación',
+    space: 'Aula / Curso',
+    date: '2026-06-24',
+    time: '9:00 AM',
+    duration: 'Día completo',
+    status: 'pending',
   },
 ];
 
 const occupancyStats = [
-  { space: 'Coworking Spaces', occupied: 28, total: 40, percentage: 70 },
-  { space: 'Meeting Rooms', occupied: 5, total: 8, percentage: 62 },
-  { space: 'Seminar Halls', occupied: 2, total: 3, percentage: 67 },
+  { space: 'Espacios de Coworking', occupied: 28, total: 40, percentage: 70 },
+  { space: 'Salas de Reuniones', occupied: 5, total: 8, percentage: 62 },
+  { space: 'Salones de Eventos', occupied: 2, total: 3, percentage: 67 },
+  { space: 'Aulas / Cursos', occupied: 2, total: 4, percentage: 50 },
 ];
 
 export function AdminDashboard() {
   const [activeNav, setActiveNav] = useState<NavItem>('dashboard');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const navItems = [
-    { id: 'dashboard' as NavItem, label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'bookings' as NavItem, label: 'Bookings', icon: Calendar },
-    { id: 'spaces' as NavItem, label: 'Spaces', icon: Home },
-    { id: 'clients' as NavItem, label: 'Clients', icon: Users },
-    { id: 'settings' as NavItem, label: 'Settings', icon: Settings },
-  ];
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'confirmed':
-        return 'bg-green-50 text-green-700 border-green-200';
-      case 'pending':
-        return 'bg-yellow-50 text-yellow-700 border-yellow-200';
-      case 'completed':
-        return 'bg-blue-50 text-blue-700 border-blue-200';
-      default:
-        return 'bg-gray-50 text-gray-700 border-gray-200';
-    }
-  };
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsLoading(false), 900);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
-      <aside className="w-64 bg-foreground text-background border-r border-background/20">
+    <div className="min-h-screen bg-background lg:flex">
+      {/* Mobile top bar */}
+      <header className="lg:hidden sticky top-0 z-40 flex items-center justify-between bg-foreground text-background px-4 h-16 border-b border-background/20">
+        <div className="min-w-0">
+          <h1 className="text-lg font-bold truncate">Work Service</h1>
+          <p className="text-xs text-background/60 truncate">Panel de Administración</p>
+        </div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <button
+              aria-label="Abrir menú de administración"
+              className="w-11 h-11 shrink-0 inline-flex items-center justify-center text-background rounded-md hover:bg-foreground/50 transition-colors"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </SheetTrigger>
+          <SheetContent
+            side="left"
+            className="w-[280px] sm:max-w-sm flex flex-col bg-foreground text-background border-r border-background/20"
+          >
+            <SheetHeader>
+              <SheetTitle className="text-background">Work Service</SheetTitle>
+              <p className="text-sm text-background/60">Panel de Administración</p>
+            </SheetHeader>
+            <div className="flex-1 overflow-y-auto px-2 py-4">
+              <NavList activeNav={activeNav} onSelect={setActiveNav} dismissible />
+            </div>
+            <div className="p-4 border-t border-background/20">
+              <Button
+                variant="outline"
+                className="w-full flex items-center gap-2 justify-center text-background/70 hover:text-background border-background/20 min-h-11"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="text-sm">Cerrar Sesión</span>
+              </Button>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </header>
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-foreground text-background border-r border-background/20 sticky top-0 h-screen">
         <div className="p-6">
           <h1 className="text-2xl font-bold">Work Service</h1>
-          <p className="text-sm text-background/60">Admin Dashboard</p>
+          <p className="text-sm text-background/60">Panel de Administración</p>
         </div>
 
-        {/* Navigation */}
-        <nav className="space-y-2 px-4 py-6">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeNav === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveNav(item.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-primary text-white'
-                    : 'text-background/70 hover:text-background hover:bg-foreground/50'
-                }`}
-              >
-                <Icon className="w-5 h-5" />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </nav>
+        <div className="flex-1 overflow-y-auto px-4 py-6">
+          <NavList activeNav={activeNav} onSelect={setActiveNav} />
+        </div>
 
-        {/* Footer */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-background/20 w-64">
+        <div className="p-4 border-t border-background/20">
           <Button
             variant="outline"
-            className="w-full flex items-center gap-2 justify-center text-background/70 hover:text-background border-background/20"
+            className="w-full flex items-center gap-2 justify-center text-background/70 hover:text-background border-background/20 min-h-11"
           >
             <LogOut className="w-4 h-4" />
-            <span className="text-sm">Logout</span>
+            <span className="text-sm">Cerrar Sesión</span>
           </Button>
         </div>
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 p-8">
+      <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8">
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <LoadingSpinner label="Cargando estadísticas..." />
+          </div>
+        ) : (
+          <>
         {activeNav === 'dashboard' && (
           <div className="space-y-8">
             {/* Header */}
             <div>
-              <h2 className="text-3xl font-bold text-foreground">Dashboard</h2>
-              <p className="text-muted-foreground mt-1">Overview of your workspace operations</p>
+              <h2 className="text-3xl font-bold text-foreground">Panel de Control</h2>
+              <p className="text-muted-foreground mt-1">Resumen de las operaciones de tu espacio</p>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid md:grid-cols-4 gap-6">
-              <Card className="p-6 border-border">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              <Card className="p-4 sm:p-6 border-border">
                 <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
-                  Total Bookings
+                  Reservaciones Totales
                 </p>
-                <p className="text-4xl font-bold text-foreground mb-2">247</p>
-                <p className="text-xs text-muted-foreground">This month</p>
+                <p className="text-3xl sm:text-4xl font-bold text-foreground mb-2">247</p>
+                <p className="text-xs text-muted-foreground">Este mes</p>
               </Card>
-              <Card className="p-6 border-border">
+              <Card className="p-4 sm:p-6 border-border">
                 <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
-                  Active Clients
+                  Clientes Activos
                 </p>
-                <p className="text-4xl font-bold text-foreground mb-2">89</p>
-                <p className="text-xs text-muted-foreground">Registered users</p>
+                <p className="text-3xl sm:text-4xl font-bold text-foreground mb-2">89</p>
+                <p className="text-xs text-muted-foreground">Usuarios registrados</p>
               </Card>
-              <Card className="p-6 border-border">
+              <Card className="p-4 sm:p-6 border-border">
                 <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
-                  Occupancy Rate
+                  Tasa de Ocupación
                 </p>
-                <p className="text-4xl font-bold text-primary mb-2">66%</p>
-                <p className="text-xs text-muted-foreground">Average utilization</p>
+                <p className="text-3xl sm:text-4xl font-bold text-primary mb-2">66%</p>
+                <p className="text-xs text-muted-foreground">Utilización promedio</p>
               </Card>
-              <Card className="p-6 border-border">
+              <Card className="p-4 sm:p-6 border-border">
                 <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
-                  Revenue
+                  Ingresos
                 </p>
-                <p className="text-4xl font-bold text-foreground mb-2">$42.5K</p>
-                <p className="text-xs text-muted-foreground">This month</p>
+                <p className="text-3xl sm:text-4xl font-bold text-foreground mb-2">$42.5K</p>
+                <p className="text-xs text-muted-foreground">Este mes</p>
               </Card>
             </div>
 
             {/* Occupancy Stats */}
-            <Card className="p-8 border-border">
-              <h3 className="text-lg font-bold text-foreground mb-6">Space Occupancy</h3>
+            <Card className="p-4 sm:p-6 lg:p-8 border-border">
+              <h3 className="text-lg font-bold text-foreground mb-6">Ocupación de Espacios</h3>
               <div className="space-y-6">
                 {occupancyStats.map((stat, idx) => (
                   <div key={idx}>
@@ -197,45 +298,45 @@ export function AdminDashboard() {
                         style={{ width: `${stat.percentage}%` }}
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">{stat.percentage}% occupied</p>
+                    <p className="text-xs text-muted-foreground mt-1">{stat.percentage}% ocupado</p>
                   </div>
                 ))}
               </div>
             </Card>
 
             {/* Recent Bookings */}
-            <Card className="p-8 border-border">
+            <Card className="p-4 sm:p-6 lg:p-8 border-border">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-bold text-foreground">Recent Bookings</h3>
-                <Button variant="outline" size="sm">
-                  View All
+                <h3 className="text-lg font-bold text-foreground">Reservaciones Recientes</h3>
+                <Button variant="outline" size="sm" className="min-h-11">
+                  Ver Todo
                 </Button>
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full min-w-[640px]">
                   <thead>
                     <tr className="border-b border-border">
                       <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase">
-                        Client
+                        Cliente
                       </th>
                       <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase">
-                        Space
+                        Espacio
                       </th>
                       <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase">
-                        Date
+                        Fecha
                       </th>
                       <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase">
-                        Time
+                        Hora
                       </th>
                       <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase">
-                        Duration
+                        Duración
                       </th>
                       <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase">
-                        Status
+                        Estado
                       </th>
                       <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase">
-                        Action
+                        Acción
                       </th>
                     </tr>
                   </thead>
@@ -253,7 +354,7 @@ export function AdminDashboard() {
                               booking.status
                             )}`}
                           >
-                            {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                            {statusLabels[booking.status] || booking.status}
                           </span>
                         </td>
                         <td className="py-4 px-4">
@@ -274,9 +375,11 @@ export function AdminDashboard() {
         {activeNav !== 'dashboard' && (
           <div className="flex items-center justify-center h-96">
             <p className="text-muted-foreground text-lg">
-              {activeNav.charAt(0).toUpperCase() + activeNav.slice(1)} section coming soon
+              {activeNav.charAt(0).toUpperCase() + activeNav.slice(1)}: sección próximamente
             </p>
           </div>
+        )}
+          </>
         )}
       </main>
     </div>
