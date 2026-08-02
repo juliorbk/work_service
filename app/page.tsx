@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/landing/navigation";
 import { HeroSection } from "@/components/landing/hero-section";
+import { AboutSection } from "@/components/landing/about-section";
 import { SpacesCoverFlow } from "@/components/work-service/spaces-coverflow";
 import { EventsSection } from "@/components/work-service/events-section";
 import { LocationSection } from "@/components/landing/location-section";
@@ -13,6 +14,7 @@ export default function Home() {
     <main className="relative min-h-screen overflow-x-hidden bg-background">
       <Navigation />
       <HeroSection />
+      <AboutSection />
       <SpacesCoverFlow />
       <EventsSection />
       <LocationSection />

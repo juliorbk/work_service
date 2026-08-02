@@ -86,7 +86,7 @@ export function PricingSection() {
     <section
       id="pricing"
       ref={sectionRef}
-      className="relative py-24 lg:py-32 bg-surface-container-low overflow-hidden"
+      className="relative py-24 lg:py-32 bg-surface-container-low overflow-hidden scroll-mt-24"
     >
       <div className="absolute -left-28 top-1/2 -translate-y-1/2 w-[460px] h-[460px] lg:w-[600px] lg:h-[600px] opacity-30 pointer-events-none hidden lg:block">
         <AnimatedTetrahedron />
@@ -112,19 +112,19 @@ export function PricingSection() {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8 items-stretch">
           {plans.map((plan, idx) => (
             <div
               key={plan.name}
-              className={`transition-all duration-700 ${
+              className={`h-full transition-all duration-700 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${idx * 100}ms` }}
             >
               <div
-                className={`relative bg-surface-container-lowest border rounded-lg p-6 sm:p-8 transition-all duration-300 hover-lift ${
+                className={`flex flex-col relative bg-surface-container-lowest border rounded-lg p-6 sm:p-8 h-full transition-all duration-300 hover-lift ${
                   plan.popular
-                    ? "border-2 border-primary-container shadow-[0_10px_40px_-10px_rgba(237,145,33,0.15)] scale-100 lg:scale-105 z-10"
+                    ? "border-2 border-primary-container shadow-[0_10px_40px_-10px_rgba(237,145,33,0.15)] xl:scale-105 z-10"
                     : "border-outline-variant"
                 }`}
               >
@@ -141,9 +141,11 @@ export function PricingSection() {
 
                 <div className="mb-6 pb-6 border-b border-outline-variant">
                   {plan.price === "Custom" ? (
-                    <span className="text-3xl font-bold text-primary-container">Cotización Personalizada</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-primary-container">
+                      Cotización Personalizada
+                    </span>
                   ) : (
-                    <div className="flex items-baseline gap-1">
+                    <div className="flex items-baseline gap-1 whitespace-nowrap">
                       <span className="text-4xl lg:text-5xl font-bold text-primary-container">
                         {plan.price}
                       </span>
@@ -152,23 +154,23 @@ export function PricingSection() {
                   )}
                 </div>
 
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-3 text-sm text-secondary">
-                      <span className="text-primary shrink-0">
+                    <li key={feature} className="flex items-start gap-3 text-sm text-secondary">
+                      <span className="text-primary shrink-0 mt-0.5">
                         <Check className="w-4 h-4" />
                       </span>
-                      {feature}
+                      <span>{feature}</span>
                     </li>
                   ))}
                   {plan.excluded?.map((feature) => (
-                    <li key={feature} className="flex items-center gap-3 text-sm text-outline opacity-50">
-                      <span className="shrink-0">
+                    <li key={feature} className="flex items-start gap-3 text-sm text-outline opacity-50">
+                      <span className="shrink-0 mt-0.5">
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M18 6L6 18M6 6l12 12" />
                         </svg>
                       </span>
-                      {feature}
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>

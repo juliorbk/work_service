@@ -17,6 +17,7 @@ export function Navigation() {
   }, []);
 
   const navLinks = [
+    { label: 'Nosotros', href: '#nosotros' },
     { label: 'Espacios', href: '#espacios' },
     { label: 'Planes', href: '#pricing' },
     { label: 'Sedes', href: '#locations' },

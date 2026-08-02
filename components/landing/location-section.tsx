@@ -45,7 +45,7 @@ export function LocationSection() {
     <section
       id="locations"
       ref={sectionRef}
-      className="relative py-24 lg:py-32"
+      className="relative py-24 lg:py-32 scroll-mt-24"
     >
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         {/* Header */}

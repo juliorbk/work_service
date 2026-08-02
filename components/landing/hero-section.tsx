@@ -20,16 +20,16 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-surface-variant">
+    <section className="relative min-h-screen md:min-h-[85vh] flex items-center justify-center overflow-hidden bg-surface-variant pt-24 md:pt-28">
       {/* Background decoration */}
       <div className="absolute inset-0 w-full h-full">
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[460px] h-[460px] lg:w-[720px] lg:h-[720px] opacity-40 pointer-events-none hidden md:block">
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] h-[300px] lg:w-[720px] lg:h-[720px] opacity-40 pointer-events-none hidden md:block">
           <AnimatedSphere />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
       </div>
 
-      <div className="relative z-10 max-w-[1280px] mx-auto px-6 lg:px-10 text-center">
+      <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 text-center">
         {/* Eyebrow */}
         <div
           className={`mb-8 transition-all duration-700 ${

@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, MessageCircle } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { AnimatedButton } from "@/components/ui/animated-button";
+import { WhatsAppBookingButton } from "@/components/work-service/whatsapp-booking-dialog";
 
 const ctaFeatures = [
   "Confirmación inmediata",
@@ -66,15 +67,10 @@ export function CtaSection() {
                     variant="primary"
                     className="min-w-[190px]"
                   />
-                  <AnimatedButton
-                    href="https://wa.me/58XXXXXXXXXX"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    label="Escríbenos por WhatsApp"
-                    icon={MessageCircle}
-                    interaction="pulse"
-                    variant="outline"
-                  />
+                  <WhatsAppBookingButton
+                  label="Reservar por WhatsApp"
+                  className="min-w-[190px] h-10 rounded-md px-6 bg-[#25D366] hover:bg-[#1eb958] text-white"
+                />
                 </div>
 
                 <p className="text-sm text-secondary mt-8">

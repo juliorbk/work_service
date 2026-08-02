@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronLeft, ChevronRight, Zap } from 'lucide-react';
 import { SPACES, type Space } from '@/components/landing/spaces-data';
@@ -12,6 +12,39 @@ interface SpacesCarouselProps {
   images?: Space[];
 }
 
+const BREAKPOINTS = [
+  { match: '(min-width: 640px)', slide: 300, image: 200 },
+  { match: '(min-width: 380px)', slide: 240, image: 168 },
+  { match: '', slide: 160, image: 132 },
+];
+
+function getSize() {
+  if (typeof window === 'undefined') return BREAKPOINTS[0];
+  const current =
+    BREAKPOINTS.find((bp) => bp.match && window.matchMedia(bp.match).matches) ??
+    BREAKPOINTS[BREAKPOINTS.length - 1];
+  return current;
+}
+
+function useResponsiveSize() {
+  const [size, setSize] = useState(getSize);
+
+  useEffect(() => {
+    const update = () => setSize(getSize());
+    const mqls = BREAKPOINTS.filter((b) => b.match).map((b) =>
+      window.matchMedia(b.match)
+    );
+    mqls.forEach((mql) => mql.addEventListener('change', update));
+    window.addEventListener('resize', update);
+    return () => {
+      mqls.forEach((mql) => mql.removeEventListener('change', update));
+      window.removeEventListener('resize', update);
+    };
+  }, []);
+
+  return size;
+}
+
 export function SpacesCarousel({
   className = '',
   images = SPACES,
@@ -19,6 +52,7 @@ export function SpacesCarousel({
   const [activeIndex, setActiveIndex] = useState(2);
   const [isHovered, setIsHovered] = useState(false);
   const [selectedSpace, setSelectedSpace] = useState<Space | null>(null);
+  const { slide: slideWidth, image: imageSize } = useResponsiveSize();
 
   const active = images[activeIndex];
 
@@ -43,8 +77,6 @@ export function SpacesCarousel({
     setSelectedSpace(item);
   };
 
-  const slideWidth = 300;
-
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
@@ -55,7 +87,7 @@ export function SpacesCarousel({
       )}
     >
       <div
-        className="relative h-[300px] flex items-center justify-start overflow-visible"
+        className="relative h-[220px] sm:h-[300px] flex items-center justify-start overflow-visible"
         style={{ width: `${slideWidth}px` }}
       >
         <motion.div
@@ -99,7 +131,8 @@ export function SpacesCarousel({
                   alt={item.title}
                   loading="lazy"
                   referrerPolicy="no-referrer"
-                  className="w-[200px] h-[200px] object-cover rounded-xl shadow-[0_16px_32px_-10px_rgba(139,80,0,0.35)] border border-outline-variant cursor-pointer transition-transform duration-300 hover:brightness-95"
+                  style={{ width: `${imageSize}px`, height: `${imageSize}px` }}
+                  className="object-cover rounded-xl shadow-[0_16px_32px_-10px_rgba(139,80,0,0.35)] border border-outline-variant cursor-pointer transition-transform duration-300 hover:brightness-95 max-w-full"
                   onClick={(e) => openDetails(e, item)}
                 />
               </motion.div>
@@ -146,12 +179,14 @@ export function SpacesCarousel({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -12 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
-          className="mt-10 w-full max-w-2xl mx-auto text-center"
+          className="mt-8 sm:mt-10 w-full max-w-2xl mx-auto text-center"
         >
-          <h3 className="text-2xl lg:text-3xl font-bold text-foreground mb-3">
+          <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3">
             {active.title}
           </h3>
-          <p className="text-secondary leading-relaxed mb-6">{active.description}</p>
+          <p className="text-sm sm:text-base text-secondary leading-relaxed mb-6">
+            {active.description}
+          </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <span className="inline-flex items-center rounded-full border border-primary-container/40 bg-primary-container/15 px-3 py-1 text-xs font-semibold text-primary">
               {active.capacity}
@@ -179,17 +214,17 @@ export function SpacesCarousel({
 export function SpacesCoverFlow() {
   return (
     <section id="espacios" className="relative py-24 lg:py-32 overflow-hidden scroll-mt-24">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
         {/* Header */}
         <div className="mb-16 lg:mb-20 text-center">
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-6">
             <Zap className="w-4 h-4 text-[#00b3f0]" />
             Recorre Nuestros Espacios
           </span>
-          <h2 className="text-4xl lg:text-6xl font-bold tracking-tight text-foreground">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-foreground">
             Un vistazo a tus espacios
           </h2>
-          <p className="text-lg lg:text-xl text-secondary max-w-2xl mx-auto mt-6 leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-secondary max-w-2xl mx-auto mt-6 leading-relaxed">
             Explora los ambientes disponibles en la Torre Banco Industrial: coworking,
             oficinas privadas, estudios y salones de eventos.
           </p>

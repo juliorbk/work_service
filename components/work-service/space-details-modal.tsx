@@ -16,6 +16,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
+import { WhatsAppBookingButton } from '@/components/work-service/whatsapp-booking-dialog';
 import type { Space } from '@/components/landing/spaces-data';
 
 interface SpaceDetailsModalProps {
@@ -111,13 +112,19 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
               </div>
 
               {/* CTA */}
-              <div className="mt-8 pt-6 border-t border-outline-variant">
+              <div className="mt-8 pt-6 border-t border-outline-variant space-y-3">
                 <Link href="/booking" className="block w-full">
                   <Button className="w-full bg-primary-container hover:bg-primary text-white min-h-11">
                     Reservar este espacio
                   </Button>
                 </Link>
-                <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-secondary">
+                {/* Reserva por WhatsApp de cada sala */}
+                <WhatsAppBookingButton
+                  label="Reservar por WhatsApp"
+                  defaultSpace={space.title}
+                  className="w-full bg-[#25D366] hover:bg-[#1eb958] text-white min-h-11"
+                />
+                <p className="flex items-center justify-center gap-1.5 text-xs text-secondary">
                   <Play className="w-3 h-3" />
                   Sin compromiso · Confirmación inmediata
                 </p>
