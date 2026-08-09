@@ -99,7 +99,7 @@ export function PricingSection() {
           }`}
         >
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-6">
-            <Zap className="w-4 h-4 text-[#00b3f0]" />
+            <Zap className="w-4 h-4 text-accent" />
             Planes y Tarifas
           </span>
           <h2 className="text-4xl lg:text-6xl font-bold tracking-tight text-foreground mb-6">
@@ -177,9 +177,9 @@ export function PricingSection() {
 
                 <Link
                   href="/booking"
-                  className={`block w-full py-3 text-center rounded-md font-medium text-sm tracking-[0.05em] btn-premium ${
+                  className={`block w-full py-3 text-center rounded-md font-medium text-sm tracking-[0.05em] btn-premium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                     plan.popular
-                      ? "bg-primary-container text-white hover:bg-primary-container hover:brightness-95"
+                      ? "bg-primary-container text-white hover:brightness-95"
                       : "border border-outline text-secondary hover:border-primary hover:text-primary"
                   }`}
                 >

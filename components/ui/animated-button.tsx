@@ -120,7 +120,7 @@ export function AnimatedButton({
     whileTap: { scale: 0.97 },
     transition: { type: 'spring' as const, stiffness: 500, damping: 25 },
     className: cn(
-      'inline-flex items-center justify-center gap-2 rounded-md font-medium tracking-[0.05em] transition-colors duration-150 select-none cursor-pointer text-center',
+      'inline-flex items-center justify-center gap-2 rounded-md font-medium tracking-[0.05em] transition-colors duration-150 select-none cursor-pointer text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
       variantStyles[variant],
       sizeStyles[size],
       className

@@ -86,7 +86,7 @@ export function HeroSection() {
           />
           <Link
             href="#espacios"
-            className="btn-premium bg-white/50 backdrop-blur-sm border border-outline text-secondary px-8 py-4 rounded-md font-medium text-sm tracking-[0.05em] hover:border-primary hover:text-primary inline-flex items-center justify-center"
+            className="btn-premium bg-white/50 backdrop-blur-sm border border-outline text-secondary px-8 py-4 rounded-md font-medium text-sm tracking-[0.05em] hover:border-primary hover:text-primary inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Ver Espacios
           </Link>

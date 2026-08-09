@@ -51,7 +51,7 @@ export function LocationSection() {
         {/* Header */}
         <div className="mb-16 lg:mb-20">
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-6">
-            <Zap className="w-4 h-4 text-[#00b3f0]" />
+            <Zap className="w-4 h-4 text-accent" />
             Nuestra Ubicación
           </span>
           <h2
@@ -102,7 +102,7 @@ export function LocationSection() {
                 <div className="pt-6 border-t border-outline-variant">
                   <Link
                     href="/booking"
-                    className="btn-premium block w-full text-center bg-primary-container text-white px-6 py-3 rounded-md font-medium text-sm tracking-[0.05em] hover:bg-primary-container hover:brightness-95"
+                    className="btn-premium block w-full text-center bg-primary-container text-white px-6 py-3 rounded-md font-medium text-sm tracking-[0.05em] hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   >
                     Reservar Mi Espacio
                   </Link>

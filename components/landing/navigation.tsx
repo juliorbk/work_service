@@ -12,7 +12,7 @@ export function Navigation() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -27,8 +27,8 @@ export function Navigation() {
     <nav
       className={`fixed top-0 w-full z-50 border-b border-outline-variant transition-all duration-300 ease-in-out ${
         scrolled
-          ? 'bg-surface/90 backdrop-blur-[12px] shadow-sm'
-          : 'bg-surface'
+          ? 'bg-background/90 backdrop-blur-md shadow-sm'
+          : 'bg-background'
       }`}
     >
       <div className="flex justify-between items-center h-16 md:h-20 px-4 sm:px-6 lg:px-10 max-w-[1280px] mx-auto transition-all duration-300">
@@ -49,7 +49,7 @@ export function Navigation() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-body-md font-sans text-secondary hover:text-primary transition-colors duration-200 ease-in-out"
+              className="text-sm font-sans text-secondary hover:text-primary focus-visible:text-primary transition-colors duration-200 ease-in-out"
             >
               {link.label}
             </Link>
@@ -62,7 +62,7 @@ export function Navigation() {
 
           <Link
             href="/booking"
-            className="btn-premium hidden sm:inline-flex bg-primary-container text-white px-6 py-3 rounded-md font-medium text-sm tracking-[0.05em] hover:bg-primary-container hover:brightness-95"
+            className="btn-premium hidden sm:inline-flex bg-primary-container text-white px-6 py-3 rounded-md font-medium text-sm tracking-[0.05em] hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Reservar Ahora
           </Link>
@@ -79,13 +79,13 @@ export function Navigation() {
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden border-t border-outline-variant bg-surface px-4 sm:px-6 py-4 space-y-1">
+      {isOpen ? (
+        <div className="md:hidden border-t border-outline-variant bg-background px-4 sm:px-6 py-4 space-y-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="flex items-center min-h-11 px-2 text-body-md text-secondary hover:text-primary transition-colors"
+              className="flex items-center min-h-11 px-2 text-base text-secondary hover:text-primary focus-visible:text-primary transition-colors"
               onClick={() => setIsOpen(false)}
             >
               {link.label}
@@ -93,7 +93,7 @@ export function Navigation() {
           ))}
           <Link
             href="/booking"
-            className="flex items-center justify-center min-h-11 w-full text-center bg-primary-container text-white px-6 py-3 rounded-md font-medium text-sm tracking-[0.05em] hover:bg-primary-container hover:brightness-95 transition-colors"
+            className="flex items-center justify-center min-h-11 w-full text-center bg-primary-container text-white px-6 py-3 rounded-md font-medium text-sm tracking-[0.05em] hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
             onClick={() => setIsOpen(false)}
           >
             Reservar Ahora
@@ -102,7 +102,7 @@ export function Navigation() {
             <ThemeToggle />
           </div>
         </div>
-      )}
+      ) : null}
     </nav>
   );
 }

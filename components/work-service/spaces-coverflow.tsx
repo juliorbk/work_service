@@ -145,7 +145,7 @@ export function SpacesCarousel({
         <button
           onClick={toPrev}
           aria-label="Espacio anterior"
-          className="p-1 cursor-pointer hover:bg-primary-container/10 rounded-full transition-colors border-0 bg-transparent text-secondary hover:text-primary"
+          className="p-1 cursor-pointer hover:bg-primary-container/10 rounded-full transition-colors border-0 bg-transparent text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
         >
           <ChevronLeft className="w-3.5 h-3.5" />
         </button>
@@ -165,7 +165,7 @@ export function SpacesCarousel({
         <button
           onClick={toNext}
           aria-label="Espacio siguiente"
-          className="p-1 cursor-pointer hover:bg-primary-container/10 rounded-full transition-colors border-0 bg-transparent text-secondary hover:text-primary"
+          className="p-1 cursor-pointer hover:bg-primary-container/10 rounded-full transition-colors border-0 bg-transparent text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
         >
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
@@ -218,7 +218,7 @@ export function SpacesCoverFlow() {
         {/* Header */}
         <div className="mb-16 lg:mb-20 text-center">
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-6">
-            <Zap className="w-4 h-4 text-[#00b3f0]" />
+            <Zap className="w-4 h-4 text-accent" />
             Recorre Nuestros Espacios
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-foreground">

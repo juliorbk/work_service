@@ -30,7 +30,7 @@ export function FeaturesSection() {
         {/* Header */}
         <div className="mb-16 lg:mb-24">
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-6">
-            <Zap className="w-4 h-4 text-[#00b3f0]" />
+            <Zap className="w-4 h-4 text-accent" />
             Nuestros Espacios
           </span>
           <h2

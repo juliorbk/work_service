@@ -16,7 +16,7 @@ export function EventsSection({ className }: EventsSectionProps) {
         {/* Header */}
         <div className="mb-16 lg:mb-20 text-center">
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-6">
-            <Zap className="w-4 h-4 text-[#00b3f0]" />
+            <Zap className="w-4 h-4 text-accent" />
             Eventos Destacados
           </span>
           <h2 className="text-4xl lg:text-6xl font-bold tracking-tight text-foreground">
