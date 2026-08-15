@@ -54,7 +54,7 @@ Write-Host "`n[3/4] Cargando documentos al vector store..." -ForegroundColor Cya
 
 $docs = @(
   @{
-    titulo    = "Espacios y Precios Work Service"
+    titulo    = "Espacios y Precios Work Service (parte 1)"
     categoria = "espacios"
     content   = @'
 Coworking: espacios abiertos y dinamicos para trabajo colaborativo en Work Service. Capacidad: 1 a 10 personas. Incluye: internet simetrico 500 Mbps, climatizacion individual, acceso a salas de reuniones, cafeteria premium incluida, recepcion y correo. Precios: escritorio flexible $45/dia, escritorio fijo $90/dia, plan mensual $250/mes.
@@ -62,7 +62,12 @@ Coworking: espacios abiertos y dinamicos para trabajo colaborativo en Work Servi
 Oficinas Privadas: oficinas completamente equipadas para equipos que necesitan privacidad y entorno corporativo de primer nivel. Capacidad: 2 a 20 personas. Incluye: aislamiento acustico, mobiliario ergonomico, videoconferencia 4K, control de acceso 24/7, limpieza incluida. Precios: oficina 2 personas $120/dia, oficina 4 personas $220/dia, oficina 10+ personas desde $450/dia.
 ---
 Estudio de Produccion: estudio insonorizado con equipo profesional para grabar podcasts, videos y contenido digital con calidad de estudio. Capacidad: 1 a 6 personas. Incluye: aislamiento acustico, consola y microfonos, iluminacion para video, pantalla de monitoreo, Wi-Fi de alta velocidad. Precios: por hora $60/hora, media jornada $200, jornada completa $350/dia.
----
+'@
+  },
+  @{
+    titulo    = "Espacios y Precios Work Service (parte 2)"
+    categoria = "espacios"
+    content   = @'
 Salas de Reuniones: salas profesionales con tecnologia AV de ultima generacion para presentaciones, entrevistas y videollamadas. Capacidad: 4 a 20 personas. Incluye: pantalla interactiva 75", audio profesional, pizarra digital, videoconferencia integrada, catering opcional. Precios: sala estandar $150/hora, sala ejecutiva $250/hora, dia completo $800.
 ---
 Salones de Eventos: espacios versatiles para conferencias, talleres y eventos corporativos con grandes audiencias. Capacidad: 50 a 500 personas. Incluye: escenario y tarima, sistema de sonido profesional, iluminacion escenica, catering completo, equipo de produccion. Precios: por evento $500 a $2,000, con catering desde $1,500.
@@ -81,7 +86,7 @@ Work Service es la plataforma premium de renta de espacios corporativos en Marac
     titulo    = "Reservas Work Service"
     categoria = "reservas"
     content   = @'
-Como reservar en Work Service: usa el boton "Reservar Ahora" de la web y sigue el flujo de 3 pasos: selecciona el tipo de espacio, elige fecha y hora, y confirma. Horarios disponibles: 09:00, 11:00, 14:00 y 16:00. Duraciones: 1 hora, 2 horas, 4 horas o dia completo. Beneficios: confirmacion instantanenea en ~30 segundos, cancelacion flexible y soporte 24/7. Los precios incluyen un cargo de servicio del 10% (ejemplo: sala estandar $150/hora + $15 de servicio = $165 total).
+Como reservar en Work Service: usa el boton "Reservar Ahora" de la web y sigue el flujo de 3 pasos: selecciona el tipo de espacio, elige fecha y hora, y confirma. Horarios disponibles: 09:00, 11:00, 14:00 y 16:00. Duraciones: 1 hora, 2 horas, 4 horas o dia completo. Beneficios: confirmacion instantanea en ~30 segundos, cancelacion flexible y soporte 24/7. Los precios incluyen un cargo de servicio del 10% (ejemplo: sala estandar $150/hora + $15 de servicio = $165 total).
 '@
   }
 )

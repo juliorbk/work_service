@@ -1,11 +1,11 @@
 {
     "schema_version": 2,
-    "commit": "0bfb8463f7dbf4b20a248f2a4365b0fe9a5f47ad",
-    "indexed_at": "2026-08-15T12:40:50Z",
+    "commit": "22dbd2d8430e87d1fad61247d8b2306776af1288",
+    "indexed_at": "2026-08-15T12:51:19Z",
     "project": "C-Users-Julito-Documents-Programming-Proyectos-work_service",
-    "nodes": 1161,
-    "edges": 2346,
-    "original_size": 5308416,
-    "compressed_size": 670419,
+    "nodes": 1191,
+    "edges": 2495,
+    "original_size": 5570560,
+    "compressed_size": 698323,
     "compression_level": 3
 }
