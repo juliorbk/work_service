@@ -1,5 +1,5 @@
 import React from "react"
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { WhatsAppFloatButton } from '@/components/work-service/whatsapp-float-button'
@@ -18,8 +18,32 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Work Service - Renta de Oficinas, Coworking, Eventos y Cursos',
-  description: 'Renta oficinas privadas, espacios de coworking, salas de reuniones, salones de eventos y aulas para cursos y capacitaciones. Espacios corporativos premium para tu negocio.',
+  title: 'Work Services | Coworking, Oficinas Privadas y Salas de Conferencias en Maracaibo',
+  description:
+    'Work Services, ¡tu aliado estratégico! Coworking en Maracaibo: oficinas privadas, salas de conferencias hasta 20 personas, espacios de trabajo compartidos y salones de reuniones. Soporte incluido, internet con respaldo y disponibilidad 24 horas.',
+  keywords: [
+    'coworking',
+    'coworking Maracaibo',
+    'oficinas privadas',
+    'salas de conferencias',
+    'salones de reuniones',
+    'espacios de trabajo compartidos',
+    'Work Services',
+  ],
+  openGraph: {
+    title: 'Work Services | Coworking, Oficinas Privadas y Salas de Conferencias',
+    description:
+      'No somos un coworking más, somos tu asistente ejecutivo. Oficinas privadas, salas de conferencias y coworking en Maracaibo.',
+    type: 'website',
+    locale: 'es_VE',
+    siteName: 'Work Services',
+  },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({
@@ -35,7 +59,7 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
-          value={{ light: 'light-mode', dark: 'dark-mode' }}
+          value={{ light: 'light', dark: 'dark-mode' }}
         >
           {children}
           <Analytics />

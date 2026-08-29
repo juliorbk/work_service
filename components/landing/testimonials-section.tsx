@@ -2,25 +2,36 @@
 
 import { useEffect, useState, useRef } from "react";
 import { AnimatedWave } from "./animated-wave";
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
+
+const avatarFor = (name: string) => {
+  const initials = name
+    .split(" ")
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500"><rect width="500" height="500" fill="#8b5000"/><text x="50%" y="50%" dy="0.35em" text-anchor="middle" font-family="Georgia, serif" font-size="200" fill="#fff8f5">${initials}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+};
 
 const testimonials = [
   {
     quote: "Mudar nuestras oficinas a Work Service fue un gran acierto. La calidad del espacio eleva nuestra imagen frente a los clientes que nos visitan y la infraestructura tecnológica es impecable.",
-    author: "María Fernández",
-    role: "Directora de Operaciones",
-    company: "TechFlow",
+    name: "María Fernández",
+    designation: "Directora de Operaciones, TechFlow",
+    src: avatarFor("María Fernández"),
   },
   {
     quote: "Como consultora independiente, necesitaba zonas de silencio para concentrarme y salas de reuniones para presentar a mis clientes. El plan mensual de coworking cumple con todo, con un ambiente de primer nivel.",
-    author: "Laura Castillo",
-    role: "Consultora Independiente",
-    company: "",
+    name: "Laura Castillo",
+    designation: "Consultora Independiente",
+    src: avatarFor("Laura Castillo"),
   },
   {
     quote: "Las instalaciones para eventos son insuperables. El equipo audiovisual siempre funciona, el diseño es sofisticado y el staff hace que cada evento se sienta como una experiencia VIP para nuestros invitados.",
-    author: "Elena Rodríguez",
-    role: "VP de Ventas",
-    company: "GlobalReach",
+    name: "Elena Rodríguez",
+    designation: "VP de Ventas, GlobalReach",
+    src: avatarFor("Elena Rodríguez"),
   },
 ];
 
@@ -43,20 +54,17 @@ export function TestimonialsSection() {
     <section
       id="testimonials"
       ref={sectionRef}
-      className="relative py-24 lg:py-32 bg-surface-container-highest overflow-hidden"
+      className="relative py-16 sm:py-20 lg:py-28 bg-surface-container-highest overflow-hidden"
     >
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-surface-container-high/50 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 bottom-0 h-56 lg:h-72 opacity-40 pointer-events-none hidden md:block">
         <AnimatedWave />
       </div>
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
         {/* Header */}
-        <div className="mb-12 lg:mb-16">
-          <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] uppercase mb-6">
-            Testimonios de Clientes
-          </span>
+        <div className="mb-8 sm:mb-10">
           <h2
-            className={`text-4xl lg:text-6xl font-bold tracking-tight text-foreground transition-all duration-700 ${
+            className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground transition-all duration-700 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
@@ -64,39 +72,7 @@ export function TestimonialsSection() {
           </h2>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonials.map((item, index) => (
-            <div
-              key={item.author}
-              className={`hover-lift bg-surface-container-lowest p-6 lg:p-8 rounded-lg border border-outline-variant relative transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              {/* Quote icon */}
-              <span className="text-primary-container/20 text-6xl absolute top-4 right-4 leading-none font-serif">
-                &ldquo;
-              </span>
-
-              <div className="flex items-center gap-4 mb-5 relative z-10">
-                <div className="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center font-semibold text-on-surface-variant">
-                  {item.author.charAt(0)}
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-foreground">{item.author}</h4>
-                  <p className="text-xs text-secondary">
-                    {item.role}{item.company ? `, ${item.company}` : ""}
-                  </p>
-                </div>
-              </div>
-
-              <p className="text-sm text-secondary leading-relaxed relative z-10 italic">
-                &ldquo;{item.quote}&rdquo;
-              </p>
-            </div>
-          ))}
-        </div>
+        <AnimatedTestimonials testimonials={testimonials} autoplay />
       </div>
     </section>
   );

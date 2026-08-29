@@ -22,6 +22,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# media original sin procesar (no necesaria para el deploy)
+/design-assets/media-originals/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

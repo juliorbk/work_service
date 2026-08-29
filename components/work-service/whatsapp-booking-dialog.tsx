@@ -2,24 +2,16 @@
 
 import { useState } from 'react';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import {
+  Button,
+  FieldError,
+  Input,
+  Label,
+  ListBox,
+  Modal,
   Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  TextArea,
+  TextField,
+} from '@heroui/react';
 import { MessageCircle } from 'lucide-react';
 import {
   WHATSAPP_NUMBER,
@@ -84,180 +76,197 @@ export function WhatsAppBookingDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent className="sm:max-w-xl max-h-[88vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>
-            Completa los datos de tu reservación y te enviaremos el mensaje listo por
-            WhatsApp para confirmarla.
-          </DialogDescription>
-        </DialogHeader>
+    <Modal>
+      <Modal.Backdrop isOpen={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
+        <Modal.Container scroll="inside">
+          <Modal.Dialog className="sm:max-w-xl">
+            <Modal.CloseTrigger />
+            <Modal.Header>
+              <Modal.Heading>{title}</Modal.Heading>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Completa los datos de tu reservación y te enviaremos el mensaje listo por
+                WhatsApp para confirmarla.
+              </p>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="grid gap-4 py-2">
+                <div className="grid grid-cols-1 gap-2">
+                  <Select
+                    value={form.space || null}
+                    onChange={(v) => set('space', String(v ?? ''))}
+                    placeholder="Selecciona un espacio"
+                    isInvalid={!!errors.space}
+                    className="w-full"
+                  >
+                    <Label>Espacio *</Label>
+                    <Select.Trigger>
+                      <Select.Value />
+                      <Select.Indicator />
+                    </Select.Trigger>
+                    <Select.Popover>
+                      <ListBox>
+                        {SPACE_OPTIONS.map((option) => (
+                          <ListBox.Item key={option} id={option} textValue={option}>
+                            {option}
+                            <ListBox.ItemIndicator />
+                          </ListBox.Item>
+                        ))}
+                      </ListBox>
+                    </Select.Popover>
+                    <FieldError>Selecciona un espacio.</FieldError>
+                  </Select>
+                </div>
 
-        <div className="grid gap-4 py-2">
-          <div className="grid grid-cols-1 gap-2">
-            <Label htmlFor="ws-space">Espacio *</Label>
-            <Select value={form.space} onValueChange={(v) => set('space', v)}>
-              <SelectTrigger
-                id="ws-space"
-                className={errors.space ? 'border-destructive' : 'w-full'}
-                data-error={errors.space || undefined}
-              >
-                <SelectValue placeholder="Selecciona un espacio" />
-              </SelectTrigger>
-              <SelectContent>
-                {SPACE_OPTIONS.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.space && (
-              <p className="text-xs text-destructive">Selecciona un espacio.</p>
-            )}
-          </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <TextField
+                    value={form.name}
+                    onChange={(v) => set('name', v)}
+                    isInvalid={!!errors.name}
+                    className="w-full"
+                  >
+                    <Label>Nombre completo *</Label>
+                    <Input placeholder="Juan Pérez" />
+                    <FieldError>Ingresa tu nombre.</FieldError>
+                  </TextField>
+                  <TextField
+                    type="tel"
+                    value={form.phone}
+                    onChange={(v) => set('phone', v)}
+                    isInvalid={!!errors.phone}
+                    className="w-full"
+                  >
+                    <Label>Teléfono *</Label>
+                    <Input placeholder="+58 412 123 4567" />
+                    <FieldError>Ingresa tu teléfono.</FieldError>
+                  </TextField>
+                </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="ws-name">Nombre completo *</Label>
-              <Input
-                id="ws-name"
-                value={form.name}
-                onChange={(e) => set('name', e.target.value)}
-                placeholder="Juan Pérez"
-                aria-invalid={errors.name || undefined}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="ws-phone">Teléfono *</Label>
-              <Input
-                id="ws-phone"
-                type="tel"
-                value={form.phone}
-                onChange={(e) => set('phone', e.target.value)}
-                placeholder="+58 412 123 4567"
-                aria-invalid={errors.phone || undefined}
-              />
-            </div>
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="ws-email">Email</Label>
-            <Input
-              id="ws-email"
-              type="email"
-              value={form.email}
-              onChange={(e) => set('email', e.target.value)}
-              placeholder="tucorreo@ejemplo.com"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="ws-date">Fecha *</Label>
-              <Input
-                id="ws-date"
-                type="date"
-                value={form.date}
-                onChange={(e) => set('date', e.target.value)}
-                aria-invalid={errors.date || undefined}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="ws-time">Hora *</Label>
-              <Select value={form.time} onValueChange={(v) => set('time', v)}>
-                <SelectTrigger
-                  id="ws-time"
+                <TextField
+                  type="email"
+                  value={form.email}
+                  onChange={(v) => set('email', v)}
                   className="w-full"
-                  data-error={errors.time || undefined}
                 >
-                  <SelectValue placeholder="Hora" />
-                </SelectTrigger>
-                <SelectContent>
-                  {TIME_OPTIONS.map((time) => (
-                    <SelectItem key={time} value={time}>
-                      {time}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="ws-duration">Duración</Label>
-              <Select value={form.duration} onValueChange={(v) => set('duration', v)}>
-                <SelectTrigger id="ws-duration" className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {DURATION_OPTIONS.map((duration) => (
-                    <SelectItem key={duration} value={duration}>
-                      {duration}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+                  <Label>Email</Label>
+                  <Input placeholder="tucorreo@ejemplo.com" />
+                </TextField>
 
-          <div className="grid grid-cols-1 gap-2">
-            <Label htmlFor="ws-people">Número de personas</Label>
-            <Input
-              id="ws-people"
-              type="number"
-              min={1}
-              value={form.people}
-              onChange={(e) => set('people', e.target.value)}
-              placeholder="Ej. 8"
-            />
-          </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <TextField
+                    type="date"
+                    value={form.date}
+                    onChange={(v) => set('date', v)}
+                    isInvalid={!!errors.date}
+                    className="w-full"
+                  >
+                    <Label>Fecha *</Label>
+                    <Input />
+                    <FieldError>Ingresa la fecha.</FieldError>
+                  </TextField>
+                  <Select
+                    value={form.time || null}
+                    onChange={(v) => set('time', String(v ?? ''))}
+                    placeholder="Hora"
+                    isInvalid={!!errors.time}
+                    className="w-full"
+                  >
+                    <Label>Hora *</Label>
+                    <Select.Trigger>
+                      <Select.Value />
+                      <Select.Indicator />
+                    </Select.Trigger>
+                    <Select.Popover>
+                      <ListBox>
+                        {TIME_OPTIONS.map((time) => (
+                          <ListBox.Item key={time} id={time} textValue={time}>
+                            {time}
+                            <ListBox.ItemIndicator />
+                          </ListBox.Item>
+                        ))}
+                      </ListBox>
+                    </Select.Popover>
+                    <FieldError>Selecciona la hora.</FieldError>
+                  </Select>
+                  <Select
+                    value={form.duration}
+                    onChange={(v) => set('duration', String(v ?? ''))}
+                    className="w-full"
+                  >
+                    <Label>Duración</Label>
+                    <Select.Trigger>
+                      <Select.Value />
+                      <Select.Indicator />
+                    </Select.Trigger>
+                    <Select.Popover>
+                      <ListBox>
+                        {DURATION_OPTIONS.map((duration) => (
+                          <ListBox.Item key={duration} id={duration} textValue={duration}>
+                            {duration}
+                            <ListBox.ItemIndicator />
+                          </ListBox.Item>
+                        ))}
+                      </ListBox>
+                    </Select.Popover>
+                  </Select>
+                </div>
 
-          <div className="grid grid-cols-1 gap-2">
-            <Label htmlFor="ws-message">Comentarios adicionales</Label>
-            <Textarea
-              id="ws-message"
-              value={form.message}
-              onChange={(e) => set('message', e.target.value)}
-              placeholder="Cuéntanos los detalles que necesites"
-            />
-          </div>
-        </div>
+                <TextField
+                  type="number"
+                  value={form.people}
+                  onChange={(v) => set('people', v)}
+                  className="w-full"
+                >
+                  <Label>Número de personas</Label>
+                  <Input min={1} placeholder="Ej. 8" />
+                </TextField>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            className="bg-[#25D366] hover:bg-[#1eb958] text-white"
-          >
-            <MessageCircle className="size-4" />
-            Enviar por WhatsApp
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+                <TextField
+                  value={form.message}
+                  onChange={(v) => set('message', v)}
+                  className="w-full"
+                >
+                  <Label>Comentarios adicionales</Label>
+                  <TextArea placeholder="Cuéntanos los detalles que necesites" />
+                </TextField>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onPress={onClose}>
+                Cancelar
+              </Button>
+              <Button
+                onPress={handleSubmit}
+                className="bg-[#25D366] hover:bg-[#1eb958] text-white"
+              >
+                <MessageCircle className="size-4" />
+                Enviar por WhatsApp
+              </Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
   );
 }
 
 interface WhatsAppBookingButtonProps {
   label?: string;
   defaultSpace?: string;
-  variant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'link' | 'destructive';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'outline' | 'ghost' | 'danger' | 'danger-soft';
   className?: string;
 }
 
 export function WhatsAppBookingButton({
   label = 'Reservar por WhatsApp',
   defaultSpace = '',
-  variant = 'default',
+  variant = 'primary',
   className = '',
 }: WhatsAppBookingButtonProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant={variant} className={className}>
+      <Button onPress={() => setOpen(true)} variant={variant} className={className}>
         <MessageCircle className="size-4" />
         {label}
       </Button>

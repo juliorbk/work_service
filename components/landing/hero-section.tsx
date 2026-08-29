@@ -2,15 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Zap } from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import { AnimatedButton } from "@/components/ui/animated-button";
-import { AnimatedSphere } from "./animated-sphere";
-
-const heroStats = [
-  { value: "50+", label: "Espacios Disponibles" },
-  { value: "1000+", label: "Profesionales" },
-  { value: "100%", label: "Satisfacción" },
-];
+import { BRAND, HERO, whatsappUrl } from "@/lib/site-config";
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,89 +14,93 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen md:min-h-[85vh] flex items-center justify-center overflow-hidden bg-surface-variant pt-24 md:pt-28">
+    <section className="relative min-h-svh md:min-h-[85svh] flex items-center justify-center overflow-hidden bg-surface-variant pt-24 pb-16 md:pt-28">
       {/* Cielo de Maracaibo: resplandores que el acrílico refracta */}
       <div className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
+        {/* Video ambiente de las instalaciones */}
+        <video
+          src="/videos/gallery/video-09.mp4"
+          poster="/videos/gallery/video-09.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 w-full h-full object-cover opacity-60 motion-reduce:hidden"
+        />
         <div className="absolute -inset-[10%] bg-[radial-gradient(circle_at_78%_18%,rgba(168,90,0,0.20),transparent_42%)] animate-drift-a" />
         <div className="absolute -inset-[10%] bg-[radial-gradient(circle_at_12%_88%,rgba(0,179,240,0.14),transparent_40%)] animate-drift-b" />
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] h-[300px] lg:w-[720px] lg:h-[720px] opacity-40 hidden md:block">
-          <AnimatedSphere />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
       </div>
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 text-center">
         {/* Eyebrow */}
         <div
-          className={`mb-8 transition-all duration-700 ${
+          className={`mb-5 sm:mb-6 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-
+          <span className="inline-flex items-center gap-3 text-xs sm:text-sm text-secondary font-medium tracking-[0.05em]">
+            <span className="w-6 sm:w-8 h-px bg-primary/60" aria-hidden />
+            {BRAND.name} · {BRAND.slogan}
+            <span className="w-6 sm:w-8 h-px bg-primary/60" aria-hidden />
+          </span>
         </div>
 
         {/* Headline */}
         <h1
-          className={`text-[2rem] sm:text-6xl lg:text-7xl font-bold leading-[1.2] sm:leading-[1.1] tracking-[-0.02em] mb-6 text-foreground transition-all duration-1000 ${
+          className={`text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.15] sm:leading-[1.1] tracking-[-0.02em] mb-5 sm:mb-6 text-foreground transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Tu espacio de trabajo,
+          {HERO.headlineA}
           <br />
-          <span className="text-primary-container">en el corazón de Maracaibo</span>
+          <span className="text-primary-container">{HERO.headlineB}</span>
         </h1>
 
         {/* Description */}
         <p
-          className={`text-lg lg:text-xl text-secondary max-w-2xl mx-auto mb-2 leading-relaxed transition-all duration-700 delay-200 ${
+          className={`text-base sm:text-lg lg:text-xl text-secondary max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed transition-all duration-700 delay-200 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          Oficinas privadas, coworking, salas de reuniones y espacios para talleres
-          y eventos, en Torre Banco Industrial. Todo lo que tu equipo necesita para
-          trabajar mejor.
-        </p>
-
-        {/* Local identity micro-copy */}
-        <p
-          className={`text-sm text-secondary/90 max-w-2xl mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          Inspirados en la energía que enciende el cielo de Maracaibo cada noche.
+          {HERO.subheading}
         </p>
 
         {/* CTAs */}
         <div
-          className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-300 ${
+          className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center transition-all duration-700 delay-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
           <AnimatedButton
-            href="/booking"
-            label="Reservar Ahora"
-            icon={ArrowRight}
+            href={whatsappUrl(HERO.primaryCta.message)}
+            target="_blank"
+            rel="noopener noreferrer"
+            label={HERO.primaryCta.label}
+            icon={MessageCircle}
             interaction="slide-arrow"
             variant="primary"
-            className="min-w-[190px]"
+            className="min-w-[190px] rounded-full"
           />
           <Link
-            href="#espacios"
+            href={HERO.secondaryCta.href}
             className="btn-premium acrylic relative rounded-full px-8 py-4 font-medium text-sm tracking-[0.05em] text-secondary hover:text-primary hover:border-primary inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            Ver Espacios
+            {HERO.secondaryCta.label}
+            <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
         </div>
 
         {/* Stats */}
         <div
-          className={`acrylic relative rounded-2xl mx-auto mt-16 max-w-2xl grid grid-cols-3 gap-4 sm:gap-8 px-6 py-8 transition-all duration-700 delay-500 ${
+          className={`acrylic relative rounded-2xl mx-auto mt-10 sm:mt-16 max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 px-4 py-5 sm:px-6 sm:py-8 transition-all duration-700 delay-500 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          {heroStats.map((stat) => (
+          {HERO.stats.map((stat) => (
             <div key={stat.label} className="min-w-0">
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">
+              <p className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-1 sm:mb-2">
                 {stat.value}
               </p>
               <p className="text-xs sm:text-sm text-secondary">{stat.label}</p>

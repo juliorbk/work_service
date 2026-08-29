@@ -1,3 +1,5 @@
+import { spaceBookingMessage } from '@/lib/site-config';
+
 export interface SpaceMedia {
   type: 'image' | 'video';
   src: string;
@@ -7,6 +9,7 @@ export interface SpaceMedia {
 export interface SpacePricing {
   label: string;
   price: string;
+  whatsapp?: string;
 }
 
 export interface Space {
@@ -40,29 +43,9 @@ export const SPACES: Space[] = [
     ],
   },
   {
-    title: 'Sala de Reuniones B',
-    description:
-      'Sala profesional con tecnología AV de última generación para presentaciones, entrevistas y videollamadas efectivas.',
-    features: [
-      'Pantalla interactiva 75"',
-      'Audio profesional',
-      'Pizarra digital',
-      'Videoconferencia integrada',
-      'Catering opcional',
-    ],
-    capacity: '4 — 12 personas',
-    image: '/images/spaces/SALA_REUNION_B.jpg',
-    gallery: [{ type: 'image', src: '/images/spaces/SALA_REUNION_B.jpg' }],
-    pricing: [
-      { label: 'Por hora', price: '$150/hora' },
-      { label: 'Media jornada', price: '$400' },
-      { label: 'Día completo', price: '$800' },
-    ],
-  },
-  {
     title: 'Sala de Conferencias',
     description:
-      'Amplia sala de conferencias con tecnología AV profesional, ideal para convenciones, capacitaciones y eventos corporativos de gran formato.',
+      'Amplia sala para presentaciones, convenciones y capacitaciones, con capacidad hasta 20 personas. 2 salas disponibles.',
     features: [
       'Pantalla interactiva 75"',
       'Sistema de sonido profesional',
@@ -70,7 +53,7 @@ export const SPACES: Space[] = [
       'Videoconferencia integrada',
       'Catering opcional',
     ],
-    capacity: '50 — 120 personas',
+    capacity: 'Hasta 20 personas',
     image: '/images/spaces/SALA_CONFERENCIAS_1.jpg',
     gallery: [
       { type: 'image', src: '/images/spaces/SALA_CONFERENCIAS_1.jpg' },
@@ -79,14 +62,41 @@ export const SPACES: Space[] = [
       { type: 'image', src: '/images/spaces/SALA_CONFERENCIAS_4.jpg' },
     ],
     pricing: [
-      { label: 'Por evento', price: '$500 — $2,000' },
-      { label: 'Con catering', price: 'Desde $1,500' },
+      {
+        label: 'Por hora',
+        price: '$10 USD/hora',
+        whatsapp: spaceBookingMessage('Sala de Conferencias'),
+      },
+      { label: 'Salas disponibles', price: '2' },
     ],
   },
   {
-    title: 'Oficina A',
+    title: 'Salón de Reuniones',
     description:
-      'Oficina privada completamente equipada para equipos que necesitan privacidad y un entorno corporativo de primer nivel.',
+      'Uno de nuestros 2 salones de conferencias y reuniones: sala profesional con tecnología AV para presentaciones, entrevistas y videollamadas efectivas.',
+    features: [
+      'Pantalla interactiva 75"',
+      'Audio profesional',
+      'Pizarra digital',
+      'Videoconferencia integrada',
+      'Catering opcional',
+    ],
+    capacity: 'Reuniones y presentaciones',
+    image: '/images/spaces/SALA_REUNION_B.jpg',
+    gallery: [{ type: 'image', src: '/images/spaces/SALA_REUNION_B.jpg' }],
+    pricing: [
+      {
+        label: 'Por hora',
+        price: '$10 USD/hora',
+        whatsapp: spaceBookingMessage('Sala de Conferencias'),
+      },
+      { label: 'Salas disponibles', price: '2' },
+    ],
+  },
+  {
+    title: 'Oficina Privada (Tipo A)',
+    description:
+      'Oficina privada completamente equipada para equipos que necesitan privacidad y un entorno corporativo de primer nivel. 2 unidades disponibles.',
     features: [
       'Aislamiento acústico',
       'Mobiliario ergonómico',
@@ -94,21 +104,24 @@ export const SPACES: Space[] = [
       'Control de acceso 24/7',
       'Limpieza incluida',
     ],
-    capacity: '2 — 6 personas',
+    capacity: '2 unidades disponibles',
     image: '/images/spaces/SALA_OFICINA_A_1.jpg',
     gallery: [
       { type: 'image', src: '/images/spaces/SALA_OFICINA_A_1.jpg' },
       { type: 'image', src: '/images/spaces/SALA_OFICINA_A_2.jpg' },
     ],
     pricing: [
-      { label: 'Por día', price: '$120/día' },
-      { label: 'Plan mensual', price: 'Desde $1,200/mes' },
+      {
+        label: 'Plan mensual',
+        price: '$250 USD/mes c/u',
+        whatsapp: spaceBookingMessage('Oficina Privada (Tipo A)'),
+      },
     ],
   },
   {
-    title: 'Oficina B',
+    title: 'Oficina Privada (Tipo B)',
     description:
-      'Oficina privada luminosa y funcional, con mobiliario ergonómico y todas las comodidades para el día a día de tu equipo.',
+      'Oficina privada luminosa y funcional, con mobiliario ergonómico y todas las comodidades para el día a día de tu equipo. 1 unidad disponible.',
     features: [
       'Aislamiento acústico',
       'Mobiliario ergonómico',
@@ -116,31 +129,15 @@ export const SPACES: Space[] = [
       'Limpieza diaria incluida',
       'Control de acceso 24/7',
     ],
-    capacity: '4 — 10 personas',
+    capacity: '1 unidad disponible',
     image: '/images/spaces/SALA_OFICINA_B_1.jpg',
     gallery: [{ type: 'image', src: '/images/spaces/SALA_OFICINA_B_1.jpg' }],
     pricing: [
-      { label: 'Por día', price: '$220/día' },
-      { label: 'Plan mensual', price: 'Desde $2,200/mes' },
-    ],
-  },
-  {
-    title: 'Oficina C',
-    description:
-      'Oficina ejecutiva de gran capacidad para equipos corporativos que requieren espacio, privacidad y servicios premium.',
-    features: [
-      'Aislamiento acústico',
-      'Sala de reuniones interna',
-      'Videoconferencia 4K',
-      'Control de acceso 24/7',
-      'Limpieza incluida',
-    ],
-    capacity: '10 — 20 personas',
-    image: '/images/spaces/SALA_OFICINA_C.jpg',
-    gallery: [{ type: 'image', src: '/images/spaces/SALA_OFICINA_C.jpg' }],
-    pricing: [
-      { label: 'Por día', price: 'Desde $450/día' },
-      { label: 'Plan mensual', price: 'Consultar' },
+      {
+        label: 'Plan mensual',
+        price: '$200 USD/mes',
+        whatsapp: spaceBookingMessage('Oficina Privada (Tipo B)'),
+      },
     ],
   },
 ];

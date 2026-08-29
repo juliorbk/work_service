@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import '@heroui/styles';
 
 @custom-variant dark (&:is(.dark-mode *));
 
@@ -14,10 +15,10 @@
   --primary-foreground: #ffffff;
   --secondary: #4f606e;
   --secondary-foreground: #ffffff;
-  --muted: #f0dfd3;
+  --muted-bg: #f0dfd3;
   --muted-foreground: #6e5c4a;
-  --accent: #007a9e;
-  --accent-foreground: #ffffff;
+  --accent-brand: #007a9e;
+  --accent-brand-foreground: #ffffff;
   --destructive: #ba1a1a;
   --destructive-foreground: #ffffff;
   --border: #dac2af;
@@ -74,10 +75,10 @@
   --primary-foreground: #4c2a00;
   --secondary: #c2d3e3;
   --secondary-foreground: #2d3942;
-  --muted: #2a221c;
+  --muted-bg: #2a221c;
   --muted-foreground: #c1ad99;
-  --accent: #00b3f0;
-  --accent-foreground: #001f2c;
+  --accent-brand: #00b3f0;
+  --accent-brand-foreground: #001f2c;
   --destructive: #ffb4ab;
   --destructive-foreground: #690005;
   --border: #3e322a;
@@ -123,6 +124,27 @@
   --btn-hover-shadow: 0 10px 24px -8px rgba(255, 233, 210, 0.30);
 }
 
+/* HeroUI semantic bridge: map HeroUI design tokens to the app palette.
+   Must stay after .dark-mode so var() references resolve per-theme. */
+:root {
+  --accent: var(--primary);
+  --accent-foreground: var(--primary-foreground);
+  --muted: var(--muted-foreground);
+  --default: var(--muted-bg);
+  --default-foreground: var(--foreground);
+  --surface: var(--card);
+  --surface-foreground: var(--card-foreground);
+  --overlay: var(--popover);
+  --overlay-foreground: var(--popover-foreground);
+  --danger: var(--destructive);
+  --danger-foreground: var(--destructive-foreground);
+  --field-background: var(--surface-container-lowest);
+  --field-foreground: var(--foreground);
+  --field-placeholder: var(--muted-foreground);
+  --field-border: var(--input);
+  --field-border-width: 1px;
+}
+
 @theme inline {
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -137,10 +159,10 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
+  --color-muted: var(--muted-bg);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent-brand);
+  --color-accent-foreground: var(--accent-brand-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -222,6 +244,16 @@
   @keyframes marquee-reverse {
     0% { transform: translateX(-50%); }
     100% { transform: translateX(0); }
+  }
+
+  .marquee-tape {
+    animation: marquee 60s linear infinite;
+  }
+
+  .marquee-hover:hover .marquee-tape,
+  .marquee-hover:hover .marquee,
+  .marquee-hover:hover .marquee-reverse {
+    animation-play-state: paused;
   }
 
   .hover-lift {
@@ -408,7 +440,10 @@ html[data-theme-reveal='shrink']::view-transition-new(root) {
 
   .animate-drift-a,
   .animate-drift-b,
-  .animate-menu-in {
+  .animate-menu-in,
+  .marquee,
+  .marquee-reverse,
+  .marquee-tape {
     animation: none;
   }
 

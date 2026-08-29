@@ -1,11 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import {
+  Button,
+  Card,
+  FieldError,
+  Input,
+  Label,
+  TextArea,
+  TextField,
+} from '@heroui/react';
 import { Check, ChevronRight, Mail, MessageCircle } from 'lucide-react';
 import { SPACES } from '@/components/landing/spaces-data';
 import {
@@ -184,7 +188,7 @@ export function BookingFlow() {
               {sentChannel === 'whatsapp' ? 'WhatsApp' : 'tu aplicación de correo'} y
               te responderemos para confirmar la reservación.
             </p>
-            <Button onClick={reset} className="min-h-11 bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Button onPress={reset} className="min-h-11">
               Hacer otra reservación
             </Button>
           </div>
@@ -203,19 +207,24 @@ export function BookingFlow() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {spaceOptions.map((space) => (
-                    <Card
+                    <button
                       key={space.id}
-                      className="p-4 sm:p-6 border-2 cursor-pointer transition-all hover:border-primary hover:shadow-lg"
+                      type="button"
                       onClick={() => handleSpaceSelect(space.id)}
+                      className="text-left w-full rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                     >
-                      <h3 className="text-lg font-bold text-foreground mb-2">{space.name}</h3>
-                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{space.description}</p>
-                      <p className="text-xs text-muted-foreground mb-4">{space.capacity}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="font-semibold text-primary">{space.price}</span>
-                        <ChevronRight className="w-5 h-5 text-foreground" />
-                      </div>
-                    </Card>
+                      <Card className="p-4 sm:p-6 rounded-lg border-2 cursor-pointer transition-all hover:border-primary hover:shadow-lg">
+                        <Card.Content>
+                          <h3 className="text-lg font-bold text-foreground mb-2">{space.name}</h3>
+                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{space.description}</p>
+                          <p className="text-xs text-muted-foreground mb-4">{space.capacity}</p>
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-primary">{space.price}</span>
+                            <ChevronRight className="w-5 h-5 text-foreground" />
+                          </div>
+                        </Card.Content>
+                      </Card>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -303,29 +312,28 @@ export function BookingFlow() {
 
                   {/* People */}
                   <div>
-                    <Label htmlFor="bk-people" className="block text-sm font-semibold text-foreground mb-4">
+                    <Label className="block text-sm font-semibold text-foreground mb-4">
                       Número de personas
                     </Label>
-                    <Input
-                      id="bk-people"
+                    <TextField
                       type="number"
-                      min={1}
                       value={booking.people}
-                      onChange={(e) => set('people', e.target.value)}
-                      placeholder="Ej. 8"
+                      onChange={(v) => set('people', v)}
                       className="max-w-[12rem]"
-                    />
+                    >
+                      <Input min={1} placeholder="Ej. 8" />
+                    </TextField>
                   </div>
 
                   {/* Action buttons */}
                   <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6">
-                    <Button variant="outline" onClick={() => setCurrentStep(1)} className="flex-1 min-h-11">
+                    <Button variant="outline" onPress={() => setCurrentStep(1)} className="flex-1 min-h-11">
                       Atrás
                     </Button>
                     <Button
-                      onClick={handleDateTimeSubmit}
-                      disabled={!booking.date || !booking.time}
-                      className="flex-1 min-h-11 bg-primary hover:bg-primary/90 text-primary-foreground"
+                      onPress={handleDateTimeSubmit}
+                      isDisabled={!booking.date || !booking.time}
+                      className="flex-1 min-h-11"
                     >
                       Continuar
                     </Button>
@@ -343,7 +351,8 @@ export function BookingFlow() {
                   responderemos para confirmar.
                 </p>
 
-                <Card className="p-4 sm:p-8 mb-8 bg-muted/30 border-border">
+                <Card className="p-4 sm:p-8 mb-8 rounded-lg bg-muted/30 border-border">
+                  <Card.Content>
                   <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
                     {/* Booking details */}
                     <div>
@@ -388,78 +397,71 @@ export function BookingFlow() {
                         Tus Datos de Contacto
                       </h3>
                       <div className="space-y-4">
-                        <div className="grid gap-2">
-                          <Label htmlFor="bk-name">Nombre completo *</Label>
-                          <Input
-                            id="bk-name"
-                            value={booking.name}
-                            onChange={(e) => set('name', e.target.value)}
-                            placeholder="Juan Pérez"
-                            aria-invalid={errors.name || undefined}
-                          />
-                          {errors.name && <p className="text-xs text-destructive">Ingresa tu nombre.</p>}
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="bk-phone">Teléfono *</Label>
-                          <Input
-                            id="bk-phone"
-                            type="tel"
-                            value={booking.phone}
-                            onChange={(e) => set('phone', e.target.value)}
-                            placeholder="+58 412 123 4567"
-                            aria-invalid={errors.phone || undefined}
-                          />
-                          {errors.phone && (
-                            <p className="text-xs text-destructive">
-                              Ingresa tu teléfono para enviar por WhatsApp.
-                            </p>
-                          )}
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="bk-email">Email *</Label>
-                          <Input
-                            id="bk-email"
-                            type="email"
-                            value={booking.email}
-                            onChange={(e) => set('email', e.target.value)}
-                            placeholder="tucorreo@ejemplo.com"
-                            aria-invalid={errors.email || undefined}
-                          />
-                          {errors.email && (
-                            <p className="text-xs text-destructive">
-                              Ingresa tu email para enviar por correo.
-                            </p>
-                          )}
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="bk-message">Comentarios adicionales</Label>
-                          <Textarea
-                            id="bk-message"
-                            value={booking.message}
-                            onChange={(e) => set('message', e.target.value)}
-                            placeholder="Cuéntanos los detalles que necesites"
-                          />
-                        </div>
+                        <TextField
+                          value={booking.name}
+                          onChange={(v) => set('name', v)}
+                          isInvalid={!!errors.name}
+                          className="w-full"
+                        >
+                          <Label>Nombre completo *</Label>
+                          <Input placeholder="Juan Pérez" />
+                          <FieldError>Ingresa tu nombre.</FieldError>
+                        </TextField>
+                        <TextField
+                          type="tel"
+                          value={booking.phone}
+                          onChange={(v) => set('phone', v)}
+                          isInvalid={!!errors.phone}
+                          className="w-full"
+                        >
+                          <Label>Teléfono *</Label>
+                          <Input placeholder="+58 412 123 4567" />
+                          <FieldError>
+                            Ingresa tu teléfono para enviar por WhatsApp.
+                          </FieldError>
+                        </TextField>
+                        <TextField
+                          type="email"
+                          value={booking.email}
+                          onChange={(v) => set('email', v)}
+                          isInvalid={!!errors.email}
+                          className="w-full"
+                        >
+                          <Label>Email *</Label>
+                          <Input placeholder="tucorreo@ejemplo.com" />
+                          <FieldError>
+                            Ingresa tu email para enviar por correo.
+                          </FieldError>
+                        </TextField>
+                        <TextField
+                          value={booking.message}
+                          onChange={(v) => set('message', v)}
+                          className="w-full"
+                        >
+                          <Label>Comentarios adicionales</Label>
+                          <TextArea placeholder="Cuéntanos los detalles que necesites" />
+                        </TextField>
                       </div>
                     </div>
                   </div>
+                  </Card.Content>
                 </Card>
 
                 {/* Action buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                  <Button variant="outline" onClick={() => setCurrentStep(2)} className="flex-1 min-h-11">
+                  <Button variant="outline" onPress={() => setCurrentStep(2)} className="flex-1 min-h-11">
                     Atrás
                   </Button>
                   <Button
-                    onClick={() => handleSend('whatsapp')}
+                    onPress={() => handleSend('whatsapp')}
                     className="flex-1 min-h-11 bg-[#25D366] hover:bg-[#1eb958] text-white"
                   >
                     <MessageCircle className="size-4" />
                     Enviar por WhatsApp
                   </Button>
                   <Button
-                    onClick={() => handleSend('email')}
-                    className="flex-1 min-h-11 bg-primary hover:bg-primary/90 text-primary-foreground"
+                    onPress={() => handleSend('email')}
+                    className="flex-1 min-h-11"
                   >
                     <Mail className="size-4" />
                     Enviar por Email

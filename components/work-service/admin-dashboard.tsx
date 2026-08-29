@@ -1,17 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button, Card, Drawer, ProgressBar } from '@heroui/react';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetClose,
-} from '@/components/ui/sheet';
 import {
   LayoutDashboard,
   Calendar,
@@ -55,11 +46,9 @@ function getStatusColor(status: string) {
 function NavList({
   activeNav,
   onSelect,
-  dismissible = false,
 }: {
   activeNav: NavItem;
   onSelect: (id: NavItem) => void;
-  dismissible?: boolean;
 }) {
   const item = (item: (typeof navItems)[number]) => {
     const Icon = item.icon;
@@ -82,15 +71,7 @@ function NavList({
 
   return (
     <nav className="space-y-2">
-      {navItems.map((itemData) =>
-        dismissible ? (
-          <SheetClose asChild key={itemData.id}>
-            {item(itemData)}
-          </SheetClose>
-        ) : (
-          item(itemData)
-        )
-      )}
+      {navItems.map((itemData) => item(itemData))}
     </nav>
   );
 }
@@ -162,12 +143,18 @@ const occupancyStats = [
 
 export function AdminDashboard() {
   const [activeNav, setActiveNav] = useState<NavItem>('dashboard');
+  const [navOpen, setNavOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setIsLoading(false), 900);
     return () => window.clearTimeout(timer);
   }, []);
+
+  const handleNavSelect = (id: NavItem) => {
+    setActiveNav(id);
+    setNavOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-background lg:flex">
@@ -177,37 +164,39 @@ export function AdminDashboard() {
           <h1 className="text-lg font-bold truncate">Work Service</h1>
           <p className="text-xs text-background/60 truncate">Panel de Administración</p>
         </div>
-        <Sheet>
-          <SheetTrigger asChild>
-            <button
-              aria-label="Abrir menú de administración"
-              className="w-11 h-11 shrink-0 inline-flex items-center justify-center text-background rounded-md hover:bg-foreground/50 transition-colors"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-          </SheetTrigger>
-          <SheetContent
-            side="left"
-            className="w-[280px] sm:max-w-sm flex flex-col bg-foreground text-background border-r border-background/20"
+        <Drawer>
+          <Drawer.Trigger
+            aria-label="Abrir menú de administración"
+            className="w-11 h-11 shrink-0 inline-flex items-center justify-center text-background rounded-md hover:bg-foreground/50 transition-colors"
           >
-            <SheetHeader>
-              <SheetTitle className="text-background">Work Service</SheetTitle>
-              <p className="text-sm text-background/60">Panel de Administración</p>
-            </SheetHeader>
-            <div className="flex-1 overflow-y-auto px-2 py-4">
-              <NavList activeNav={activeNav} onSelect={setActiveNav} dismissible />
-            </div>
-            <div className="p-4 border-t border-background/20">
-              <Button
-                variant="outline"
-                className="w-full flex items-center gap-2 justify-center text-background/70 hover:text-background border-background/20 min-h-11"
-              >
-                <LogOut className="w-4 h-4" />
-                <span className="text-sm">Cerrar Sesión</span>
-              </Button>
-            </div>
-          </SheetContent>
-        </Sheet>
+            <Menu className="w-6 h-6" />
+          </Drawer.Trigger>
+          <Drawer.Backdrop isOpen={navOpen} onOpenChange={setNavOpen}>
+            <Drawer.Content
+              placement="left"
+              className="w-[280px] sm:max-w-sm bg-foreground text-background border-r border-background/20"
+            >
+              <Drawer.Dialog>
+                <Drawer.Header>
+                  <Drawer.Heading className="text-background">Work Service</Drawer.Heading>
+                  <p className="text-sm text-background/60">Panel de Administración</p>
+                </Drawer.Header>
+                <Drawer.Body>
+                  <NavList activeNav={activeNav} onSelect={handleNavSelect} />
+                </Drawer.Body>
+                <Drawer.Footer>
+                  <Button
+                    variant="outline"
+                    className="w-full flex items-center gap-2 justify-center text-background/70 hover:text-background border-background/20 min-h-11"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span className="text-sm">Cerrar Sesión</span>
+                  </Button>
+                </Drawer.Footer>
+              </Drawer.Dialog>
+            </Drawer.Content>
+          </Drawer.Backdrop>
+        </Drawer>
       </header>
 
       {/* Desktop Sidebar */}
@@ -250,68 +239,83 @@ export function AdminDashboard() {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              <Card className="p-4 sm:p-6 border-border">
-                <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
-                  Reservaciones Totales
-                </p>
-                <p className="text-3xl sm:text-4xl font-bold text-foreground mb-2">247</p>
-                <p className="text-xs text-muted-foreground">Este mes</p>
+              <Card className="p-4 sm:p-6 rounded-lg border-border">
+                <Card.Content>
+                  <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
+                    Reservaciones Totales
+                  </p>
+                  <p className="text-3xl sm:text-4xl font-bold text-foreground mb-2">247</p>
+                  <p className="text-xs text-muted-foreground">Este mes</p>
+                </Card.Content>
               </Card>
-              <Card className="p-4 sm:p-6 border-border">
-                <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
-                  Clientes Activos
-                </p>
-                <p className="text-3xl sm:text-4xl font-bold text-foreground mb-2">89</p>
-                <p className="text-xs text-muted-foreground">Usuarios registrados</p>
+              <Card className="p-4 sm:p-6 rounded-lg border-border">
+                <Card.Content>
+                  <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
+                    Clientes Activos
+                  </p>
+                  <p className="text-3xl sm:text-4xl font-bold text-foreground mb-2">89</p>
+                  <p className="text-xs text-muted-foreground">Usuarios registrados</p>
+                </Card.Content>
               </Card>
-              <Card className="p-4 sm:p-6 border-border">
-                <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
-                  Tasa de Ocupación
-                </p>
-                <p className="text-3xl sm:text-4xl font-bold text-primary mb-2">66%</p>
-                <p className="text-xs text-muted-foreground">Utilización promedio</p>
+              <Card className="p-4 sm:p-6 rounded-lg border-border">
+                <Card.Content>
+                  <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
+                    Tasa de Ocupación
+                  </p>
+                  <p className="text-3xl sm:text-4xl font-bold text-primary mb-2">66%</p>
+                  <p className="text-xs text-muted-foreground">Utilización promedio</p>
+                </Card.Content>
               </Card>
-              <Card className="p-4 sm:p-6 border-border">
-                <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
-                  Ingresos
-                </p>
-                <p className="text-3xl sm:text-4xl font-bold text-foreground mb-2">$42.5K</p>
-                <p className="text-xs text-muted-foreground">Este mes</p>
+              <Card className="p-4 sm:p-6 rounded-lg border-border">
+                <Card.Content>
+                  <p className="text-sm font-semibold text-secondary uppercase tracking-wide mb-2">
+                    Ingresos
+                  </p>
+                  <p className="text-3xl sm:text-4xl font-bold text-foreground mb-2">$42.5K</p>
+                  <p className="text-xs text-muted-foreground">Este mes</p>
+                </Card.Content>
               </Card>
             </div>
 
             {/* Occupancy Stats */}
-            <Card className="p-4 sm:p-6 lg:p-8 border-border">
-              <h3 className="text-lg font-bold text-foreground mb-6">Ocupación de Espacios</h3>
-              <div className="space-y-6">
-                {occupancyStats.map((stat, idx) => (
-                  <div key={idx}>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-foreground">{stat.space}</span>
-                      <span className="text-sm font-bold text-primary">
-                        {stat.occupied}/{stat.total}
-                      </span>
+            <Card className="p-4 sm:p-6 lg:p-8 rounded-lg border-border">
+              <Card.Content>
+                <h3 className="text-lg font-bold text-foreground mb-6">Ocupación de Espacios</h3>
+                <div className="space-y-6">
+                  {occupancyStats.map((stat, idx) => (
+                    <div key={idx}>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-medium text-foreground">{stat.space}</span>
+                        <span className="text-sm font-bold text-primary">
+                          {stat.occupied}/{stat.total}
+                        </span>
+                      </div>
+                      <ProgressBar
+                        aria-label={`Ocupación de ${stat.space}`}
+                        value={stat.percentage}
+                        className="w-full"
+                        size="sm"
+                      >
+                        <ProgressBar.Track className="h-2 bg-muted rounded-full overflow-hidden">
+                          <ProgressBar.Fill className="h-full bg-primary transition-all" />
+                        </ProgressBar.Track>
+                      </ProgressBar>
+                      <p className="text-xs text-muted-foreground mt-1">{stat.percentage}% ocupado</p>
                     </div>
-                    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-primary transition-all"
-                        style={{ width: `${stat.percentage}%` }}
-                      />
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">{stat.percentage}% ocupado</p>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </Card.Content>
             </Card>
 
             {/* Recent Bookings */}
-            <Card className="p-4 sm:p-6 lg:p-8 border-border">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-bold text-foreground">Reservaciones Recientes</h3>
-                <Button variant="outline" size="sm" className="min-h-11">
-                  Ver Todo
-                </Button>
-              </div>
+            <Card className="p-4 sm:p-6 lg:p-8 rounded-lg border-border">
+              <Card.Content>
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-lg font-bold text-foreground">Reservaciones Recientes</h3>
+                  <Button variant="outline" size="sm" className="min-h-11">
+                    Ver Todo
+                  </Button>
+                </div>
 
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[640px]">
@@ -365,8 +369,9 @@ export function AdminDashboard() {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                 </table>
               </div>
+              </Card.Content>
             </Card>
           </div>
         )}

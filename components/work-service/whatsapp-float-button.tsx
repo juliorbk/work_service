@@ -19,7 +19,8 @@ export function WhatsAppFloatButton() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Reservar por WhatsApp"
-        className="btn-elev fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl cursor-pointer"
+        className="btn-elev fixed right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl cursor-pointer"
+        style={{ bottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}
       >
         <MessageCircle className="w-7 h-7" />
       </button>

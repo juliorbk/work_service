@@ -3,12 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Check, Play, Users } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
+import { Button, Modal } from '@heroui/react';
 import {
   Carousel,
   CarouselContent,
@@ -17,7 +12,6 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from '@/components/ui/carousel';
-import { Button } from '@/components/ui/button';
 import { WhatsAppBookingButton } from '@/components/work-service/whatsapp-booking-dialog';
 import type { Space } from '@/components/landing/spaces-data';
 import { cn } from '@/lib/utils';
@@ -48,15 +42,18 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
   const hasGallery = !!space && space.gallery.length > 1;
 
   return (
-    <Dialog open={!!space} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent
-        className="acrylic sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0 gap-0"
-        aria-describedby={undefined}
-      >
-        {space && (
-          <div className="grid md:grid-cols-2 gap-0">
+    <Modal>
+      <Modal.Backdrop isOpen={!!space} onOpenChange={(isOpen) => !isOpen && onClose()}>
+        <Modal.Container scroll="inside">
+          <Modal.Dialog
+            className="acrylic sm:max-w-4xl p-0 gap-0 overflow-y-auto"
+            aria-describedby={undefined}
+          >
+            <Modal.CloseTrigger />
+            {space && (
+              <div className="grid md:grid-cols-2 gap-0">
             {/* Galería */}
-            <div className="relative bg-muted md:min-h-[480px] flex flex-col">
+            <div className="relative bg-muted flex flex-col">
               <div className="relative flex-1">
                 <Carousel className="w-full h-full" setApi={setApi}>
                   <CarouselContent>
@@ -67,13 +64,15 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
                             src={media.src}
                             poster={media.poster}
                             controls
-                            className="w-full h-[280px] md:h-[420px] object-cover"
+                            playsInline
+                            preload="metadata"
+                            className="w-full aspect-video md:aspect-auto md:h-[420px] bg-black object-contain"
                           />
                         ) : (
                           <img
                             src={media.src}
                             alt={`${space.title} — foto ${i + 1}`}
-                            className="w-full h-[280px] md:h-[420px] object-cover"
+                            className="w-full aspect-[4/3] sm:aspect-[3/2] md:aspect-auto md:h-[420px] object-cover"
                           />
                         )}
                       </CarouselItem>
@@ -81,8 +80,9 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
                   </CarouselContent>
                   {hasGallery && (
                     <>
-                      <CarouselPrevious className="-left-3 md:-left-4" />
-                      <CarouselNext className="-right-3 md:-right-4" />
+                      {/* En móvil el swipe nativo + dots reemplazan las flechas */}
+                      <CarouselPrevious className="hidden md:inline-flex -left-4" />
+                      <CarouselNext className="hidden md:inline-flex -right-4" />
                     </>
                   )}
                 </Carousel>
@@ -97,11 +97,34 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
                     {current + 1} / {space.gallery.length}
                   </span>
                 )}
+
+                {/* Dots para móvil */}
+                {hasGallery && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 md:hidden">
+                    {space.gallery.map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => api?.scrollTo(i)}
+                        aria-label={`Ir a la foto ${i + 1}`}
+                        aria-current={current === i}
+                        className="p-1.5 cursor-pointer border-0 bg-transparent rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                      >
+                        <span
+                          className={cn(
+                            'block rounded-full h-1.5 transition-all duration-300',
+                            current === i ? 'w-5 bg-primary' : 'w-1.5 bg-outline-variant'
+                          )}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* Mini carrusel de miniaturas */}
+              {/* Mini carrusel de miniaturas (solo desktop; en móvil swipe + dots) */}
               {hasGallery && (
-                <div className="flex gap-2 px-3 py-3 overflow-x-auto bg-surface-container-lowest/70">
+                <div className="hidden md:flex gap-2 px-3 py-3 overflow-x-auto bg-surface-container-lowest/70">
                   {space.gallery.map((media, i) => (
                     <button
                       key={i}
@@ -116,26 +139,36 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
                           : 'border-transparent opacity-60 hover:opacity-100'
                       )}
                     >
-                      <img
-                        src={media.src}
-                        alt=""
-                        loading="lazy"
-                        className="w-16 h-12 object-cover"
-                      />
+                      {media.type === 'video' ? (
+                        <video
+                          src={media.src}
+                          poster={media.poster}
+                          muted
+                          preload="metadata"
+                          className="w-16 h-12 object-cover"
+                        />
+                      ) : (
+                        <img
+                          src={media.src}
+                          alt=""
+                          loading="lazy"
+                          className="w-16 h-12 object-cover"
+                        />
+                      )}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Información */}
-            <div className="p-6 lg:p-8 flex flex-col">
-              <DialogTitle className="text-2xl lg:text-3xl font-bold text-foreground">
-                {space.title}
-              </DialogTitle>
-              <DialogDescription className="mt-3 text-secondary leading-relaxed">
-                {space.description}
-              </DialogDescription>
+                {/* Información */}
+                <div className="p-6 lg:p-8 flex flex-col">
+                  <Modal.Heading className="text-2xl lg:text-3xl font-bold text-foreground">
+                    {space.title}
+                  </Modal.Heading>
+                  <p className="mt-3 text-secondary leading-relaxed">
+                    {space.description}
+                  </p>
 
               {/* Características */}
               <div className="mt-6 space-y-2.5">
@@ -176,7 +209,6 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
                     Reservar este espacio
                   </Button>
                 </Link>
-                {/* Reserva por WhatsApp de cada sala */}
                 <WhatsAppBookingButton
                   label="Reservar por WhatsApp"
                   defaultSpace={space.title}
@@ -190,7 +222,9 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
             </div>
           </div>
         )}
-      </DialogContent>
-    </Dialog>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
   );
 }

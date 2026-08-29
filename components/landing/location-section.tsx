@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { MapPin, Clock, CalendarCheck, Zap } from "lucide-react";
+import { MapPin, Clock, CalendarCheck } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -45,23 +45,19 @@ export function LocationSection() {
     <section
       id="locations"
       ref={sectionRef}
-      className="relative py-24 lg:py-32 scroll-mt-24"
+      className="relative py-16 sm:py-20 lg:py-28 scroll-mt-24"
     >
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
         {/* Header */}
-        <div className="mb-16 lg:mb-20">
-          <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-6">
-            <Zap className="w-4 h-4 text-accent" />
-            Nuestra Ubicación
-          </span>
+        <div className="mb-10 sm:mb-12 lg:mb-14">
           <h2
-            className={`text-4xl lg:text-6xl font-bold tracking-tight text-foreground transition-all duration-700 ${
+            className={`text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground transition-all duration-700 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
             Encuéntranos en Maracaibo
           </h2>
-          <p className="text-lg lg:text-xl text-secondary max-w-2xl mt-6 leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-secondary max-w-2xl mt-4 leading-relaxed">
             Torre Banco Industrial, en el corazón de la ciudad. Acceso directo,
             estacionamiento y conectividad para tu empresa, tus eventos y tus
             cursos.
@@ -102,7 +98,7 @@ export function LocationSection() {
                 <div className="pt-6 border-t border-outline-variant">
                   <Link
                     href="/booking"
-                    className="btn-premium block w-full text-center bg-primary-container text-white px-6 py-3 rounded-md font-medium text-sm tracking-[0.05em] hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    className="btn-premium block w-full text-center bg-primary-container text-white px-6 py-3 rounded-full font-medium text-sm tracking-[0.05em] hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   >
                     Reservar Mi Espacio
                   </Link>
@@ -125,11 +121,11 @@ export function LocationSection() {
                   src={MAP_EMBED_URL}
                   width="100%"
                   height="100%"
-                  style={{ border: 0, minHeight: 320 }}
+                  style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  className="h-full w-full"
+                  className="h-72 sm:h-80 lg:h-full w-full"
                 />
               </CardContent>
             </Card>

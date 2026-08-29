@@ -18,10 +18,12 @@ export function Navigation() {
   }, []);
 
   const navLinks = [
-    { label: 'Nosotros', href: '#nosotros' },
     { label: 'Espacios', href: '#espacios' },
-    { label: 'Planes', href: '#pricing' },
+    { label: 'Precios', href: '#pricing' },
+    { label: 'Galería', href: '#galeria' },
+    { label: 'Eventos', href: '#eventos' },
     { label: 'Sedes', href: '#locations' },
+    { label: 'Nosotros', href: '#nosotros' },
   ];
 
   const linkClasses =
@@ -29,7 +31,7 @@ export function Navigation() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 lg:px-10">
-      <div className="mx-auto w-full max-w-[1200px]">
+      <div className="mx-auto w-full max-w-[1280px]">
         {/* Isla acrílica */}
         <nav
           aria-label="Navegación principal"

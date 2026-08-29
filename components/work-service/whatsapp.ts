@@ -1,5 +1,7 @@
-export const WHATSAPP_NUMBER = '58XXXXXXXXXX';
-export const CONTACT_EMAIL = 'reservas@tucorreo.com';
+import { BRAND, RENTABLE_SPACES } from '@/lib/site-config';
+
+export const WHATSAPP_NUMBER = BRAND.whatsappNumber;
+export const CONTACT_EMAIL = BRAND.email;
 
 export interface WhatsAppBookingFields {
   space: string;
@@ -25,14 +27,7 @@ export interface WhatsAppBookingInput {
   message: string;
 }
 
-export const SPACE_OPTIONS = [
-  'Lobby',
-  'Sala de Reuniones B',
-  'Sala de Conferencias',
-  'Oficina A',
-  'Oficina B',
-  'Oficina C',
-];
+export const SPACE_OPTIONS = RENTABLE_SPACES;
 
 export function buildWhatsAppMessage(fields: WhatsAppBookingInput): string {
   return buildBookingMessage(fields, true);
