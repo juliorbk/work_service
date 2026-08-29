@@ -2,14 +2,14 @@
 
 import { Navigation } from '@/components/landing/navigation';
 import { BookingFlow } from '@/components/work-service/booking-flow';
-import { WorkServiceFooter } from '@/components/work-service/footer';
+import { FooterSection } from '@/components/landing/footer-section';
 
 export default function BookingPage() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden">
+    <main className="relative min-h-screen overflow-x-hidden bg-background">
       <Navigation />
       <BookingFlow />
-      <WorkServiceFooter />
+      <FooterSection />
     </main>
   );
 }

@@ -86,7 +86,7 @@ export function AboutSection() {
 
             <Link
               href="#espacios"
-              className="btn-premium inline-flex items-center gap-2 text-sm font-medium tracking-[0.05em] text-primary hover:text-primary-container transition-colors"
+              className="btn-press inline-flex items-center gap-2 text-sm font-medium tracking-[0.05em] text-primary hover:text-primary-container transition-colors"
             >
               Conoce nuestros espacios
               <ArrowRight className="w-4 h-4" />

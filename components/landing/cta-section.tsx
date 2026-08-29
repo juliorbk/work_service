@@ -29,9 +29,14 @@ export function CtaSection() {
 
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-32 overflow-hidden">
+      {/* Resplandor de atardecer tras el panel */}
+      <div
+        aria-hidden
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-4xl h-[520px] bg-[radial-gradient(ellipse_at_center,rgba(168,90,0,0.16),rgba(0,122,158,0.08)_55%,transparent_75%)] pointer-events-none"
+      />
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <div
-          className={`relative bg-surface-container-lowest border border-outline-variant rounded-lg transition-all duration-1000 ${
+          className={`relative acrylic rounded-2xl transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >

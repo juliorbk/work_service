@@ -40,13 +40,21 @@ export function FooterSection() {
         {/* Brand + Links */}
         <div className="flex flex-col sm:flex-row items-center gap-6 lg:gap-10">
           {/* Logo */}
+          {/* Logo: original para modo claro, variante recoloreada para modo oscuro */}
           <Link href="/">
             <Image
               src="/work-services-logo.png"
               alt="Work Service"
-              width={140}
-              height={56}
-              className="h-10 sm:h-14 w-auto object-contain"
+              width={316}
+              height={130}
+              className="h-10 sm:h-14 w-auto object-contain dark:hidden"
+            />
+            <Image
+              src="/work-services-logo-on-dark.png"
+              alt="Work Service"
+              width={316}
+              height={130}
+              className="h-10 sm:h-14 w-auto object-contain hidden dark:block"
             />
           </Link>
 

@@ -141,12 +141,12 @@ export function SpacesCarousel({
         </motion.div>
       </div>
 
-      <div className="mt-4 px-1.5 py-0.5 flex items-center gap-2 justify-center text-secondary rounded-full bg-surface-container border border-outline-variant shadow-md z-20">
-        <button
-          onClick={toPrev}
-          aria-label="Espacio anterior"
-          className="p-1 cursor-pointer hover:bg-primary-container/10 rounded-full transition-colors border-0 bg-transparent text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-        >
+      <div className="acrylic relative mt-4 px-1.5 py-0.5 flex items-center gap-2 justify-center text-secondary rounded-full z-20">
+          <button
+            onClick={toPrev}
+            aria-label="Espacio anterior"
+            className="btn-press p-1 cursor-pointer hover:bg-primary-container/10 rounded-full transition-colors border-0 bg-transparent text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+          >
           <ChevronLeft className="w-3.5 h-3.5" />
         </button>
         <div className="flex justify-center items-center gap-1">
@@ -162,11 +162,11 @@ export function SpacesCarousel({
             />
           ))}
         </div>
-        <button
-          onClick={toNext}
-          aria-label="Espacio siguiente"
-          className="p-1 cursor-pointer hover:bg-primary-container/10 rounded-full transition-colors border-0 bg-transparent text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-        >
+          <button
+            onClick={toNext}
+            aria-label="Espacio siguiente"
+            className="btn-press p-1 cursor-pointer hover:bg-primary-container/10 rounded-full transition-colors border-0 bg-transparent text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+          >
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>
@@ -214,6 +214,11 @@ export function SpacesCarousel({
 export function SpacesCoverFlow() {
   return (
     <section id="espacios" className="relative py-24 lg:py-32 overflow-hidden scroll-mt-24">
+      {/* Resplandor cálido tras el carrusel */}
+      <div
+        aria-hidden
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[80vw] max-w-5xl h-[420px] bg-[radial-gradient(ellipse_at_center,rgba(168,90,0,0.10),transparent_65%)] pointer-events-none"
+      />
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
         {/* Header */}
         <div className="mb-16 lg:mb-20 text-center">
@@ -225,8 +230,8 @@ export function SpacesCoverFlow() {
             Un vistazo a tus espacios
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-secondary max-w-2xl mx-auto mt-6 leading-relaxed">
-            Explora los ambientes disponibles en la Torre Banco Industrial: coworking,
-            oficinas privadas, estudios y salones de eventos.
+            Explora los ambientes disponibles en la Torre Banco Industrial: lobby,
+            salas de reuniones, sala de conferencias y oficinas privadas.
           </p>
         </div>
 

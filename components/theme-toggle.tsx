@@ -52,7 +52,7 @@ export function ThemeToggle() {
       type="button"
       aria-label="Cambiar tema claro/oscuro"
       disabled={transitioning}
-      className="w-11 h-11 inline-flex items-center justify-center rounded-md text-foreground hover:bg-muted transition-colors disabled:opacity-50"
+      className="btn-press w-11 h-11 inline-flex items-center justify-center rounded-full text-foreground hover:bg-muted/70 transition-colors disabled:opacity-50"
       onClick={handleToggle}
     >
       {!mounted ? (

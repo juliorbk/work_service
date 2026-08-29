@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Check, Play, Users } from 'lucide-react';
 import {
@@ -14,10 +15,12 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
 import { WhatsAppBookingButton } from '@/components/work-service/whatsapp-booking-dialog';
 import type { Space } from '@/components/landing/spaces-data';
+import { cn } from '@/lib/utils';
 
 interface SpaceDetailsModalProps {
   space: Space | null;
@@ -25,49 +28,104 @@ interface SpaceDetailsModalProps {
 }
 
 export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    setCurrent(api.selectedScrollSnap());
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    api.on('select', onSelect);
+    return () => {
+      api.off('select', onSelect);
+    };
+  }, [api]);
+
+  useEffect(() => {
+    setCurrent(0);
+  }, [space]);
+
+  const hasGallery = !!space && space.gallery.length > 1;
+
   return (
     <Dialog open={!!space} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
-        className="sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0 gap-0"
+        className="acrylic sm:max-w-4xl max-h-[85vh] overflow-y-auto p-0 gap-0"
         aria-describedby={undefined}
       >
         {space && (
           <div className="grid md:grid-cols-2 gap-0">
             {/* Galería */}
-            <div className="relative bg-muted md:min-h-[480px]">
-              <Carousel className="w-full h-full">
-                <CarouselContent>
-                  {space.gallery.map((media, i) => (
-                    <CarouselItem key={i}>
-                      {media.type === 'video' ? (
-                        <video
-                          src={media.src}
-                          poster={media.poster}
-                          controls
-                          className="w-full h-[280px] md:h-[480px] object-cover"
-                        />
-                      ) : (
-                        <img
-                          src={media.src}
-                          alt={`${space.title} — foto ${i + 1}`}
-                          className="w-full h-[280px] md:h-[480px] object-cover"
-                        />
-                      )}
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                {space.gallery.length > 1 && (
-                  <>
-                    <CarouselPrevious className="-left-3 md:-left-4" />
-                    <CarouselNext className="-right-3 md:-right-4" />
-                  </>
-                )}
-              </Carousel>
+            <div className="relative bg-muted md:min-h-[480px] flex flex-col">
+              <div className="relative flex-1">
+                <Carousel className="w-full h-full" setApi={setApi}>
+                  <CarouselContent>
+                    {space.gallery.map((media, i) => (
+                      <CarouselItem key={i}>
+                        {media.type === 'video' ? (
+                          <video
+                            src={media.src}
+                            poster={media.poster}
+                            controls
+                            className="w-full h-[280px] md:h-[420px] object-cover"
+                          />
+                        ) : (
+                          <img
+                            src={media.src}
+                            alt={`${space.title} — foto ${i + 1}`}
+                            className="w-full h-[280px] md:h-[420px] object-cover"
+                          />
+                        )}
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  {hasGallery && (
+                    <>
+                      <CarouselPrevious className="-left-3 md:-left-4" />
+                      <CarouselNext className="-right-3 md:-right-4" />
+                    </>
+                  )}
+                </Carousel>
 
-              <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-background/90 backdrop-blur-sm border border-outline-variant px-3 py-1.5 text-xs font-semibold text-foreground">
-                <Users className="w-3.5 h-3.5 text-primary" />
-                {space.capacity}
-              </span>
+                <span className="acrylic absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold text-foreground">
+                  <Users className="w-3.5 h-3.5 text-primary" />
+                  {space.capacity}
+                </span>
+
+                {hasGallery && (
+                  <span className="acrylic absolute bottom-4 right-4 rounded-full px-2.5 py-1 text-xs font-semibold text-foreground tabular-nums">
+                    {current + 1} / {space.gallery.length}
+                  </span>
+                )}
+              </div>
+
+              {/* Mini carrusel de miniaturas */}
+              {hasGallery && (
+                <div className="flex gap-2 px-3 py-3 overflow-x-auto bg-surface-container-lowest/70">
+                  {space.gallery.map((media, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => api?.scrollTo(i)}
+                      aria-label={`Ver foto ${i + 1} de ${space.title}`}
+                      aria-current={current === i}
+                      className={cn(
+                        'shrink-0 overflow-hidden rounded-lg border-2 transition-all cursor-pointer',
+                        current === i
+                          ? 'border-primary opacity-100 ring-2 ring-primary/30'
+                          : 'border-transparent opacity-60 hover:opacity-100'
+                      )}
+                    >
+                      <img
+                        src={media.src}
+                        alt=""
+                        loading="lazy"
+                        className="w-16 h-12 object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Información */}
