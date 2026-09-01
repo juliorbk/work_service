@@ -24,25 +24,6 @@ export interface Space {
 
 export const SPACES: Space[] = [
   {
-    title: 'Lobby',
-    description:
-      'Recepción elegante con áreas de espera cómodas y atención personalizada. El ambiente profesional que tus clientes y visitas merecen desde su llegada.',
-    features: [
-      'Recepción y atención personalizada',
-      'Área de espera cómoda',
-      'Wi-Fi de alta velocidad',
-      'Cafetería premium',
-      'Recepción de correspondencia',
-    ],
-    capacity: 'Zona de recepción',
-    image: '/images/spaces/LOBBY.jpg',
-    gallery: [{ type: 'image', src: '/images/spaces/LOBBY.jpg' }],
-    pricing: [
-      { label: 'Visitas de negocio', price: 'Gratuito' },
-      { label: 'Uso del área de espera', price: 'Incluido' },
-    ],
-  },
-  {
     title: 'Sala de Conferencias',
     description:
       'Amplia sala para presentaciones, convenciones y capacitaciones, con capacidad hasta 20 personas. 2 salas disponibles.',

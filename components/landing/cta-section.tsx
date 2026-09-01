@@ -32,7 +32,7 @@ export function CtaSection() {
       {/* Resplandor de atardecer tras el panel */}
       <div
         aria-hidden
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-4xl h-[520px] bg-[radial-gradient(ellipse_at_center,rgba(168,90,0,0.16),rgba(0,122,158,0.08)_55%,transparent_75%)] pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-4xl h-[520px] bg-[radial-gradient(ellipse_at_center,rgba(217,148,20,0.16),rgba(191,62,33,0.08)_55%,transparent_75%)] pointer-events-none"
       />
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
         <div
@@ -79,7 +79,7 @@ export function CtaSection() {
                 </div>
 
                 <p className="text-sm text-secondary mt-8">
-                  Agenda una visita sin compromiso &bull; Atención personalizada
+                  Asesoría personalizada &bull; Sin compromiso
                 </p>
               </div>
             </div>

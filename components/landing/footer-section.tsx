@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { Instagram, MapPin, MessageCircle, Mail } from "lucide-react";
+import { Instagram, MapPin, Mail } from "lucide-react";
 import { BRAND, whatsappUrl } from "@/lib/site-config";
+import { AnimatedLogo } from "@/components/ui/animated-logo";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 
 const footerLinks = [
   { label: "Política de Privacidad", href: "#" },
@@ -15,7 +16,7 @@ const footerLinks = [
 
 const contactItems = [
   {
-    icon: MessageCircle,
+    icon: WhatsAppIcon,
     label: BRAND.phoneDisplay,
     href: whatsappUrl(),
     external: true,
@@ -66,19 +67,14 @@ export function FooterSection() {
             href="/"
             className="inline-flex justify-center sm:justify-start lg:justify-start rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
           >
-            <Image
-              src="/work-services-logo.png"
-              alt="Work Service"
-              width={316}
-              height={130}
-              className="h-10 sm:h-12 w-auto object-contain dark:hidden"
-            />
-            <Image
-              src="/work-services-logo-on-dark.png"
-              alt="Work Service"
-              width={316}
-              height={130}
-              className="h-10 sm:h-12 w-auto object-contain hidden dark:block"
+            <AnimatedLogo
+              light="/brand/logo-horizontal.png"
+              dark="/brand/logo-horizontal-gold.png"
+              alt="Work Services"
+              width={1400}
+              height={441}
+              darkHeight={560}
+              className="h-10 sm:h-12 w-auto object-contain"
             />
           </Link>
 
@@ -103,8 +99,8 @@ export function FooterSection() {
             <div className="flex items-start gap-2 text-sm text-secondary">
               <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
               <span className="text-left lg:text-right lg:max-w-[260px]">
-                Torre Banco Industrial, Av. 9B con 5 de Julio, Maracaibo,
-                Venezuela
+                Servicio de coworking y oficinas para tu empresa, donde la
+                necesites.
               </span>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6">
@@ -136,8 +132,8 @@ export function FooterSection() {
         }`}
       >
         <p className="text-sm text-secondary text-center py-6 px-4">
-          &copy; 2026 {BRAND.name} &middot; {BRAND.slogan} &middot; Todos los
-          derechos reservados.
+          &copy; 2026 {BRAND.legalName} &middot; {BRAND.slogan} &middot; Todos
+          los derechos reservados.
         </p>
       </div>
     </footer>

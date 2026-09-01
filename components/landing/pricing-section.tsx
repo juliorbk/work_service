@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, Zap, MessageCircle } from "lucide-react";
+import { Check } from "lucide-react";
+import { BrandMark } from "@/components/ui/brand-mark";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { AnimatedTetrahedron } from "./animated-tetrahedron";
 import { PRICING, spaceBookingMessage, whatsappUrl } from "@/lib/site-config";
 
@@ -39,7 +41,7 @@ export function PricingSection() {
           }`}
         >
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-4">
-            <Zap className="w-4 h-4 text-accent" />
+            <BrandMark />
             {PRICING.eyebrow}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
@@ -65,12 +67,12 @@ export function PricingSection() {
                 <div
                   className={`relative flex flex-col bg-surface-container-lowest border rounded-xl p-6 sm:p-8 h-full transition-all duration-300 hover-lift ${
                     isFeatured
-                      ? "border-primary-container shadow-[0_16px_40px_-16px_rgba(139,80,0,0.25)]"
+                      ? "border-primary-container shadow-[0_16px_40px_-16px_rgba(217,148,20,0.25)]"
                       : "border-outline-variant hover:border-primary-container/50"
                   }`}
                 >
                   {isFeatured && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary-container text-white px-4 py-1 text-xs font-semibold tracking-wide">
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary-container text-primary-foreground px-4 py-1 text-xs font-semibold tracking-wide">
                       Más popular
                     </span>
                   )}
@@ -120,7 +122,7 @@ export function PricingSection() {
                     }`}
                   >
                     <span className="inline-flex items-center justify-center gap-2">
-                      <MessageCircle className="w-4 h-4" />
+                      <WhatsAppIcon className="w-4 h-4" />
                       {space.cta}
                     </span>
                   </a>

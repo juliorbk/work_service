@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/landing/hero-section";
 import { SpacesCoverFlow } from "@/components/work-service/spaces-coverflow";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
+import { CustomersSection } from "@/components/landing/customers-section";
 import { WhyUsSection } from "@/components/landing/why-us-section";
 import { FacilitiesSection } from "@/components/landing/facilities-section";
 import { GallerySection } from "@/components/work-service/gallery-section";
@@ -26,6 +27,8 @@ export default function Home() {
       <PricingSection />
       {/* 4. Prueba social inmediata */}
       <TestimonialsSection />
+      {/* 4b. Clientes que respaldan */}
+      <CustomersSection />
       {/* 5-6. Confianza: diferenciales e instalaciones */}
       <WhyUsSection />
       <FacilitiesSection />

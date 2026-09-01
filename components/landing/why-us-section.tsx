@@ -17,6 +17,7 @@ import {
   MapPinned,
   type LucideIcon,
 } from "lucide-react";
+import { BrandMark } from "@/components/ui/brand-mark";
 import { WHY_US } from "@/lib/site-config";
 
 const itemIcons: Record<string, LucideIcon> = {
@@ -65,7 +66,7 @@ export function WhyUsSection() {
           }`}
         >
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-6">
-            <Zap className="w-4 h-4 text-accent" />
+            <BrandMark />
             {WHY_US.eyebrow}
           </span>
           <h2 className="text-4xl lg:text-6xl font-bold tracking-tight text-foreground mb-6">

@@ -5,130 +5,166 @@
 @custom-variant dark (&:is(.dark-mode *));
 
 :root {
-  --background: #fff8f5;
-  --foreground: #221a13;
-  --card: #ffffff;
-  --card-foreground: #544435;
-  --popover: #ffffff;
-  --popover-foreground: #221a13;
-  --primary: #8b5000;
-  --primary-foreground: #ffffff;
-  --secondary: #4f606e;
-  --secondary-foreground: #ffffff;
-  --muted-bg: #f0dfd3;
-  --muted-foreground: #6e5c4a;
-  --accent-brand: #007a9e;
-  --accent-brand-foreground: #ffffff;
-  --destructive: #ba1a1a;
-  --destructive-foreground: #ffffff;
-  --border: #dac2af;
-  --input: #dac2af;
-  --ring: #8b5000;
-  --chart-1: #ED9121;
-  --chart-2: #00b3f0;
-  --chart-3: #4f606e;
-  --chart-4: #8b5000;
-  --chart-5: #00668a;
   --radius: 0.25rem;
-  --sidebar: #fff8f5;
-  --sidebar-foreground: #221a13;
-  --sidebar-primary: #8b5000;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #007a9e;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #dac2af;
-  --sidebar-ring: #8b5000;
 
-  --primary-container: #A85A00;
-  --on-primary-container: #5a3200;
-  --secondary-container: #d0e2f3;
-  --on-secondary-container: #546573;
-  --tertiary-container: #00b3f0;
-  --on-tertiary-container: #00415a;
+  /* ── Tipografías de marca ────────────────────────────────────── */
+  --font-heading: var(--font-montserrat), 'Nexa Bold', 'Montserrat', sans-serif;
+  --font-sans: var(--font-quicksand), 'Elegance Rounded', 'Quicksand',
+    system-ui, sans-serif;
+
+  /* ── Paleta de marca Work Services ───────────────────────────── */
+  --ws-slate: #536173;        /* gris azulado - texto principal */
+  --ws-gold: #d99414;         /* dorado/mostaza - color principal */
+  --ws-ochre: #bf8641;        /* ocre tostado */
+  --ws-terracotta: #bf3e21;   /* terracota - color de acento */
+  --ws-light-gray: #f2f2f2;   /* gris claro - fondo neutro */
+
+  /* ── Core palette ────────────────────────────────────────────── */
+  --bg: var(--ws-light-gray);
+  --fg: var(--ws-slate);
+  --muted: #6c7684;
+
+  /* Primary brand: dorado */
+  --primary: var(--ws-gold);
+  --primary-foreground: #fff;
+
+  /* Accent brand: terracota */
+  --accent: var(--ws-terracotta);
+  --accent-foreground: #fff;
+
+  /* Surface tones */
+  --card: #fff;
+  --card-foreground: var(--ws-slate);
+  --popover: #fff;
+  --popover-foreground: var(--ws-slate);
+
+  /* Neutral UI */
+  --secondary: var(--ws-slate);
+  --secondary-foreground: #fff;
+  --muted-bg: #e9eaec;
+  --muted-foreground: #6c7684;
+
+  /* Borders & rings */
+  --border: #dcdcd8;
+  --input: #d9d9d5;
+  --ring: var(--ws-gold);
+
+  /* Destructive */
+  --destructive: #ba1a1a;
+  --destructive-foreground: #fff;
+
+  /* Charts – reference core tokens where possible */
+  --chart-1: var(--ws-gold);
+  --chart-2: var(--ws-terracotta);
+  --chart-3: var(--ws-slate);
+  --chart-4: var(--ws-ochre);
+  --chart-5: #8aa0bd;
+
+  /* Sidebar (light) */
+  --sidebar: var(--ws-light-gray);
+  --sidebar-foreground: var(--ws-slate);
+  --sidebar-primary: var(--ws-gold);
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: var(--ws-terracotta);
+  --sidebar-accent-foreground: #fff;
+  --sidebar-border: #dcdcd8;
+  --sidebar-ring: var(--ws-gold);
+
+  /* ── Superficies (tonos neutros de la paleta) ────────────────── */
   --surface-container-lowest: #ffffff;
-  --surface-container-low: #fff1e7;
-  --surface-container: #fcebde;
-  --surface-container-high: #f6e5d9;
-  --surface-container-highest: #f0dfd3;
-  --surface-variant: #f0dfd3;
-  --on-surface-variant: #544435;
-  --outline: #877463;
-  --outline-variant: #dac2af;
-  --surface-tint: #8b5000;
+  --surface-container-low: #f6f6f5;
+  --surface-container: #ececea;
+  --surface-container-high: #e4e4e1;
+  --surface-container-highest: #dcdcd9;
+  --surface-variant: #ececea;
+  --on-surface-variant: var(--ws-slate);
+  --outline: #8a929e;
+  --outline-variant: #d9d9d5;
 
-  --acrylic-tint: rgba(255, 248, 245, 0.6);
-  --acrylic-border: rgba(139, 80, 0, 0.16);
-  --acrylic-highlight: rgba(255, 255, 255, 0.6);
-  --acrylic-shadow: 0 4px 24px -8px rgba(90, 50, 0, 0.12);
-  --acrylic-shadow-raised: 0 12px 40px -12px rgba(90, 50, 0, 0.22);
-  --btn-hover-shadow: 0 10px 24px -8px rgba(58, 32, 0, 0.35);
+  /* ── Acrílico y sombras ──────────────────────────────────────── */
+  --acrylic-tint: rgba(255, 255, 255, 0.72);
+  --acrylic-border: rgba(83, 97, 115, 0.14);
+  --acrylic-highlight: rgba(255, 255, 255, 0.7);
+  --acrylic-shadow: 0 8px 32px rgba(83, 97, 115, 0.14);
+  --acrylic-shadow-raised: 0 20px 48px rgba(83, 97, 115, 0.2);
+  --btn-hover-shadow: 0 12px 24px -8px rgba(83, 97, 115, 0.3);
 }
 
+/* ── Dark mode ──────────────────────────────────────────────── */
 .dark-mode {
-  --background: #171210;
-  --foreground: #f5e9dd;
-  --card: #211a16;
-  --card-foreground: #e8d7c8;
-  --popover: #211a16;
-  --popover-foreground: #f5e9dd;
-  --primary: #ffb871;
-  --primary-foreground: #4c2a00;
-  --secondary: #c2d3e3;
-  --secondary-foreground: #2d3942;
-  --muted-bg: #2a221c;
-  --muted-foreground: #c1ad99;
-  --accent-brand: #00b3f0;
-  --accent-brand-foreground: #001f2c;
+  --bg: #191f2a;
+  --fg: #e6eaf1;
+  --muted: #aeb7c4;
+
+  /* Primary brand: dorado claro */
+  --primary: #e8b84e;
+  --primary-foreground: #3b2c05;
+
+  /* Accent brand: terracota claro */
+  --accent: #e06b45;
+  --accent-foreground: #2c130a;
+
+  /* Surface tones */
+  --card: #222a38;
+  --card-foreground: #e0e6ee;
+  --popover: #222a38;
+  --popover-foreground: #e6eaf1;
+
+  /* Neutral UI */
+  --secondary: #c6cfdd;
+  --secondary-foreground: #232b39;
+  --muted-bg: #2a3444;
+  --muted-foreground: #aeb7c4;
+
+  /* Borders & rings */
+  --border: #3a4658;
+  --input: #3a4658;
+  --ring: #e8b84e;
+
+  /* Destructive */
   --destructive: #ffb4ab;
   --destructive-foreground: #690005;
-  --border: #3e322a;
-  --input: #3e322a;
-  --ring: #ffb871;
-  --chart-1: #ffb871;
-  --chart-2: #00b3f0;
-  --chart-3: #c2d3e3;
-  --chart-4: #d98100;
-  --chart-5: #4fd8ff;
-  --radius: 0.25rem;
-  --sidebar: #171210;
-  --sidebar-foreground: #f5e9dd;
-  --sidebar-primary: #ffb871;
-  --sidebar-primary-foreground: #4c2a00;
-  --sidebar-accent: #00b3f0;
-  --sidebar-accent-foreground: #001f2c;
-  --sidebar-border: #3e322a;
-  --sidebar-ring: #ffb871;
 
-  --primary-container: #6a3e00;
-  --on-primary-container: #ffdcbe;
-  --secondary-container: #3d4d5c;
-  --on-secondary-container: #d0e2f3;
-  --tertiary-container: #00567a;
-  --on-tertiary-container: #7fd4ff;
-  --surface-container-lowest: #120e0c;
-  --surface-container-low: #1f1915;
-  --surface-container: #241d19;
-  --surface-container-high: #2e2621;
-  --surface-container-highest: #393028;
-  --surface-variant: #4a413a;
-  --on-surface-variant: #cdc0b4;
-  --outline: #96897e;
-  --outline-variant: #4a413a;
-  --surface-tint: #ffb871;
+  /* Charts */
+  --chart-1: #e8b84e;
+  --chart-2: #e06b45;
+  --chart-3: #c6cfdd;
+  --chart-4: #c9965c;
+  --chart-5: #8aa0bd;
 
-  --acrylic-tint: rgba(26, 20, 17, 0.55);
-  --acrylic-border: rgba(255, 184, 113, 0.16);
-  --acrylic-highlight: rgba(255, 255, 255, 0.07);
-  --acrylic-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.45);
-  --acrylic-shadow-raised: 0 12px 40px -12px rgba(0, 0, 0, 0.65);
-  --btn-hover-shadow: 0 10px 24px -8px rgba(255, 233, 210, 0.30);
+  /* Sidebar (dark) */
+  --sidebar: #191f2a;
+  --sidebar-foreground: #e6eaf1;
+  --sidebar-primary: #e8b84e;
+  --sidebar-primary-foreground: #3b2c05;
+  --sidebar-accent: #e06b45;
+  --sidebar-accent-foreground: #2c130a;
+  --sidebar-border: #3a4658;
+  --sidebar-ring: #e8b84e;
+
+  /* Superficies (dark) */
+  --surface-container-lowest: #1d2431;
+  --surface-container-low: #212a39;
+  --surface-container: #26303f;
+  --surface-container-high: #2b3748;
+  --surface-container-highest: #313e50;
+  --surface-variant: #2a3444;
+  --on-surface-variant: #c6cfdd;
+  --outline: #8a96a8;
+  --outline-variant: #3a4658;
+
+  /* Acrílico y sombras (dark) */
+  --acrylic-tint: rgba(25, 31, 42, 0.72);
+  --acrylic-border: rgba(232, 184, 78, 0.16);
+  --acrylic-highlight: rgba(255, 255, 255, 0.08);
+  --acrylic-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --acrylic-shadow-raised: 0 20px 48px rgba(0, 0, 0, 0.5);
+  --btn-hover-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.45);
 }
 
-/* HeroUI semantic bridge: map HeroUI design tokens to the app palette.
+/* ── HeroUI semantic bridge: map HeroUI design tokens to the app palette.
    Must stay after .dark-mode so var() references resolve per-theme. */
 :root {
-  --accent: var(--primary);
-  --accent-foreground: var(--primary-foreground);
   --muted: var(--muted-foreground);
   --default: var(--muted-bg);
   --default-foreground: var(--foreground);
@@ -145,12 +181,27 @@
   --field-border-width: 1px;
 }
 
+/* ── Fix contraste del botón cerrar de HeroUI ──────────────────
+   En @theme se mapea `--color-muted` a la superficie clara (`--muted-bg`)
+   para `bg-muted`; HeroUI lo usa como color de texto, por lo que la "X"
+   del CloseButton quedaba `var(--muted-bg)` sobre fondo `var(--default)`
+   (mismo tono → invisible). Restauramos un color visible para el ícono. */
+@layer components {
+  button.close-button.close-button--default {
+    color: var(--muted-foreground);
+  }
+}
+
+/* ── Tailwind theme configuration ────────────────────────────── */
 @theme inline {
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: var(--font-quicksand), 'Elegance Rounded', 'Quicksand',
+    system-ui, sans-serif;
+  --font-heading: var(--font-montserrat), 'Nexa Bold', 'Montserrat',
+    sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -161,8 +212,8 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted-bg);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent-brand);
-  --color-accent-foreground: var(--accent-brand-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -177,6 +228,7 @@
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 4px);
   --radius-xl: calc(var(--radius) + 8px);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -186,12 +238,11 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --color-primary-container: var(--primary-container);
-  --color-on-primary-container: var(--on-primary-container);
-  --color-secondary-container: var(--secondary-container);
-  --color-on-secondary-container: var(--on-secondary-container);
-  --color-tertiary-container: var(--tertiary-container);
-  --color-on-tertiary-container: var(--on-tertiary-container);
+  /* Semantic color aliases (kept for backward compat / utilities) */
+  --color-primary-container: var(--primary);
+  --color-on-primary-container: var(--primary-foreground);
+  --color-secondary-container: var(--secondary);
+  --color-on-secondary-container: var(--secondary-foreground);
   --color-surface-container-lowest: var(--surface-container-lowest);
   --color-surface-container-low: var(--surface-container-low);
   --color-surface-container: var(--surface-container);
@@ -201,27 +252,41 @@
   --color-on-surface-variant: var(--on-surface-variant);
   --color-outline: var(--outline);
   --color-outline-variant: var(--outline-variant);
-  --color-surface-tint: var(--surface-tint);
+  --color-surface-tint: var(--primary);
 
-  --color-primary-fixed: #ffdcbe;
-  --color-primary-fixed-dim: #ffb871;
-
-  --animate-fade-in: fade-in 0.5s ease-out;
-  --animate-slide-up: slide-up 0.5s ease-out;
+  /* Fixed color aliases (mapped from core palette) */
+  --color-primary-fixed: #ffe4bd;
+  --color-primary-fixed-dim: #e8b84e;
 }
 
+/* ── Base styles ────────────────────────────────────────────── */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+  button,
+  .btn-premium,
+  .btn-elev {
+    font-family: var(--font-heading);
   }
   html {
     scroll-behavior: smooth;
   }
 }
 
+/* ── Utilities ──────────────────────────────────────────────── */
 @layer utilities {
   .text-stroke {
     -webkit-text-stroke: 1.5px currentColor;
@@ -250,7 +315,12 @@
     animation: marquee 60s linear infinite;
   }
 
+  .marquee-tape-reverse {
+    animation: marquee-reverse 60s linear infinite;
+  }
+
   .marquee-hover:hover .marquee-tape,
+  .marquee-hover:hover .marquee-tape-reverse,
   .marquee-hover:hover .marquee,
   .marquee-hover:hover .marquee-reverse {
     animation-play-state: paused;
@@ -258,12 +328,13 @@
 
   .hover-lift {
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .hover-lift:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05),
+      0 8px 10px -6px rgba(0, 0, 0, 0.05);
   }
 
   .btn-premium,
@@ -284,7 +355,8 @@
   }
 
   .acrylic.btn-premium:hover {
-    box-shadow: var(--btn-hover-shadow), var(--acrylic-shadow),
+    box-shadow: var(--btn-hover-shadow),
+      var(--acrylic-shadow),
       inset 0 1px 0 var(--acrylic-highlight);
   }
 
@@ -306,9 +378,7 @@
     transform: scale(0.9);
   }
 
-  /* Material acrílico: tinte cálido + blur con saturación + grano.
-     La saturación es lo que lo hace leer "acrílico" y no vidrio neutro.
-     Requiere que el elemento esté posicionado (relative/absolute/fixed). */
+  /* ── Material acrílico ──────────────────────────────────── */
   .acrylic {
     background-color: var(--acrylic-tint);
     -webkit-backdrop-filter: blur(16px) saturate(1.5);
@@ -334,10 +404,11 @@
 
   @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
     .acrylic {
-      background-color: var(--background);
+      background-color: var(--bg);
     }
   }
 
+  /* ── Keyframes ──────────────────────────────────────────── */
   @keyframes drift-a {
     from { transform: translate3d(0, 0, 0) scale(1); }
     to { transform: translate3d(3%, -2%, 0) scale(1.06); }
@@ -390,9 +461,10 @@
   }
 }
 
+/*── View transitions: revelado circular ───────────────────────*/
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.65s;
+  animation-duration: 0.75s;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -432,20 +504,58 @@ html[data-theme-reveal='shrink']::view-transition-new(root) {
   to { }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
-  }
+/*── Crossfade de colores al cambiar de tema ───────────────────*/
+html.theme-fallback-animating,
+html.theme-fallback-animating *,
+html.theme-fallback-animating *::before,
+html.theme-fallback-animating *::after {
+  transition-property: color, background-color, border-color, outline-color,
+    text-decoration-color, caret-color, fill, stroke, box-shadow, opacity !important;
+  transition-duration: 0.8s !important;
+  transition-timing-function: ease-in-out !important;
+}
 
+/*── Ícono del toggle ──────────────────────────────────────────*/
+@keyframes theme-icon-swap {
+  from { transform: rotate(-120deg) scale(0.4); opacity: 0; }
+  to { transform: rotate(0deg) scale(1); opacity: 1; }
+}
+
+.theme-icon {
+  animation: theme-icon-swap 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/*── Logos con variante de tema ────────────────────────────────*/
+.theme-logo,
+.theme-logo-dark {
+  transition-property: opacity, height;
+  transition-duration: 0.8s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-logo-dark {
+  opacity: 0;
+}
+
+.dark-mode .theme-logo {
+  opacity: 0;
+}
+
+.dark-mode .theme-logo-dark {
+  opacity: 1;
+}
+
+/* ── Reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
   .animate-drift-a,
   .animate-drift-b,
   .animate-menu-in,
   .marquee,
   .marquee-reverse,
-  .marquee-tape {
-    animation: none;
-  }
+    .marquee-tape,
+    .marquee-tape-reverse {
+      animation: none;
+    }
 
   .btn-premium:active,
   .btn-elev:active,

@@ -19,6 +19,8 @@ import { useOutsideClick } from "@/hooks/use-outside-click";
 interface CarouselProps {
   items: React.JSX.Element[];
   initialScroll?: number;
+  /** Si es true, el scroll inicial queda centrado en las tarjetas del medio. */
+  startCentered?: boolean;
 }
 
 type Card = {
@@ -36,7 +38,11 @@ export const CarouselContext = createContext<{
   currentIndex: 0,
 });
 
-export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
+export const Carousel = ({
+  items,
+  initialScroll = 0,
+  startCentered = false,
+}: CarouselProps) => {
   const carouselRef = React.useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
   const [canScrollRight, setCanScrollRight] = React.useState(true);
@@ -44,10 +50,15 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
 
   useEffect(() => {
     if (carouselRef.current) {
-      carouselRef.current.scrollLeft = initialScroll;
+      if (startCentered) {
+        const el = carouselRef.current;
+        el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+      } else {
+        carouselRef.current.scrollLeft = initialScroll;
+      }
       checkScrollability();
     }
-  }, [initialScroll]);
+  }, [initialScroll, startCentered]);
 
   const checkScrollability = () => {
     if (carouselRef.current) {

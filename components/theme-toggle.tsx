@@ -4,47 +4,30 @@ import * as React from 'react'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
+const TRANSITION_MS = 850
+
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
   const [transitioning, setTransitioning] = React.useState(false)
-  const revealRef = React.useRef<string | null>(null)
 
   React.useEffect(() => setMounted(true), [])
 
   const handleToggle = () => {
-    const targetDark = resolvedTheme !== 'dark'
-    const reduceMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!mounted || transitioning) return
 
-    if (
-      typeof document === 'undefined' ||
-      typeof document.startViewTransition !== 'function' ||
-      reduceMotion
-    ) {
-      setTheme(targetDark ? 'dark' : 'light')
-      return
-    }
-
-    const direction = targetDark ? 'grow' : 'shrink'
     const root = document.documentElement
-    revealRef.current = direction
-    root.setAttribute('data-theme-reveal', direction)
     setTransitioning(true)
 
-    const transition = document.startViewTransition(() => {
-      setTheme(targetDark ? 'dark' : 'light')
-    })
+    // Crossfade suave de colores de todos los componentes
+    root.classList.add('theme-fallback-animating')
+    void root.getBoundingClientRect()
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
 
-    const cleanup = () => {
-      if (revealRef.current === direction) {
-        root.removeAttribute('data-theme-reveal')
-        revealRef.current = null
-      }
+    window.setTimeout(() => {
+      root.classList.remove('theme-fallback-animating')
       setTransitioning(false)
-    }
-    transition.finished.then(cleanup, cleanup)
+    }, TRANSITION_MS)
   }
 
   return (
@@ -58,9 +41,9 @@ export function ThemeToggle() {
       {!mounted ? (
         <span className="w-5 h-5" />
       ) : resolvedTheme === 'dark' ? (
-        <Sun className="w-5 h-5" />
+        <Sun key="dark" className="theme-icon w-5 h-5" />
       ) : (
-        <Moon className="w-5 h-5" />
+        <Moon key="light" className="theme-icon w-5 h-5" />
       )}
     </button>
   )

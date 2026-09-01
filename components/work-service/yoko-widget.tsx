@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Bot, Send, X } from 'lucide-react';
+import { Send, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { AnimatedLogo } from '@/components/ui/animated-logo';
 import { cn } from '@/lib/utils';
 
 const API_BASE = process.env.NEXT_PUBLIC_YOKO_API_URL ?? 'http://localhost:8080/api';
@@ -16,7 +17,7 @@ interface ChatMessage {
 const WELCOME: ChatMessage = {
   role: 'assistant',
   content:
-    '¡Hola! Soy Vega, el concierge virtual de Work Service. Puedo ayudarte con información de nuestros espacios, precios y reservas. ¿Qué necesitas saber?',
+    '¡Hola! Soy Vega, el concierge virtual de Work Services. Puedo ayudarte con información de nuestros espacios, precios y reservas. ¿Qué necesitas saber?',
 };
 
 const SUGGESTIONS = [
@@ -90,13 +91,24 @@ export function YokoWidget() {
       {/* Floating button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        aria-label={open ? 'Cerrar asistente' : 'Abrir asistente de Work Service'}
+        aria-label={open ? 'Cerrar asistente' : 'Abrir asistente de Work Services'}
         className={cn(
-          'fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl',
-          open ? 'bg-secondary text-white' : 'bg-primary text-white',
+          'fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl overflow-hidden',
+          open && 'bg-secondary text-secondary-foreground',
         )}
       >
-        {open ? <X className="w-6 h-6" /> : <Bot className="w-7 h-7" />}
+        {open ? (
+          <X className="w-6 h-6" />
+        ) : (
+          <AnimatedLogo
+            light="/brand/isotipo.png"
+            dark="/brand/isotipo-gold.png"
+            alt=""
+            width={56}
+            height={56}
+            className="w-full h-full"
+          />
+        )}
       </button>
 
       {/* Chat panel */}
@@ -104,12 +116,19 @@ export function YokoWidget() {
         <div className="fixed bottom-40 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] h-[540px] max-h-[calc(100vh-12rem)] rounded-2xl bg-background border border-border shadow-2xl flex flex-col overflow-hidden animate-in">
           {/* Header */}
           <div className="bg-primary px-5 py-4 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <Bot className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-full overflow-hidden shrink-0">
+              <AnimatedLogo
+                light="/brand/isotipo.png"
+                dark="/brand/isotipo-gold.png"
+                alt=""
+                width={40}
+                height={40}
+                className="w-full h-full"
+              />
             </div>
             <div>
-              <p className="font-semibold text-white leading-tight">Vega · Work Service</p>
-              <p className="text-xs text-white/80">Concierge virtual · En línea</p>
+              <p className="font-semibold text-primary-foreground leading-tight">Vega · Work Services</p>
+              <p className="text-xs text-primary-foreground/80">Concierge virtual · En línea</p>
             </div>
           </div>
 
@@ -121,7 +140,7 @@ export function YokoWidget() {
                   className={cn(
                     'max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed',
                     msg.role === 'user'
-                      ? 'bg-primary text-white rounded-br-md'
+                      ? 'bg-primary text-primary-foreground rounded-br-md'
                       : 'bg-muted text-foreground rounded-bl-md',
                   )}
                 >
@@ -174,7 +193,7 @@ export function YokoWidget() {
               type="submit"
               disabled={!input.trim() || sending}
               aria-label="Enviar mensaje"
-              className="rounded-lg bg-primary text-white p-2.5 disabled:opacity-40 hover:bg-primary/90 transition-colors"
+              className="rounded-lg bg-primary text-primary-foreground p-2.5 disabled:opacity-40 hover:bg-primary/90 transition-colors"
             >
               <Send className="w-4 h-4" />
             </button>

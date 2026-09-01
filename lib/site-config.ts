@@ -5,6 +5,7 @@
 
 export const BRAND = {
   name: 'Work Services',
+  legalName: 'Work Services Tu Aliado Estratégico C.A.',
   slogan: '¡Tu aliado estratégico!',
   instagram: '@workservicesve',
   instagramUrl: 'https://www.instagram.com/workservicesve/',
@@ -256,6 +257,16 @@ export const FAQ: {
         'Puedes reservar desde la página de Reservas completando el formulario, o escribiéndonos directamente por WhatsApp. Confirmamos disponibilidad en minutos y no requiere pago por adelantado.',
     },
     {
+      question: '¿Cómo puedo conocer los espacios de Work Services?',
+      answer:
+        'Escríbenos por WhatsApp o desde la página de Reservas y te compartiremos toda la información de los espacios disponibles, precios y disponibilidad. Coordinamos contigo los detalles que necesites, sin compromiso.',
+    },
+    {
+      question: '¿Tienen estacionamiento privado?',
+      answer:
+        'Si, contamos con un estacionamiento seguro y privado para que tengas 0 preocupaciones por tu vehículo.',
+    },
+    {
       question: '¿Qué incluye el precio del espacio?',
       answer:
         'Todos los precios incluyen internet con respaldo de hasta 10 horas ante fallas eléctricas, energía, agua, aires acondicionados, limpieza, recepción de correspondencia y soporte del equipo de Work Services. Sin facturas de servicios públicos ni contratos rígidos.',
@@ -266,9 +277,9 @@ export const FAQ: {
         'No. Trabajamos con planes flexibles: puedes pagar por hora, por día o por mes según el espacio. No hay contratos de alquiler rígidos ni penalizaciones por cambiar de plan.',
     },
     {
-      question: '¿Puedo visitar las instalaciones antes de reservar?',
+      question: '¿Puedo resolver dudas antes de reservar?',
       answer:
-        'Claro. Agendamos visitas guiadas sin compromiso en horario laboral. Escríbenos por WhatsApp o desde la página de Reservas para coordinar el día y la hora.',
+        'Claro. Agendamos asesorías personalizadas sin compromiso. Escríbenos por WhatsApp o desde la página de Reservas para coordinar una llamada y resolver todas tus dudas.',
     },
     {
       question: '¿Hay disponibilidad los fines de semana?',

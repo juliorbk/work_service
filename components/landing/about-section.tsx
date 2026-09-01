@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  Sparkles,
   Building2,
   HeartHandshake,
   Headset,
@@ -10,7 +9,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { ABOUT } from "@/lib/site-config";
+import { BrandMark } from "@/components/ui/brand-mark";
+import { ABOUT, BRAND } from "@/lib/site-config";
 
 const valueIcons: Record<string, LucideIcon> = {
   building: Building2,
@@ -50,7 +50,7 @@ export function AboutSection() {
             }`}
           >
             <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-4">
-              <Sparkles className="w-4 h-4 text-[#00b3f0]" />
+              <BrandMark />
               {ABOUT.eyebrow}
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1] mb-5">
@@ -59,6 +59,10 @@ export function AboutSection() {
             </h2>
             <p className="text-base sm:text-lg text-secondary leading-relaxed mb-8">
               {ABOUT.text}
+            </p>
+
+            <p className="text-xs font-semibold text-secondary/70 uppercase tracking-wider mb-8">
+              {BRAND.legalName}
             </p>
 
             <Link

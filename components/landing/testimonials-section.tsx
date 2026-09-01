@@ -10,13 +10,13 @@ const avatarFor = (name: string) => {
     .map((w) => w[0])
     .slice(0, 2)
     .join("");
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500"><rect width="500" height="500" fill="#8b5000"/><text x="50%" y="50%" dy="0.35em" text-anchor="middle" font-family="Georgia, serif" font-size="200" fill="#fff8f5">${initials}</text></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500"><rect width="500" height="500" fill="#D99414"/><text x="50%" y="50%" dy="0.35em" text-anchor="middle" font-family="Georgia, serif" font-size="200" fill="#ffffff">${initials}</text></svg>`;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 };
 
 const testimonials = [
   {
-    quote: "Mudar nuestras oficinas a Work Service fue un gran acierto. La calidad del espacio eleva nuestra imagen frente a los clientes que nos visitan y la infraestructura tecnológica es impecable.",
+    quote: "Mudar nuestras oficinas a Work Services fue un gran acierto. La calidad del espacio eleva nuestra imagen frente a los clientes que nos visitan y la infraestructura tecnológica es impecable.",
     name: "María Fernández",
     designation: "Directora de Operaciones, TechFlow",
     src: avatarFor("María Fernández"),

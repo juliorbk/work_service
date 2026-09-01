@@ -22,7 +22,7 @@ interface AnimatedButtonProps {
 
 const variantStyles = {
   primary:
-    'bg-primary-container text-white hover:bg-primary hover:text-white shadow-sm',
+    'bg-primary-container text-primary-foreground hover:bg-primary hover:text-primary-foreground shadow-sm',
   outline:
     'bg-white/50 backdrop-blur-sm border border-outline text-secondary hover:border-primary hover:text-primary',
 };

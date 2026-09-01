@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { HelpCircle } from "lucide-react";
+import { BrandMark } from "@/components/ui/brand-mark";
 import {
   Accordion,
   AccordionContent,
@@ -39,7 +39,7 @@ export function FaqSection() {
           }`}
         >
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-4">
-            <HelpCircle className="w-4 h-4 text-accent" />
+            <BrandMark />
             Resolvemos tus dudas
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">

@@ -12,7 +12,7 @@ interface LoadingSpinnerProps {
 export function LoadingSpinner({
   className,
   label = 'Cargando...',
-  color = '#00b3f0',
+  color = '#d99414',
 }: LoadingSpinnerProps) {
   return (
     <div className={cn('flex flex-col items-center justify-center gap-4', className)}>
