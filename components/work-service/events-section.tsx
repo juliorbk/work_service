@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { CalendarDays, Play, Zap } from 'lucide-react';
+import { CalendarDays, Play } from 'lucide-react';
+import { BrandMark } from '@/components/ui/brand-mark';
 import { cn } from '@/lib/utils';
 
 interface EventsSectionProps {
@@ -30,6 +31,8 @@ const EVENTS: EventVideo[] = [
 export function EventsSection({ className }: EventsSectionProps) {
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const current = EVENTS[active];
 
@@ -38,13 +41,35 @@ export function EventsSection({ className }: EventsSectionProps) {
     el?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
   }, [active]);
 
+  useEffect(() => {
+    const container = playerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Se lee el ref en el callback para apuntar siempre al <video> montado
+        const video = videoRef.current;
+        if (!video) return;
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { root: null, threshold: 0.1 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="eventos" className={cn('relative py-16 sm:py-20 lg:py-28 bg-surface-container-low overflow-hidden scroll-mt-24', className)}>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
         {/* Header */}
         <div className="mb-10 sm:mb-12 lg:mb-16 text-center">
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-4">
-            <Zap className="w-4 h-4 text-accent" />
+            <BrandMark />
             Eventos Destacados
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
@@ -52,7 +77,7 @@ export function EventsSection({ className }: EventsSectionProps) {
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-secondary max-w-2xl mx-auto mt-4 leading-relaxed">
             Conferencias, talleres, capacitaciones y sesiones especiales que
-            suceden en nuestros espacios de Torre Banco Industrial.
+            suceden en los espacios de Work Services.
           </p>
         </div>
 
@@ -86,6 +111,7 @@ export function EventsSection({ className }: EventsSectionProps) {
                       src={event.poster}
                       alt=""
                       loading="lazy"
+                      decoding="async"
                       className="h-20 w-14 object-cover"
                     />
                     {!isActive && (
@@ -116,14 +142,14 @@ export function EventsSection({ className }: EventsSectionProps) {
           </div>
 
           {/* Reproductor */}
-          <div className="min-w-0">
+          <div ref={playerRef} className="min-w-0">
             <div className="flex items-center justify-center rounded-2xl border border-outline-variant/40 bg-surface-container-lowest p-4 sm:p-6">
               <video
+                ref={videoRef}
                 key={current.src}
                 src={current.src}
                 poster={current.poster}
                 controls
-                autoPlay
                 playsInline
                 preload="metadata"
                 aria-label={current.title}

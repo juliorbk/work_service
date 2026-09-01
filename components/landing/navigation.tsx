@@ -2,9 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { AnimatedLogo } from '@/components/ui/animated-logo';
+
+const NAV_LINKS = [
+  { label: 'Espacios', href: '#espacios' },
+  { label: 'Precios', href: '#pricing' },
+  { label: 'Galería', href: '#galeria' },
+  { label: 'Eventos', href: '#eventos' },
+  { label: 'Contacto', href: '#contacto' },
+  { label: 'Nosotros', href: '#nosotros' },
+];
+
+const LINK_CLASSES =
+  'rounded-full px-3 py-2 text-sm font-sans text-secondary hover:text-primary hover:bg-muted/70 focus-visible:text-primary focus-visible:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 transition-colors duration-200 ease-in-out';
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,18 +28,6 @@ export function Navigation() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  const navLinks = [
-    { label: 'Espacios', href: '#espacios' },
-    { label: 'Precios', href: '#pricing' },
-    { label: 'Galería', href: '#galeria' },
-    { label: 'Eventos', href: '#eventos' },
-    { label: 'Sedes', href: '#locations' },
-    { label: 'Nosotros', href: '#nosotros' },
-  ];
-
-  const linkClasses =
-    'rounded-full px-3 py-2 text-sm font-sans text-secondary hover:text-primary hover:bg-muted/70 focus-visible:text-primary focus-visible:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 transition-colors duration-200 ease-in-out';
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6 lg:px-10">
@@ -44,26 +44,19 @@ export function Navigation() {
               scrolled ? 'h-14' : 'h-16 md:h-[72px]'
             }`}
           >
-            {/* Logo: original para modo claro, variante recoloreada para el acrílico oscuro */}
+            {/* Logo: variante de marca para fondo claro, dorada para el acrílico oscuro */}
             <Link
               href="/"
               className="flex items-center gap-2 shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 p-1 -m-1"
             >
-              <Image
-                src="/work-services-logo.png"
-                alt="Work Service"
-                width={316}
-                height={130}
-                className={`w-auto max-w-[40vw] sm:max-w-[180px] object-contain transition-all duration-300 ease-in-out dark:hidden ${
-                  scrolled ? 'h-7 md:h-9' : 'h-8 md:h-10'
-                }`}
-              />
-              <Image
-                src="/work-services-logo-on-dark.png"
-                alt="Work Service"
-                width={316}
-                height={130}
-                className={`w-auto max-w-[40vw] sm:max-w-[180px] object-contain transition-all duration-300 ease-in-out hidden dark:block ${
+              <AnimatedLogo
+                light="/brand/logo-horizontal.png"
+                dark="/brand/logo-horizontal-gold.png"
+                alt="Work Services"
+                width={1400}
+                height={441}
+                darkHeight={560}
+                className={`w-auto max-w-[40vw] sm:max-w-[180px] object-contain ${
                   scrolled ? 'h-7 md:h-9' : 'h-8 md:h-10'
                 }`}
               />
@@ -71,8 +64,8 @@ export function Navigation() {
 
             {/* Navegación desktop */}
             <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <Link key={link.href} href={link.href} className={linkClasses}>
+              {NAV_LINKS.map((link) => (
+                <Link key={link.href} href={link.href} className={LINK_CLASSES}>
                   {link.label}
                 </Link>
               ))}
@@ -84,7 +77,7 @@ export function Navigation() {
 
               <Link
                 href="/booking"
-                className="btn-premium hidden sm:inline-flex bg-primary-container text-white px-6 py-2.5 rounded-full font-medium text-sm tracking-[0.05em] hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="btn-premium hidden sm:inline-flex bg-primary-container text-primary-foreground px-6 py-2.5 rounded-full font-medium text-sm tracking-[0.05em] hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 Reservar Ahora
               </Link>
@@ -106,7 +99,7 @@ export function Navigation() {
         {isOpen ? (
           <div className="acrylic acrylic-raised animate-menu-in relative md:hidden mt-2 rounded-2xl p-2">
             <div className="space-y-0.5">
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -120,7 +113,7 @@ export function Navigation() {
             <div className="space-y-2 pt-2 mt-2 border-t border-outline-variant/60">
               <Link
                 href="/booking"
-                className="flex items-center justify-center min-h-11 w-full text-center bg-primary-container text-white px-6 py-3 rounded-xl font-medium text-sm tracking-[0.05em] hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
+                className="flex items-center justify-center min-h-11 w-full text-center bg-primary-container text-primary-foreground px-6 py-3 rounded-xl font-medium text-sm tracking-[0.05em] hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 Reservar Ahora

@@ -1,14 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { Zap, Users, ArrowRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { Users, ArrowRight } from 'lucide-react';
+import { BrandMark } from '@/components/ui/brand-mark';
 import { SPACES, type Space } from '@/components/landing/spaces-data';
-import { SpaceDetailsModal } from '@/components/work-service/space-details-modal';
 import {
   CardContainer,
   CardBody,
   CardItem,
 } from '@/components/ui/3d-card';
+
+const SpaceDetailsModal = dynamic(
+  () =>
+    import('@/components/work-service/space-details-modal').then(
+      (mod) => mod.SpaceDetailsModal
+    ),
+  { ssr: false }
+);
 
 interface SpacesCardsProps {
   className?: string;
@@ -20,7 +29,7 @@ export function SpacesCards({ className = '', images = SPACES }: SpacesCardsProp
 
   return (
     <div className={className}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto justify-items-center">
         {images.map((item) => (
           <CardContainer
             key={item.title}
@@ -33,7 +42,7 @@ export function SpacesCards({ className = '', images = SPACES }: SpacesCardsProp
                 className="w-full h-full group cursor-pointer"
                 onClick={() => setSelectedSpace(item)}
               >
-                <div className="relative h-72 w-full overflow-hidden rounded-2xl border border-outline-variant shadow-[0_16px_32px_-10px_rgba(139,80,0,0.35)]">
+                <div className="relative h-72 sm:h-80 w-full overflow-hidden rounded-2xl border border-outline-variant shadow-[0_16px_32px_-10px_rgba(217,148,20,0.35)]">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -70,10 +79,12 @@ export function SpacesCards({ className = '', images = SPACES }: SpacesCardsProp
         ))}
       </div>
 
-      <SpaceDetailsModal
-        space={selectedSpace}
-        onClose={() => setSelectedSpace(null)}
-      />
+      {selectedSpace && (
+        <SpaceDetailsModal
+          space={selectedSpace}
+          onClose={() => setSelectedSpace(null)}
+        />
+      )}
     </div>
   );
 }
@@ -81,23 +92,28 @@ export function SpacesCards({ className = '', images = SPACES }: SpacesCardsProp
 export function SpacesCoverFlow() {
   return (
     <section id="espacios" className="relative py-16 sm:py-24 lg:py-28 overflow-hidden scroll-mt-24">
-      {/* Resplandor cálido tras las tarjetas */}
+      {/* Fondo: patrón sutil + orbes flotantes */}
       <div
         aria-hidden
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[80vw] max-w-5xl h-[420px] bg-[radial-gradient(ellipse_at_center,rgba(168,90,0,0.10),transparent_65%)] pointer-events-none"
+        className="absolute inset-0 pointer-events-none opacity-[0.5] dark:opacity-[0.35] [background-image:radial-gradient(circle,rgba(217,148,20,0.14)_1px,transparent_1px)] [background-size:36px_36px] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_40%,black,transparent)]"
       />
+      <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -inset-[10%] bg-[radial-gradient(circle_at_82%_16%,rgba(217,148,20,0.16),transparent_45%)] animate-drift-a" />
+        <div className="absolute -inset-[10%] bg-[radial-gradient(circle_at_10%_85%,rgba(191,62,33,0.12),transparent_42%)] animate-drift-b" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[80vw] max-w-5xl h-[420px] bg-[radial-gradient(ellipse_at_center,rgba(217,148,20,0.10),transparent_65%)]" />
+      </div>
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
         {/* Header */}
         <div className="mb-10 sm:mb-14 lg:mb-16 text-center">
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-4">
-            <Zap className="w-4 h-4 text-accent" />
+            <BrandMark />
             Recorre Nuestros Espacios
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
             Un vistazo a tus espacios
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-secondary max-w-2xl mx-auto mt-4 leading-relaxed">
-            Explora los ambientes disponibles en la Torre Banco Industrial: lobby,
+            Explora los ambientes disponibles en Work Services:
             salas de reuniones, sala de conferencias y oficinas privadas.
           </p>
         </div>

@@ -1,5 +1,3 @@
-'use client';
-
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AnimatedButton } from '@/components/ui/animated-button';
@@ -26,7 +24,7 @@ export function WorkServiceHero() {
 
         {/* Description */}
         <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mb-12 leading-relaxed">
-          Renta oficinas privadas, espacios de coworking, talleres y áreas creativas en la Torre Banco Industrial. Cada detalle diseñado para que trabajes, colabores y crezcas.
+          Renta oficinas privadas, espacios de coworking, talleres y áreas creativas con Work Services. Cada detalle diseñado para que trabajes, colabores y crezcas.
         </p>
 
         {/* CTA Buttons */}

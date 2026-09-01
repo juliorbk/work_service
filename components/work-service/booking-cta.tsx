@@ -1,5 +1,3 @@
-'use client';
-
 import { ArrowRight } from 'lucide-react';
 import { AnimatedButton } from '@/components/ui/animated-button';
 

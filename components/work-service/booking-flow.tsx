@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Button,
   Card,
@@ -10,7 +10,8 @@ import {
   TextArea,
   TextField,
 } from '@heroui/react';
-import { Check, ChevronRight, Mail, MessageCircle } from 'lucide-react';
+import { Check, ChevronRight, Mail } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/ui/whatsapp-icon';
 import { SPACES } from '@/components/landing/spaces-data';
 import {
   WHATSAPP_NUMBER,
@@ -68,6 +69,21 @@ export function BookingFlow() {
     setBooking((prev) => ({ ...prev, [key]: value }));
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: false }));
   };
+
+  // Las próximas 14 fechas se calculan una sola vez al montar
+  const dateOptions = useMemo(
+    () =>
+      Array.from({ length: 14 }, (_, i) => {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+        return {
+          dateStr: date.toISOString().split('T')[0],
+          dayName: date.toLocaleDateString('es-MX', { weekday: 'short' }),
+          dayNum: date.getDate(),
+        };
+      }),
+    []
+  );
 
   const handleSpaceSelect = (space: string) => {
     set('space', space);
@@ -244,28 +260,20 @@ export function BookingFlow() {
                     <label className="block text-sm font-semibold text-foreground mb-4">Fecha</label>
                     <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 mb-2">
                       <div className="grid grid-cols-7 gap-2 min-w-[28rem] sm:min-w-0">
-                        {Array.from({ length: 14 }).map((_, i) => {
-                          const date = new Date();
-                          date.setDate(date.getDate() + i);
-                          const dateStr = date.toISOString().split('T')[0];
-                          const dayName = date.toLocaleDateString('es-MX', { weekday: 'short' });
-                          const dayNum = date.getDate();
-
-                          return (
-                            <button
-                              key={i}
-                              onClick={() => set('date', dateStr)}
-                              className={`min-h-11 flex flex-col items-center justify-center p-2 rounded-lg text-center text-xs transition-all ${
-                                booking.date === dateStr
-                                  ? 'bg-primary text-primary-foreground'
-                                  : 'bg-muted hover:bg-muted/80 text-foreground'
-                              }`}
-                            >
-                              <span className="font-semibold">{dayName}</span>
-                              <span>{dayNum}</span>
-                            </button>
-                          );
-                        })}
+                        {dateOptions.map(({ dateStr, dayName, dayNum }) => (
+                          <button
+                            key={dateStr}
+                            onClick={() => set('date', dateStr)}
+                            className={`min-h-11 flex flex-col items-center justify-center p-2 rounded-lg text-center text-xs transition-all ${
+                              booking.date === dateStr
+                                ? 'bg-primary text-primary-foreground'
+                                : 'bg-muted hover:bg-muted/80 text-foreground'
+                            }`}
+                          >
+                            <span className="font-semibold">{dayName}</span>
+                            <span>{dayNum}</span>
+                          </button>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -456,7 +464,7 @@ export function BookingFlow() {
                     onPress={() => handleSend('whatsapp')}
                     className="flex-1 min-h-11 bg-[#25D366] hover:bg-[#1eb958] text-white"
                   >
-                    <MessageCircle className="size-4" />
+                    <WhatsAppIcon className="size-4" />
                     Enviar por WhatsApp
                   </Button>
                   <Button

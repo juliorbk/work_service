@@ -56,9 +56,9 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
             <div className="relative bg-muted flex flex-col">
               <div className="relative flex-1">
                 <Carousel className="w-full h-full" setApi={setApi}>
-                  <CarouselContent>
+                  <CarouselContent className="h-full">
                     {space.gallery.map((media, i) => (
-                      <CarouselItem key={i}>
+                      <CarouselItem key={i} className="h-full">
                         {media.type === 'video' ? (
                           <video
                             src={media.src}
@@ -66,13 +66,15 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
                             controls
                             playsInline
                             preload="metadata"
-                            className="w-full aspect-video md:aspect-auto md:h-[420px] bg-black object-contain"
+                            className="w-full h-full aspect-video md:aspect-auto md:min-h-[420px] bg-black object-contain"
                           />
                         ) : (
                           <img
                             src={media.src}
                             alt={`${space.title} — foto ${i + 1}`}
-                            className="w-full aspect-[4/3] sm:aspect-[3/2] md:aspect-auto md:h-[420px] object-cover"
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full aspect-[4/3] sm:aspect-[3/2] md:aspect-auto md:min-h-[420px] object-cover"
                           />
                         )}
                       </CarouselItem>
@@ -205,7 +207,7 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
               {/* CTA */}
               <div className="mt-8 pt-6 border-t border-outline-variant space-y-3">
                 <Link href="/booking" className="block w-full">
-                  <Button className="w-full bg-primary-container hover:bg-primary text-white min-h-11">
+                  <Button className="w-full bg-primary-container hover:bg-primary text-primary-foreground min-h-11">
                     Reservar este espacio
                   </Button>
                 </Link>

@@ -43,6 +43,31 @@ function getStatusColor(status: string) {
   }
 }
 
+function NavItemButton({
+  item,
+  isActive,
+  onSelect,
+}: {
+  item: (typeof navItems)[number];
+  isActive: boolean;
+  onSelect: (id: NavItem) => void;
+}) {
+  const Icon = item.icon;
+  return (
+    <button
+      onClick={() => onSelect(item.id)}
+      className={`w-full flex items-center gap-3 px-4 py-3 min-h-11 rounded-lg text-sm font-medium transition-colors ${
+        isActive
+          ? 'bg-primary text-primary-foreground'
+          : 'text-background/70 hover:text-background hover:bg-foreground/50'
+      }`}
+    >
+      <Icon className="w-5 h-5 shrink-0" />
+      <span className="text-left">{item.label}</span>
+    </button>
+  );
+}
+
 function NavList({
   activeNav,
   onSelect,
@@ -50,28 +75,16 @@ function NavList({
   activeNav: NavItem;
   onSelect: (id: NavItem) => void;
 }) {
-  const item = (item: (typeof navItems)[number]) => {
-    const Icon = item.icon;
-    const isActive = activeNav === item.id;
-    return (
-      <button
-        key={item.id}
-        onClick={() => onSelect(item.id)}
-        className={`w-full flex items-center gap-3 px-4 py-3 min-h-11 rounded-lg text-sm font-medium transition-colors ${
-          isActive
-            ? 'bg-primary text-primary-foreground'
-            : 'text-background/70 hover:text-background hover:bg-foreground/50'
-        }`}
-      >
-        <Icon className="w-5 h-5 shrink-0" />
-        <span className="text-left">{item.label}</span>
-      </button>
-    );
-  };
-
   return (
     <nav className="space-y-2">
-      {navItems.map((itemData) => item(itemData))}
+      {navItems.map((item) => (
+        <NavItemButton
+          key={item.id}
+          item={item}
+          isActive={activeNav === item.id}
+          onSelect={onSelect}
+        />
+      ))}
     </nav>
   );
 }
@@ -161,7 +174,7 @@ export function AdminDashboard() {
       {/* Mobile top bar */}
       <header className="lg:hidden sticky top-0 z-40 flex items-center justify-between bg-foreground text-background px-4 h-16 border-b border-background/20">
         <div className="min-w-0">
-          <h1 className="text-lg font-bold truncate">Work Service</h1>
+          <h1 className="text-lg font-bold truncate">Work Services</h1>
           <p className="text-xs text-background/60 truncate">Panel de Administración</p>
         </div>
         <Drawer>
@@ -178,7 +191,7 @@ export function AdminDashboard() {
             >
               <Drawer.Dialog>
                 <Drawer.Header>
-                  <Drawer.Heading className="text-background">Work Service</Drawer.Heading>
+                  <Drawer.Heading className="text-background">Work Services</Drawer.Heading>
                   <p className="text-sm text-background/60">Panel de Administración</p>
                 </Drawer.Header>
                 <Drawer.Body>
@@ -202,7 +215,7 @@ export function AdminDashboard() {
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-foreground text-background border-r border-background/20 sticky top-0 h-screen">
         <div className="p-6">
-          <h1 className="text-2xl font-bold">Work Service</h1>
+          <h1 className="text-2xl font-bold">Work Services</h1>
           <p className="text-sm text-background/60">Panel de Administración</p>
         </div>
 

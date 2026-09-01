@@ -1,24 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 export const useOutsideClick = (
   ref: React.RefObject<HTMLDivElement | null>,
-  callback: Function
+  callback: (event: Event) => void
 ) => {
+  // Guardar el callback en un ref evita re-registrar los listeners en cada render
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
+
   useEffect(() => {
-    const listener = (event: any) => {
+    const listener = (event: Event) => {
       // DO NOTHING if the element being clicked is the target element or their children
-      if (!ref.current || ref.current.contains(event.target)) {
+      const el = ref.current;
+      if (!el || el.contains(event.target as Node)) {
         return;
       }
-      callback(event);
+      callbackRef.current(event);
     };
 
     document.addEventListener("mousedown", listener);
-    document.addEventListener("touchstart", listener);
+    document.addEventListener("touchstart", listener, { passive: true });
 
     return () => {
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };
-  }, [ref, callback]);
+  }, [ref]);
 };

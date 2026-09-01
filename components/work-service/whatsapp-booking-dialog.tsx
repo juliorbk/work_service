@@ -12,7 +12,7 @@ import {
   TextArea,
   TextField,
 } from '@heroui/react';
-import { MessageCircle } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/ui/whatsapp-icon';
 import {
   WHATSAPP_NUMBER,
   SPACE_OPTIONS,
@@ -238,7 +238,7 @@ export function WhatsAppBookingDialog({
                 onPress={handleSubmit}
                 className="bg-[#25D366] hover:bg-[#1eb958] text-white"
               >
-                <MessageCircle className="size-4" />
+                <WhatsAppIcon className="size-4" />
                 Enviar por WhatsApp
               </Button>
             </Modal.Footer>
@@ -267,10 +267,16 @@ export function WhatsAppBookingButton({
   return (
     <>
       <Button onPress={() => setOpen(true)} variant={variant} className={className}>
-        <MessageCircle className="size-4" />
+        <WhatsAppIcon className="size-4" />
         {label}
       </Button>
-      <WhatsAppBookingDialog open={open} onClose={() => setOpen(false)} defaultSpace={defaultSpace} />
+      {open && (
+        <WhatsAppBookingDialog
+          open
+          onClose={() => setOpen(false)}
+          defaultSpace={defaultSpace}
+        />
+      )}
     </>
   );
 }

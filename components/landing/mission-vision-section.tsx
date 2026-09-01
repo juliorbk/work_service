@@ -1,8 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Compass, Eye } from "lucide-react";
+import Image from "next/image";
 import { MISSION_VISION } from "@/lib/site-config";
+
+const CARDS = [
+  {
+    ...MISSION_VISION.mission,
+    accent: "terracotta",
+    isotype: "/brand/isotipo.png",
+  },
+  {
+    ...MISSION_VISION.vision,
+    accent: "gold",
+    isotype: "/brand/isotipo-gold.png",
+  },
+];
 
 export function MissionVisionSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -19,17 +32,22 @@ export function MissionVisionSection() {
     return () => observer.disconnect();
   }, []);
 
-  const cards = [
-    { ...MISSION_VISION.mission, icon: Compass },
-    { ...MISSION_VISION.vision, icon: Eye },
-  ];
-
   return (
     <section
       id="mision-vision"
       ref={sectionRef}
-      className="relative py-12 sm:py-16 lg:py-20 bg-surface-container-low overflow-hidden scroll-mt-24"
+      className="relative py-16 sm:py-20 lg:py-28 bg-surface-container-low overflow-hidden scroll-mt-24"
     >
+      {/* Formas de arco/cápsula decorativas */}
+      <div
+        aria-hidden
+        className="absolute -top-32 -right-24 w-96 h-96 rounded-full bg-primary-container/10 pointer-events-none"
+      />
+      <div
+        aria-hidden
+        className="absolute -bottom-40 -left-28 w-[28rem] h-44 rounded-full bg-accent/10 pointer-events-none rotate-3"
+      />
+
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10">
         {/* Header */}
         <div
@@ -37,37 +55,62 @@ export function MissionVisionSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
+          <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-4">
+            {MISSION_VISION.eyebrow}
+          </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
             {MISSION_VISION.title}
           </h2>
         </div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-          {cards.map((card, index) => {
-            const Icon = card.icon;
-            return (
-              <div
-                key={card.title}
-                className={`bg-surface-container-lowest border border-outline-variant rounded-xl p-6 sm:p-8 hover-lift transition-all duration-700 ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-10">
+          {CARDS.map((card, index) => (
+            <article
+              key={card.title}
+              className={`relative overflow-hidden bg-surface-container-lowest border border-outline-variant rounded-2xl p-8 sm:p-10 hover-lift transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
+            >
+              {/* Detalle de marca superior */}
+              <span
+                aria-hidden
+                className={`absolute inset-x-0 top-0 h-1.5 ${
+                  card.accent === "terracotta" ? "bg-accent" : "bg-primary"
                 }`}
-                style={{ transitionDelay: `${index * 150}ms` }}
-              >
-                <div className="w-11 h-11 rounded-xl bg-primary-container/10 flex items-center justify-center mb-5">
-                  <Icon className="w-5 h-5 text-primary-container" />
-                </div>
-                <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mb-3">
+              />
+              <div className="flex items-center gap-4 mb-6">
+                <span
+                  className={`w-14 h-14 rounded-full flex items-center justify-center ${
+                    card.accent === "terracotta"
+                      ? "bg-accent/10"
+                      : "bg-primary-container/10"
+                  }`}
+                >
+                  <Image
+                    src={card.isotype}
+                    alt=""
+                    width={512}
+                    height={512}
+                    className="w-9 h-9 object-contain"
+                  />
+                </span>
+                <h3
+                  className={`text-2xl sm:text-3xl font-bold tracking-tight ${
+                    card.accent === "terracotta"
+                      ? "text-accent"
+                      : "text-primary-container"
+                  }`}
+                >
                   {card.title}
                 </h3>
-                <p className="text-base lg:text-lg text-secondary leading-relaxed">
-                  {card.text}
-                </p>
               </div>
-            );
-          })}
+              <p className="text-base lg:text-lg text-secondary leading-relaxed">
+                {card.text}
+              </p>
+            </article>
+          ))}
         </div>
       </div>
     </section>

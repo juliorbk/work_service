@@ -27,7 +27,7 @@ export function AnimatedWave() {
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const chars = "·∘○◯◌●◉";
-    const waveColor = getThemeColor("--tertiary-container", "#00b3f0");
+    const waveColor = getThemeColor("--accent", "#bf3e21");
     let time = 0;
 
     const resize = () => {
@@ -39,13 +39,13 @@ export function AnimatedWave() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
+    let visible = false;
+
     resize();
-    window.addEventListener("resize", resize);
 
     const render = () => {
       const rect = canvas.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) {
-        frameRef.current = requestAnimationFrame(render);
+      if (!visible || rect.width === 0 || rect.height === 0) {
         return;
       }
 
@@ -85,10 +85,31 @@ export function AnimatedWave() {
       }
     };
 
-    render();
+    const handleResize = () => {
+      resize();
+      if (reduceMotion && visible) render();
+    };
+
+    // Pausa el loop cuando el canvas sale del viewport (o está oculto por CSS)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        visible = entry.isIntersecting;
+        cancelAnimationFrame(frameRef.current);
+        if (visible) {
+          frameRef.current = requestAnimationFrame(render);
+        }
+      },
+      { rootMargin: "100px" }
+    );
+
+    window.addEventListener("resize", handleResize);
+    observer.observe(canvas);
 
     return () => {
-      window.removeEventListener("resize", resize);
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(frameRef.current);
     };
   }, []);

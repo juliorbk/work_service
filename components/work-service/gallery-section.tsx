@@ -1,6 +1,6 @@
 'use client';
 
-import { Camera } from 'lucide-react';
+import { BrandMark } from '@/components/ui/brand-mark';
 import { cn } from '@/lib/utils';
 import { Carousel, Card } from '@/components/ui/apple-cards-carousel';
 
@@ -9,6 +9,7 @@ interface GallerySectionProps {
 }
 
 const PHOTOS = [
+  { src: '/images/spaces/LOBBY.jpg', title: 'Lobby y Recepción', category: 'Nuestro Espacio' },
   { src: '/images/gallery/foto-01.jpg', title: 'Instalaciones 01', category: 'Nuestro Espacio' },
   { src: '/images/gallery/foto-02.jpg', title: 'Instalaciones 02', category: 'Nuestro Espacio' },
   { src: '/images/gallery/foto-03.jpg', title: 'Instalaciones 03', category: 'Nuestro Espacio' },
@@ -21,24 +22,25 @@ const PHOTOS = [
   { src: '/images/gallery/foto-10.jpg', title: 'Instalaciones 10', category: 'Nuestro Espacio' },
 ];
 
+const CARDS = PHOTOS.map((photo, i) => (
+  <Card
+    key={photo.src}
+    card={{
+      src: photo.src,
+      title: photo.title,
+      category: photo.category,
+      content: (
+        <p className="text-base text-neutral-600 dark:text-neutral-300">
+          Un vistazo real a lo que pasa cada día en los espacios de Work Services:
+          ambientes de trabajo, clientes, sesiones de fotos, cursos y conferencias.
+        </p>
+      ),
+    }}
+    index={i}
+  />
+));
+
 export function GallerySection({ className }: GallerySectionProps) {
-  const cards = PHOTOS.map((photo, i) => (
-    <Card
-      key={photo.src}
-      card={{
-        src: photo.src,
-        title: photo.title,
-        category: photo.category,
-        content: (
-          <p className="text-base text-neutral-600 dark:text-neutral-300">
-            Un vistazo real a lo que pasa cada día en Torre Banco Industrial:
-            nuestros espacios, clientes, sesiones de fotos, cursos y conferencias.
-          </p>
-        ),
-      }}
-      index={i}
-    />
-  ));
 
   return (
     <section
@@ -49,20 +51,20 @@ export function GallerySection({ className }: GallerySectionProps) {
         {/* Header */}
         <div className="mb-8 sm:mb-10 lg:mb-12 text-center">
           <span className="inline-flex items-center gap-3 text-sm text-secondary font-medium tracking-[0.05em] mb-4">
-            <Camera className="w-4 h-4 text-accent" />
+            <BrandMark />
             Galería
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-            Así se vive en WORK Service
+            Así se vive en Work Services
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-secondary max-w-2xl mx-auto mt-4 leading-relaxed">
             Nuestros espacios, clientes, sesiones de fotos, cursos y conferencias:
-            un vistazo real a lo que pasa cada día en Torre Banco Industrial.
+            un vistazo real a lo que pasa cada día en Work Services.
           </p>
         </div>
       </div>
 
-      <Carousel items={cards} />
+      <Carousel items={CARDS} startCentered />
     </section>
   );
 }
