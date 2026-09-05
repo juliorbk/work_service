@@ -8,10 +8,10 @@ import { AnimatedLogo } from "@/components/ui/animated-logo";
 import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 
 const footerLinks = [
-  { label: "Política de Privacidad", href: "#" },
-  { label: "Términos de Servicio", href: "#" },
+  { label: "Política de Privacidad", href: "/privacidad" },
+  { label: "Términos de Servicio", href: "/terminos" },
   { label: "Contacto", href: "/booking" },
-  { label: "Preguntas Frecuentes", href: "#faq" },
+  { label: "Preguntas Frecuentes", href: "/#faq" },
 ];
 
 const contactItems = [
@@ -132,8 +132,7 @@ export function FooterSection() {
         }`}
       >
         <p className="text-sm text-secondary text-center py-6 px-4">
-          &copy; 2026 {BRAND.legalName} &middot; {BRAND.slogan} &middot; Todos
-          los derechos reservados.
+          &copy; 2026 PolarisAgency &middot; Todos los derechos reservados.
         </p>
       </div>
     </footer>
