@@ -7,12 +7,12 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { AnimatedLogo } from '@/components/ui/animated-logo';
 
 const NAV_LINKS = [
-  { label: 'Espacios', href: '#espacios' },
-  { label: 'Precios', href: '#pricing' },
-  { label: 'Galería', href: '#galeria' },
-  { label: 'Eventos', href: '#eventos' },
-  { label: 'Contacto', href: '#contacto' },
-  { label: 'Nosotros', href: '#nosotros' },
+  { label: 'Espacios', href: '/#espacios' },
+  { label: 'Precios', href: '/#pricing' },
+  { label: 'Galería', href: '/#galeria' },
+  { label: 'Eventos', href: '/#eventos' },
+  { label: 'Contacto', href: '/#contacto' },
+  { label: 'Nosotros', href: '/#nosotros' },
 ];
 
 const LINK_CLASSES =
