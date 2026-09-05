@@ -106,7 +106,7 @@ export function YokoWidget() {
             alt=""
             width={56}
             height={56}
-            className="w-full h-full"
+            className="w-14 h-14"
           />
         )}
       </button>
@@ -123,7 +123,7 @@ export function YokoWidget() {
                 alt=""
                 width={40}
                 height={40}
-                className="w-full h-full"
+                className="w-10 h-10"
               />
             </div>
             <div>
