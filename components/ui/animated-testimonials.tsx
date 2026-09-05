@@ -37,7 +37,17 @@ export const AnimatedTestimonials = ({
       const interval = setInterval(handleNext, 5000);
       return () => clearInterval(interval);
     }
-  }, [autoplay]);
+  }, [autoplay, active]);
+
+  const SWIPE_THRESHOLD = 50;
+
+  const handleDragEnd = (_: unknown, info: { offset: { x: number } }) => {
+    if (info.offset.x < -SWIPE_THRESHOLD) {
+      handleNext();
+    } else if (info.offset.x > SWIPE_THRESHOLD) {
+      handlePrev();
+    }
+  };
 
   const randomRotateY = () => {
     return Math.floor(Math.random() * 21) - 10;
@@ -46,7 +56,14 @@ export const AnimatedTestimonials = ({
     <div className="mx-auto max-w-sm px-4 py-8 sm:py-10 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
       <div className="relative grid grid-cols-1 gap-20 md:grid-cols-2">
         <div>
-          <div className="relative h-80 w-full">
+          <motion.div
+            drag="x"
+            dragDirectionLock
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.6}
+            onDragEnd={handleDragEnd}
+            className="relative h-80 w-full cursor-grab select-none active:cursor-grabbing"
+          >
             <AnimatePresence>
               {testimonials.map((testimonial, index) => (
                 <motion.div
@@ -90,7 +107,7 @@ export const AnimatedTestimonials = ({
                 </motion.div>
               ))}
             </AnimatePresence>
-          </div>
+          </motion.div>
         </div>
         <div className="flex flex-col justify-between py-4">
           <motion.div
