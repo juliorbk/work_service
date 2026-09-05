@@ -33,10 +33,15 @@ export function EventsSection({ className }: EventsSectionProps) {
   const listRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const isFirstRender = useRef(true);
 
   const current = EVENTS[active];
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     const el = listRef.current?.querySelector<HTMLElement>('[data-active="true"]');
     el?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
   }, [active]);
