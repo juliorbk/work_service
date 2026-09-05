@@ -2,6 +2,10 @@
 @import 'tw-animate-css';
 @import '@heroui/styles';
 
+/* El artefacto binario del knowledge graph contiene tokens que Tailwind
+   interpretaria como clases arbitrarias (CSS invalido). Excluirlo del escaneo. */
+@source not '../.codebase-memory';
+
 @custom-variant dark (&:is(.dark-mode *));
 
 :root {
@@ -163,13 +167,23 @@
 }
 
 /* ── HeroUI semantic bridge: map HeroUI design tokens to the app palette.
-   Must stay after .dark-mode so var() references resolve per-theme. */
+   Must stay after .dark-mode so var() references resolve per-theme.
+   HeroUI activa su tema oscuro con la clase `.dark` (nunca presente aquí:
+   el tema de la app usa `dark-mode`), así que TODO token de HeroUI debe
+   puentearse a los tokens de la app para que siga el tema. */
 :root {
+  --foreground: var(--fg);
+  --background: var(--bg);
   --muted: var(--muted-foreground);
   --default: var(--muted-bg);
   --default-foreground: var(--foreground);
   --surface: var(--card);
   --surface-foreground: var(--card-foreground);
+  --surface-secondary: var(--surface-container);
+  --surface-tertiary: var(--surface-container-high);
+  --segment: var(--surface-container-lowest);
+  --segment-foreground: var(--fg);
+  --separator: var(--border);
   --overlay: var(--popover);
   --overlay-foreground: var(--popover-foreground);
   --danger: var(--destructive);
@@ -504,7 +518,7 @@ html[data-theme-reveal='shrink']::view-transition-new(root) {
   to { }
 }
 
-/*── Crossfade de colores al cambiar de tema ───────────────────*/
+/*── Crossfade de colores al cambiar de tema (fallback CSS) ────*/
 html.theme-fallback-animating,
 html.theme-fallback-animating *,
 html.theme-fallback-animating *::before,
@@ -513,6 +527,23 @@ html.theme-fallback-animating *::after {
     text-decoration-color, caret-color, fill, stroke, box-shadow, opacity !important;
   transition-duration: 0.8s !important;
   transition-timing-function: ease-in-out !important;
+}
+
+/*── Transición de tema vía View Transitions API ──────────────*/
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Evita crossfades/animaciones dobles mientras dura el snapshot */
+html.theme-vt .theme-logo,
+html.theme-vt .theme-logo-dark {
+  transition: none;
+}
+
+html.theme-vt .theme-icon {
+  animation: none;
 }
 
 /*── Ícono del toggle ──────────────────────────────────────────*/
@@ -547,6 +578,11 @@ html.theme-fallback-animating *::after {
 
 /* ── Reduced motion ────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
   .animate-drift-a,
   .animate-drift-b,
   .animate-menu-in,
