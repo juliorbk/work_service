@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { usePathname } from 'next/navigation';
 import { WhatsAppIcon } from '@/components/ui/whatsapp-icon';
 
 const WhatsAppBookingDialog = dynamic(
@@ -14,12 +13,7 @@ const WhatsAppBookingDialog = dynamic(
 );
 
 export function WhatsAppFloatButton() {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
 
   return (
     <>

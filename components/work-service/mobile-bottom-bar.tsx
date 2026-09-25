@@ -24,7 +24,7 @@ export function MobileBottomBar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  if (pathname?.startsWith('/admin') || pathname === '/booking') {
+  if (pathname === '/booking') {
     return null;
   }
 

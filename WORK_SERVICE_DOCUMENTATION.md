@@ -1,7 +1,7 @@
 # Work Service Platform - Complete Frontend Documentation
 
 ## Overview
-Work Service is a premium corporate space rental platform featuring a sophisticated, minimalist aesthetic. The platform includes a customer-facing landing page (`/`), a multi-step booking flow (`/booking`), an admin dashboard (`/admin`) and legal pages (`/privacidad`, `/terminos`). Reservations are handled without a backend: booking requests are sent via WhatsApp deep links or email (`mailto`).
+Work Service is a premium corporate space rental platform featuring a sophisticated, minimalist aesthetic. The platform includes a customer-facing landing page (`/`), a multi-step booking flow (`/booking`) and legal pages (`/privacidad`, `/terminos`). Reservations are handled without a backend: booking requests are sent via WhatsApp deep links or email (`mailto`).
 
 ## Design System
 
@@ -32,8 +32,6 @@ app/
 ├── page.tsx                        # Landing page (home)
 ├── booking/
 │   └── page.tsx                    # Booking flow
-├── admin/
-│   └── page.tsx                    # Admin dashboard
 ├── privacidad/
 │   └── page.tsx                    # Política de privacidad
 └── terminos/
@@ -47,7 +45,6 @@ components/work-service/
 ├── publish-event-cta.tsx           # Banner to sell ad space
 ├── gallery-section.tsx             # Photo gallery carousel
 ├── booking-flow.tsx                # Multi-step booking (3 steps)
-├── admin-dashboard.tsx             # Admin operations center
 ├── whatsapp.ts                     # WhatsApp/mail message builders
 ├── whatsapp-booking-dialog.tsx     # Booking modal → WhatsApp
 ├── whatsapp-float-button.tsx       # Floating WhatsApp CTA
@@ -113,47 +110,25 @@ components/work-service/
   - **Total: $165.00** (orange highlight)
 - Back/Confirm Booking buttons
 
-### 3. Admin Dashboard (`/work-service/admin`)
+### 3. Booking Integration Points
 
-#### Sidebar Navigation
-- Dark slate background (#4f606e)
-- Navigation items:
-  - Dashboard (active, orange highlight)
-  - Bookings
-  - Spaces
-  - Clients
-  - Settings
-- Logout button at bottom
+La reservación se envía sin backend: se construye un mensaje y se abre WhatsApp
+(o `mailto:`). El panel `/admin` fue **eliminado temporalmente** (ver bitácora).
 
-#### Dashboard Content
+#### Integración futura del booking
+- Backend recibirá: space type, date, time, duration
+- Deberá retornar: booking confirmation, payment processing
 
-**Statistics Grid** (4 columns):
-- Total Bookings: 247 (This month)
-- Active Clients: 89 (Registered users)
-- Occupancy Rate: 66% (Average utilization, orange)
-- Revenue: $42.5K (This month)
+#### API pendientes (para cuando haya backend)
+- `/api/bookings` - List and manage reservations
+- `/api/spaces` - Space availability and occupancy
+- `/api/clients` - Client management
+- `/api/stats` - Dashboard metrics and occupancy data
 
-**Space Occupancy Section**:
-- Progress bars for each space type
-- Real-time occupancy metrics:
-  - Coworking Spaces: 28/40 (70% occupied)
-  - Meeting Rooms: 5/8 (62% occupied)
-  - Seminar Halls: 2/3 (67% occupied)
-
-**Recent Bookings Table**:
-Displays booking data with columns:
-- Client name
-- Space type
-- Date
-- Time
-- Duration
-- Status badge (Confirmed/Pending/Completed with color-coding)
-- Action menu
-
-**Status Badges**:
-- Confirmed: Green badge
-- Pending: Yellow badge
-- Completed: Blue badge
+#### User Authentication
+- Navigation includes "Sign In" button (currently placeholder)
+- Admin dashboard should be protected with authentication
+- Support for logout functionality
 
 ## Responsive Design
 
@@ -235,14 +210,10 @@ Modify the `services` array in `components/work-service/services-showcase.tsx`
 ### Adjusting Booking Time Slots
 Update the time array in `components/work-service/booking-flow.tsx`
 
-### Customizing Dashboard Widgets
-Edit `components/work-service/admin-dashboard.tsx` to modify stats, occupancy data, or bookings table
-
 ## File Paths
 
 - Landing Page: `/app/page.tsx`
 - Booking Page: `/app/booking/page.tsx`
-- Admin Page: `/app/admin/page.tsx`
 - Legal Pages: `/app/privacidad/page.tsx`, `/app/terminos/page.tsx`
 - Content/Config: `/lib/site-config.ts` (brand, pricing, FAQ, events)
 - Components: `/components/work-service/`, `/components/landing/`
@@ -287,8 +258,8 @@ Regla: **sin `sponsor` no se publica** — solo aparece lo que se cobra.
 **Built with**: Next.js 16, React 19, Tailwind CSS 4, HeroUI, Lucide React Icons
 
 **Status**: Production landing page. Reservations are handled via WhatsApp/email (no backend).
-The admin panel (`/admin`) shows example data and is optionally protected with HTTP Basic
-Auth by setting the `ADMIN_PASSWORD` env var. The Yoko chat concierge remains **disabled**
+The admin panel was **removed** (see bitácora 2026-09-24) and `middleware.ts` deleted.
+The Yoko chat concierge remains **disabled**
 until its backend is deployed (enable with `NEXT_PUBLIC_YOKO_ENABLED=true`).
 
 ---
@@ -322,3 +293,13 @@ until its backend is deployed (enable with `NEXT_PUBLIC_YOKO_ENABLED=true`).
 - Publicar dirección física completa (calle/edificio) en la landing para completar el schema `LocalBusiness` y el Google Business Profile.
 - Verificar en Search Console: propiedad de `workservice.site`, enviar `sitemap.xml`, revisar cobertura y CWV de campo.
 - Comprimir `reel.mp4` (12,3 MB) y `publicidad-eventos.mp4` (10,9 MB).
+
+### 2026-09-24 — Admin panel eliminado
+
+Se eliminó el panel `/admin` del sitio (decisión de producto, "por ahora").
+
+- Borrados: `app/admin/page.tsx`, `components/work-service/admin-dashboard.tsx` y `middleware.ts` (la autenticación HTTP Basic ya no aplica a ningún path).
+- `app/robots.ts`: ya no bloquea `/admin`.
+- Cleanup de referencias: `mobile-bottom-bar`, `whatsapp-float-button` y `yoko-widget` ya no comprueban `/admin` (y se removieron los hooks `usePathname` que quedaban sin uso en los dos últimos).
+- `.env.example`: eliminada la variable `ADMIN_PASSWORD`.
+- La ruta `/admin` ya no existe (404). El sitemap no la incluía y sigue igual.

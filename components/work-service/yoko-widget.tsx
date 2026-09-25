@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Send, X } from 'lucide-react';
-import { usePathname } from 'next/navigation';
 import { AnimatedLogo } from '@/components/ui/animated-logo';
 import { cn } from '@/lib/utils';
 
@@ -27,7 +26,6 @@ const SUGGESTIONS = [
 ];
 
 export function YokoWidget() {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([WELCOME]);
   const [input, setInput] = useState('');
@@ -83,8 +81,6 @@ export function YokoWidget() {
     },
     [ensureSession, sending],
   );
-
-  if (pathname?.startsWith('/admin')) return null;
 
   return (
     <>

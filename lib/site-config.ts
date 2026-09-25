@@ -213,7 +213,7 @@ export const PRICING: {
       name: 'Oficina Privada (Tipo B)',
       description: 'Oficina privada funcional para tu operación diaria.',
       details: ['1 unidad disponible'],
-      price: '$200',
+      price: '$150',
       period: '/ mes',
       cta: 'Reservar',
     },

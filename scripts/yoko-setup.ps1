@@ -61,7 +61,7 @@ Coworking: espacios abiertos y dinamicos para trabajo colaborativo en Work Servi
 ---
 Oficinas Privadas: oficinas completamente equipadas para equipos que necesitan privacidad y entorno corporativo de primer nivel. Capacidad: 2 a 20 personas. Incluye: aislamiento acustico, mobiliario ergonomico, videoconferencia 4K, control de acceso 24/7, limpieza incluida. Precios: oficina 2 personas $120/dia, oficina 4 personas $220/dia, oficina 10+ personas desde $450/dia.
 ---
-Estudio de Produccion: estudio insonorizado con equipo profesional para grabar podcasts, videos y contenido digital con calidad de estudio. Capacidad: 1 a 6 personas. Incluye: aislamiento acustico, consola y microfonos, iluminacion para video, pantalla de monitoreo, Wi-Fi de alta velocidad. Precios: por hora $60/hora, media jornada $200, jornada completa $350/dia.
+Estudio de Produccion: estudio insonorizado con equipo profesional para grabar podcasts, videos y contenido digital con calidad de estudio. Capacidad: 1 a 6 personas. Incluye: aislamiento acustico, consola y microfonos, iluminacion para video, pantalla de monitoreo, Wi-Fi de alta velocidad. Precios: por hora $60/hora, media jornada $150, jornada completa $350/dia.
 '@
   },
   @{
