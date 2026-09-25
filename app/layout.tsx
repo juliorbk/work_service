@@ -1,21 +1,11 @@
 import React from "react"
 import type { Metadata, Viewport } from 'next'
-import { Inter, JetBrains_Mono, Montserrat, Quicksand } from 'next/font/google'
+import { Montserrat, Quicksand } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { WhatsAppFloatButton } from '@/components/work-service/whatsapp-float-button'
 import { YokoWidget } from '@/components/work-service/yoko-widget'
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: '--font-inter'
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: '--font-jetbrains'
-})
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -73,6 +63,8 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
+const YOKO_ENABLED = process.env.NEXT_PUBLIC_YOKO_ENABLED === 'true'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,7 +72,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} ${montserrat.variable} ${quicksand.variable} font-sans antialiased bg-background text-foreground`}>
+      <body className={`${montserrat.variable} ${quicksand.variable} font-sans antialiased bg-background text-foreground`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -90,7 +82,7 @@ export default function RootLayout({
           {children}
           <Analytics />
           <WhatsAppFloatButton />
-          <YokoWidget />
+          {YOKO_ENABLED && <YokoWidget />}
         </ThemeProvider>
       </body>
     </html>

@@ -24,6 +24,7 @@ yarn-error.log*
 
 # media original sin procesar (no necesaria para el deploy)
 /design-assets/media-originals/
+/public/videos/gallery/reel.MOV
 
 # typescript
 *.tsbuildinfo

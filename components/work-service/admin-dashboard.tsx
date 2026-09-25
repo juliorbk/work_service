@@ -244,6 +244,11 @@ export function AdminDashboard() {
           <>
         {activeNav === 'dashboard' && (
           <div className="space-y-8">
+            {/* Demo notice */}
+            <div className="rounded-lg border border-primary/30 bg-primary/10 px-4 py-3 text-sm text-foreground">
+              Panel de demostración: los datos mostrados son de ejemplo y no
+              corresponden a reservaciones reales.
+            </div>
             {/* Header */}
             <div>
               <h2 className="text-3xl font-bold text-foreground">Panel de Control</h2>
