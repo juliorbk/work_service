@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Montserrat, Quicksand } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { WhatsAppFloatButton } from '@/components/work-service/whatsapp-float-button'
+import { MobileBottomBar } from '@/components/work-service/mobile-bottom-bar'
 import { YokoWidget } from '@/components/work-service/yoko-widget'
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
@@ -61,6 +62,10 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f2f2f2' },
+    { media: '(prefers-color-scheme: dark)', color: '#191f2a' },
+  ],
 }
 
 const YOKO_ENABLED = process.env.NEXT_PUBLIC_YOKO_ENABLED === 'true'
@@ -80,6 +85,7 @@ export default function RootLayout({
           value={{ light: 'light', dark: 'dark-mode' }}
         >
           {children}
+          <MobileBottomBar />
           <Analytics />
           <WhatsAppFloatButton />
           {YOKO_ENABLED && <YokoWidget />}

@@ -97,7 +97,7 @@ export function Navigation() {
 
         {/* Menú móvil: lámina acrílica despegada */}
         {isOpen ? (
-          <div className="acrylic acrylic-raised animate-menu-in relative md:hidden mt-2 rounded-2xl p-2">
+          <div className="acrylic acrylic-raised animate-menu-in relative md:hidden mt-2 rounded-2xl p-2 max-h-[calc(100dvh-6rem)] overflow-y-auto">
             <div className="space-y-0.5">
               {NAV_LINKS.map((link) => (
                 <Link

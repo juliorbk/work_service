@@ -62,20 +62,20 @@ export function FacilitiesSection() {
             return (
               <div
                 key={item.title}
-                className={`bg-surface-container-low border border-outline-variant rounded-xl p-4 sm:p-6 text-center hover-lift transition-all duration-700 ${
+                className={`bg-surface-container-low border border-outline-variant rounded-xl px-3 py-4 sm:p-6 text-center hover-lift transition-all duration-700 ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
                 }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <div className="w-11 h-11 rounded-xl bg-primary-container/10 flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-5 h-5 text-primary-container" />
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-primary-container/10 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                  <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary-container" />
                 </div>
-                <h3 className="text-sm sm:text-base font-semibold text-foreground mb-1">
+                <h3 className="min-w-0 text-[13px] leading-snug sm:text-base font-semibold text-foreground mb-1 [text-wrap:balance]">
                   {item.title}
                 </h3>
-                <p className="text-sm text-secondary leading-relaxed">
+                <p className="text-xs sm:text-sm text-secondary leading-relaxed">
                   {item.description}
                 </p>
               </div>

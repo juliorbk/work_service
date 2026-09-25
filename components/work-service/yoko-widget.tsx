@@ -93,7 +93,7 @@ export function YokoWidget() {
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? 'Cerrar asistente' : 'Abrir asistente de Work Services'}
         className={cn(
-          'fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl overflow-hidden',
+          'fixed bottom-24 max-md:bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl overflow-hidden',
           open && 'bg-secondary text-secondary-foreground',
         )}
       >
@@ -113,7 +113,7 @@ export function YokoWidget() {
 
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-40 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] h-[540px] max-h-[calc(100vh-12rem)] rounded-2xl bg-background border border-border shadow-2xl flex flex-col overflow-hidden animate-in">
+        <div className="fixed bottom-40 max-md:bottom-[calc(env(safe-area-inset-bottom)+9.75rem)] right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] h-[540px] max-h-[calc(100vh-12rem)] max-md:max-h-[calc(100dvh-11rem)] rounded-2xl bg-background border border-border shadow-2xl flex flex-col overflow-hidden animate-in">
           {/* Header */}
           <div className="bg-primary px-5 py-4 flex items-center gap-3">
             <div className="w-10 h-10 rounded-full overflow-hidden shrink-0">

@@ -63,18 +63,18 @@ export function CtaSection() {
                   ))}
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
                   <AnimatedButton
                     href="/booking"
                     label="Reservar Ahora"
                     icon={ArrowRight}
                     interaction="slide-arrow"
                     variant="primary"
-                    className="min-w-[190px] rounded-full"
+                    className="w-full sm:w-auto min-w-[190px] rounded-full"
                   />
                   <WhatsAppBookingButton
                     label="Reservar por WhatsApp"
-                    className="min-w-[190px] h-auto rounded-full px-8 py-4 bg-[#25D366] hover:bg-[#1eb958] text-white"
+                    className="w-full sm:w-auto min-w-[190px] h-auto rounded-full px-8 py-4 bg-[#25D366] hover:bg-[#1eb958] text-white"
                   />
                 </div>
 

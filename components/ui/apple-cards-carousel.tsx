@@ -145,7 +145,7 @@ export const Carousel = ({
         <div className="mr-4 sm:mr-10 flex justify-end gap-2">
           <button
             aria-label="Desplazar galería a la izquierda"
-            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-muted/70 hover:bg-muted transition-colors cursor-pointer border-0 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            className="relative z-40 flex h-11 w-11 items-center justify-center rounded-full bg-muted/70 hover:bg-muted transition-colors cursor-pointer border-0 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             onClick={scrollLeft}
             disabled={!canScrollLeft}
           >
@@ -153,7 +153,7 @@ export const Carousel = ({
           </button>
           <button
             aria-label="Desplazar galería a la derecha"
-            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-muted/70 hover:bg-muted transition-colors cursor-pointer border-0 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            className="relative z-40 flex h-11 w-11 items-center justify-center rounded-full bg-muted/70 hover:bg-muted transition-colors cursor-pointer border-0 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             onClick={scrollRight}
             disabled={!canScrollRight}
           >

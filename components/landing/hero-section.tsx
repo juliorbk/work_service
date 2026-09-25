@@ -31,14 +31,14 @@ export function HeroSection() {
         {/* Eyebrow */}
         <div className="mb-5 sm:mb-6 opacity-0 animate-[fade-in_0.7s_ease-out_both] motion-reduce:animate-none motion-reduce:opacity-100">
           <span className="inline-flex items-center gap-3 text-xs sm:text-sm text-secondary font-medium tracking-[0.05em]">
-            <span className="w-6 sm:w-8 h-px bg-primary/60" aria-hidden />
+            <span className="hidden sm:block w-6 sm:w-8 h-px bg-primary/60" aria-hidden />
             {BRAND.name} · {BRAND.slogan}
-            <span className="w-6 sm:w-8 h-px bg-primary/60" aria-hidden />
+            <span className="hidden sm:block w-6 sm:w-8 h-px bg-primary/60" aria-hidden />
           </span>
         </div>
 
         {/* Headline */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.15] sm:leading-[1.1] tracking-[-0.02em] mb-5 sm:mb-6 text-foreground opacity-0 animate-[slide-up_1s_ease-out_both] motion-reduce:animate-none motion-reduce:opacity-100">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.15] sm:leading-[1.1] tracking-[-0.02em] mb-5 sm:mb-6 text-foreground [text-wrap:balance] opacity-0 animate-[slide-up_1s_ease-out_both] motion-reduce:animate-none motion-reduce:opacity-100">
           {HERO.headlineA}
           <br />
           <span className="text-primary-container">{HERO.headlineB}</span>
@@ -59,11 +59,11 @@ export function HeroSection() {
             icon={WhatsAppIcon}
             interaction="slide-arrow"
             variant="primary"
-            className="min-w-[190px] rounded-full"
+            className="w-full sm:w-auto min-w-[190px] rounded-full"
           />
           <Link
             href={HERO.secondaryCta.href}
-            className="btn-premium acrylic relative rounded-full px-8 py-4 font-medium text-sm tracking-[0.05em] text-secondary hover:text-primary hover:border-primary inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="btn-premium acrylic relative rounded-full px-8 py-4 font-medium text-sm tracking-[0.05em] text-secondary hover:text-primary hover:border-primary inline-flex items-center justify-center w-full sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             {HERO.secondaryCta.label}
             <ArrowRight className="ml-2 w-4 h-4" />

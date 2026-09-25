@@ -165,14 +165,14 @@ export const AnimatedTestimonials = ({
             <button
               onClick={handlePrev}
               aria-label="Testimonio anterior"
-              className="group/button flex h-10 w-10 items-center justify-center rounded-full bg-muted/70 hover:bg-muted transition-colors cursor-pointer border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+              className="group/button flex h-11 w-11 items-center justify-center rounded-full bg-muted/70 hover:bg-muted transition-colors cursor-pointer border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
               <IconArrowLeft className="h-5 w-5 text-foreground transition-transform duration-300 group-hover/button:rotate-12" />
             </button>
             <button
               onClick={handleNext}
               aria-label="Testimonio siguiente"
-              className="group/button flex h-10 w-10 items-center justify-center rounded-full bg-muted/70 hover:bg-muted transition-colors cursor-pointer border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+              className="group/button flex h-11 w-11 items-center justify-center rounded-full bg-muted/70 hover:bg-muted transition-colors cursor-pointer border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
             >
               <IconArrowRight className="h-5 w-5 text-foreground transition-transform duration-300 group-hover/button:-rotate-12" />
             </button>
