@@ -95,6 +95,80 @@ function LazyVideo({
   );
 }
 
+/**
+ * Reel que solo se monta cuando entra al viewport (IntersectionObserver):
+ * no carga nada hasta ser enfocado en el scroll; al enfocarse, se reproduce
+ * silenciado y en bucle (salvo preferencia de movimiento reducido).
+ */
+function ReelInView({
+  src,
+  poster,
+  title,
+  className,
+}: {
+  src: string;
+  poster: string;
+  title: string;
+  className?: string;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const [reducedMotion] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setLoaded(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setLoaded(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '250px 0px', threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className={cn('group relative overflow-hidden', className)}>
+      {loaded ? (
+        <video
+          src={src}
+          poster={poster}
+          autoPlay={!reducedMotion}
+          muted
+          loop
+          playsInline
+          controls
+          preload="auto"
+          aria-label={title}
+          className="h-full w-full bg-black object-contain"
+        />
+      ) : (
+        <img
+          src={poster}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full bg-black object-contain"
+        />
+      )}
+    </div>
+  );
+}
+
 export function EventsSection({ className }: EventsSectionProps) {
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
@@ -132,7 +206,7 @@ export function EventsSection({ className }: EventsSectionProps) {
         {/* Reel destacado de Work Services */}
         <div className="mb-10 lg:mb-14">
           <div className="rounded-2xl border border-outline-variant/40 bg-surface-container-lowest p-3 sm:p-4">
-            <LazyVideo
+            <ReelInView
               src="/videos/gallery/reel.mp4"
               poster="/videos/gallery/reel.jpg"
               title="Reel de Work Services"
