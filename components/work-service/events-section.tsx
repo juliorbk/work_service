@@ -27,14 +27,14 @@ const EVENTS: EventVideo[] = [
   { title: 'Entrevista', duration: '0:05', src: '/videos/gallery/entrevista.mp4', poster: '/videos/gallery/entrevista.jpg', sponsor: 'Medio Digital' },
   { title: 'Publicidad', duration: '0:08', src: '/videos/gallery/publicidad.mp4', poster: '/videos/gallery/publicidad.jpg', sponsor: 'Marca Local' },
   { title: 'Curso', duration: '0:09', src: '/videos/gallery/curso.mp4', poster: '/videos/gallery/curso.jpg', sponsor: 'Academia Pro' },
-  { title: 'Evento 01', duration: '0:55', src: '/videos/gallery/video-01.mp4', poster: '/videos/gallery/video-01.jpg', sponsor: 'Empresa Aliada' },
-  { title: 'Evento 02', duration: '0:09', src: '/videos/gallery/video-02.mp4', poster: '/videos/gallery/video-02.jpg', sponsor: 'Empresa Aliada' },
-  { title: 'Evento 03', duration: '0:17', src: '/videos/gallery/video-03.mp4', poster: '/videos/gallery/video-03.jpg', sponsor: 'Empresa Aliada' },
-  { title: 'Evento 04', duration: '0:09', src: '/videos/gallery/video-04.mp4', poster: '/videos/gallery/video-04.jpg', sponsor: 'Empresa Aliada' },
-  { title: 'Evento 05', duration: '0:24', src: '/videos/gallery/video-05.mp4', poster: '/videos/gallery/video-05.jpg', sponsor: 'Empresa Aliada' },
-  { title: 'Evento 07', duration: '0:12', src: '/videos/gallery/video-07.mp4', poster: '/videos/gallery/video-07.jpg', sponsor: 'Empresa Aliada' },
-  { title: 'Evento 08', duration: '0:10', src: '/videos/gallery/video-08.mp4', poster: '/videos/gallery/video-08.jpg', sponsor: 'Empresa Aliada' },
-  { title: 'Evento 09', duration: '0:08', src: '/videos/gallery/video-09.mp4', poster: '/videos/gallery/video-09.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento', duration: '0:55', src: '/videos/gallery/video-01.mp4', poster: '/videos/gallery/video-01.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento', duration: '0:09', src: '/videos/gallery/video-02.mp4', poster: '/videos/gallery/video-02.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento', duration: '0:17', src: '/videos/gallery/video-03.mp4', poster: '/videos/gallery/video-03.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento', duration: '0:09', src: '/videos/gallery/video-04.mp4', poster: '/videos/gallery/video-04.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento', duration: '0:24', src: '/videos/gallery/video-05.mp4', poster: '/videos/gallery/video-05.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento', duration: '0:12', src: '/videos/gallery/video-07.mp4', poster: '/videos/gallery/video-07.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento', duration: '0:10', src: '/videos/gallery/video-08.mp4', poster: '/videos/gallery/video-08.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento', duration: '0:08', src: '/videos/gallery/video-09.mp4', poster: '/videos/gallery/video-09.jpg', sponsor: 'Empresa Aliada' },
 ];
 
 /**
