@@ -16,6 +16,9 @@ const CUSTOMER_LOGOS = [
   "/images/customers_logos/customer_8.png",
   "/images/customers_logos/customer_9.png",
   "/images/customers_logos/customer_10.png",
+  "/images/customers_logos/customer_11.png",
+  "/images/customers_logos/customer_12.png",
+  "/images/customers_logos/gridel.png",
 ];
 
 export function CustomersSection() {

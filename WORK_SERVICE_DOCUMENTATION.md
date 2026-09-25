@@ -1,20 +1,20 @@
 # Work Service Platform - Complete Frontend Documentation
 
 ## Overview
-Work Service is a premium corporate space rental platform featuring a sophisticated, minimalist aesthetic. The platform includes a customer-facing landing page, multi-step booking flow, and an admin dashboard for operations management.
+Work Service is a premium corporate space rental platform featuring a sophisticated, minimalist aesthetic. The platform includes a customer-facing landing page (`/`), a multi-step booking flow (`/booking`), an admin dashboard (`/admin`) and legal pages (`/privacidad`, `/terminos`). Reservations are handled without a backend: booking requests are sent via WhatsApp deep links or email (`mailto`).
 
 ## Design System
 
 ### Color Palette
-- **Primary CTA**: `#ED9121` (Orange) - Used for all conversion actions
-- **Background**: `#fff8f5` (Cream) - Luxury gallery wall aesthetic
-- **Text/Structure**: `#4f606e` / `#516270` (Slate) - Professional typography
-- **Accent**: `#00b3f0` (Cyan) - Secondary accent color
+- **Primary CTA**: `#d99414` (Gold) - Used for all conversion actions
+- **Accent**: `#bf3e21` (Terracotta) - Secondary accent color
+- **Background**: `#f2f2f2` (Light gray) - Neutral surfaces
+- **Text/Structure**: `#536173` (Slate) - Professional typography
+- **Surfaces**: Material 3 container scales (`--surface-container-*`)
 
 ### Typography
-- **Font Family**: Inter (exclusive use throughout)
-- **Headings**: `tracking-tight` for geometric clarity
-- **Body Text**: `leading-relaxed` for optimal readability
+- **Headings**: Montserrat (700/800), `tracking-tight`
+- **Body**: Quicksand (400-700), `leading-relaxed`
 
 ### Spacing & Shapes
 - **Extreme Whitespace**: `py-24`, `gap-16` to symbolize luxury
@@ -29,19 +29,29 @@ Work Service is a premium corporate space rental platform featuring a sophistica
 
 ```
 app/
-├── work-service/
-│   ├── page.tsx                    # Landing page
-│   ├── booking/
-│   │   └── page.tsx               # Booking flow
-│   └── admin/
-│       └── page.tsx               # Admin dashboard
+├── page.tsx                        # Landing page (home)
+├── booking/
+│   └── page.tsx                    # Booking flow
+├── admin/
+│   └── page.tsx                    # Admin dashboard
+├── privacidad/
+│   └── page.tsx                    # Política de privacidad
+└── terminos/
+    └── page.tsx                    # Términos y condiciones
 
 components/work-service/
 ├── hero.tsx                        # Hero section with CTAs
-├── services-showcase.tsx           # 3-column service grid
-├── booking-cta.tsx                 # Booking CTA with stats
+├── spaces-coverflow.tsx            # Spaces showcase with 3D cards
+├── space-details-modal.tsx         # Per-space detail modal
+├── events-section.tsx              # Video gallery (paid sponsors) + Reel oficial
+├── publish-event-cta.tsx           # Banner to sell ad space
+├── gallery-section.tsx             # Photo gallery carousel
 ├── booking-flow.tsx                # Multi-step booking (3 steps)
 ├── admin-dashboard.tsx             # Admin operations center
+├── whatsapp.ts                     # WhatsApp/mail message builders
+├── whatsapp-booking-dialog.tsx     # Booking modal → WhatsApp
+├── whatsapp-float-button.tsx       # Floating WhatsApp CTA
+├── yoko-widget.tsx                 # Chat concierge (DISABLED by default)
 └── footer.tsx                       # Work Service footer
 ```
 
@@ -230,10 +240,40 @@ Edit `components/work-service/admin-dashboard.tsx` to modify stats, occupancy da
 
 ## File Paths
 
-- Landing Page: `/app/work-service/page.tsx`
-- Booking Page: `/app/work-service/booking/page.tsx`
-- Admin Page: `/app/work-service/admin/page.tsx`
-- Components: `/components/work-service/`
+- Landing Page: `/app/page.tsx`
+- Booking Page: `/app/booking/page.tsx`
+- Admin Page: `/app/admin/page.tsx`
+- Legal Pages: `/app/privacidad/page.tsx`, `/app/terminos/page.tsx`
+- Content/Config: `/lib/site-config.ts` (brand, pricing, FAQ, events)
+- Components: `/components/work-service/`, `/components/landing/`
+
+## Modelo comercial: Eventos como espacio publicitario de pago
+
+La galería de videos (**Eventos Destacados**) es un espacio publicitario:
+una empresa paga para que su video aparezca. El **reel oficial** de Work
+Services se muestra como video destacado fijo arriba de la galería, sin sponsor.
+
+> El bloque de agenda/calendario de eventos (`UpcomingEventsSection`) está
+> **descartado temporalmente** (se quitó de la landing y se eliminaron
+> `UPCOMING_EVENTS` y `UpcomingEvent` de `lib/site-config.ts`).
+
+### Dónde vive la data
+- **Galería de videos** → `EVENTS` en `components/work-service/events-section.tsx`
+  (requiere `sponsor`). El reel usa `reel.mp4` / `reel.jpg` en `public/videos/gallery/`.
+
+Regla: **sin `sponsor` no se publica** — solo aparece lo que se cobra.
+
+### UX / UI
+- Badge dorado **"Patrocinado por {empresa}"** en tarjetas y modal.
+- CTA de cada evento apunta a **WhatsApp de Work Services** con mensaje prellenado
+  (evento + sponsor), para que Work Services capture el lead.
+- Banner de venta **"¿Quieres publicar tu evento aquí?"** al pie de ambas secciones
+  (componente `PublishEventCta`) → WhatsApp para cotizar.
+
+### Métricas
+- `@vercel/analytics` (`track`): `event_view`, `event_click`, `event_select`,
+  `advertise_cta_click` — cada uno con `{ title, sponsor, section }`. Sirve de
+  evidencia de impresiones/clics para reportar a los anunciantes.
 
 ## Performance Considerations
 
@@ -244,6 +284,9 @@ Edit `components/work-service/admin-dashboard.tsx` to modify stats, occupancy da
 
 ---
 
-**Built with**: Next.js 16, React 19, Tailwind CSS, Lucide React Icons
+**Built with**: Next.js 16, React 19, Tailwind CSS 4, HeroUI, Lucide React Icons
 
-**Status**: Production-ready frontend awaiting backend integration
+**Status**: Production landing page. Reservations are handled via WhatsApp/email (no backend).
+The admin panel (`/admin`) shows example data and is optionally protected with HTTP Basic
+Auth by setting the `ADMIN_PASSWORD` env var. The Yoko chat concierge remains **disabled**
+until its backend is deployed (enable with `NEXT_PUBLIC_YOKO_ENABLED=true`).

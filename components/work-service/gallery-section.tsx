@@ -9,17 +9,23 @@ interface GallerySectionProps {
 }
 
 const PHOTOS = [
+  { src: '/images/gallery/highlight.jpg', title: 'Destacado', category: 'Work Services' },
   { src: '/images/spaces/LOBBY.jpg', title: 'Lobby y Recepción', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-01.jpg', title: 'Instalaciones 01', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-02.jpg', title: 'Instalaciones 02', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-03.jpg', title: 'Instalaciones 03', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-04.jpg', title: 'Instalaciones 04', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-05.jpg', title: 'Instalaciones 05', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-06.jpg', title: 'Instalaciones 06', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-07.jpg', title: 'Instalaciones 07', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-08.jpg', title: 'Instalaciones 08', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-09.jpg', title: 'Instalaciones 09', category: 'Nuestro Espacio' },
-  { src: '/images/gallery/foto-10.jpg', title: 'Instalaciones 10', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios.jpg', title: 'Instalaciones 01', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios-02.jpg', title: 'Instalaciones 02', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios-03.jpg', title: 'Instalaciones 03', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios-04.jpg', title: 'Instalaciones 04', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios-05.jpg', title: 'Instalaciones 05', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios-06.jpg', title: 'Instalaciones 06', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios-07.jpg', title: 'Instalaciones 07', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios-08.jpg', title: 'Instalaciones 08', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios-09.jpg', title: 'Instalaciones 09', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/espacios-10.jpg', title: 'Instalaciones 10', category: 'Nuestro Espacio' },
+  { src: '/images/gallery/clientes.jpg', title: 'Clientes 01', category: 'Nuestros Clientes' },
+  { src: '/images/gallery/clientes-02.jpg', title: 'Clientes 02', category: 'Nuestros Clientes' },
+  { src: '/images/gallery/clientes-03.jpg', title: 'Clientes 03', category: 'Nuestros Clientes' },
+  { src: '/images/gallery/clientes-04.jpg', title: 'Clientes 04', category: 'Nuestros Clientes' },
+  { src: '/images/gallery/clientes-05.jpg', title: 'Clientes 05', category: 'Nuestros Clientes' },
 ];
 
 const CARDS = PHOTOS.map((photo, i) => (

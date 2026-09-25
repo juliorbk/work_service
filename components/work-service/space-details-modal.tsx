@@ -65,7 +65,7 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
                             poster={media.poster}
                             controls
                             playsInline
-                            preload="metadata"
+                            preload="none"
                             className="w-full h-full aspect-video md:aspect-auto md:min-h-[420px] bg-black object-contain"
                           />
                         ) : (
@@ -142,11 +142,11 @@ export function SpaceDetailsModal({ space, onClose }: SpaceDetailsModalProps) {
                       )}
                     >
                       {media.type === 'video' ? (
-                        <video
-                          src={media.src}
-                          poster={media.poster}
-                          muted
-                          preload="metadata"
+                        <img
+                          src={media.poster ?? media.src}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
                           className="w-16 h-12 object-cover"
                         />
                       ) : (

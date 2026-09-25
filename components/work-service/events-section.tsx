@@ -1,8 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { CalendarDays, Play } from 'lucide-react';
+import { track } from '@vercel/analytics';
+import { Play } from 'lucide-react';
 import { BrandMark } from '@/components/ui/brand-mark';
+import { WhatsAppIcon } from '@/components/ui/whatsapp-icon';
+import { PublishEventCta } from '@/components/work-service/publish-event-cta';
+import { whatsappUrl } from '@/lib/site-config';
 import { cn } from '@/lib/utils';
 
 interface EventsSectionProps {
@@ -14,25 +18,86 @@ interface EventVideo {
   duration: string;
   src: string;
   poster: string;
+  /** Empresa que paga por publicar el video (espacio publicitario). */
+  sponsor: string;
 }
 
 const EVENTS: EventVideo[] = [
-  { title: 'Evento 01', duration: '0:55', src: '/videos/gallery/video-01.mp4', poster: '/videos/gallery/video-01.jpg' },
-  { title: 'Evento 02', duration: '0:09', src: '/videos/gallery/video-02.mp4', poster: '/videos/gallery/video-02.jpg' },
-  { title: 'Evento 03', duration: '0:17', src: '/videos/gallery/video-03.mp4', poster: '/videos/gallery/video-03.jpg' },
-  { title: 'Evento 04', duration: '0:09', src: '/videos/gallery/video-04.mp4', poster: '/videos/gallery/video-04.jpg' },
-  { title: 'Evento 05', duration: '0:24', src: '/videos/gallery/video-05.mp4', poster: '/videos/gallery/video-05.jpg' },
-  { title: 'Evento 06', duration: '0:22', src: '/videos/gallery/video-06.mp4', poster: '/videos/gallery/video-06.jpg' },
-  { title: 'Evento 07', duration: '0:12', src: '/videos/gallery/video-07.mp4', poster: '/videos/gallery/video-07.jpg' },
-  { title: 'Evento 08', duration: '0:10', src: '/videos/gallery/video-08.mp4', poster: '/videos/gallery/video-08.jpg' },
-  { title: 'Evento 09', duration: '0:08', src: '/videos/gallery/video-09.mp4', poster: '/videos/gallery/video-09.jpg' },
+  { title: 'Publicidad y Eventos', duration: '0:58', src: '/videos/gallery/publicidad-eventos.mp4', poster: '/videos/gallery/publicidad-eventos.jpg', sponsor: 'Agencia Creativa' },
+  { title: 'Entrevista', duration: '0:05', src: '/videos/gallery/entrevista.mp4', poster: '/videos/gallery/entrevista.jpg', sponsor: 'Medio Digital' },
+  { title: 'Publicidad', duration: '0:08', src: '/videos/gallery/publicidad.mp4', poster: '/videos/gallery/publicidad.jpg', sponsor: 'Marca Local' },
+  { title: 'Curso', duration: '0:09', src: '/videos/gallery/curso.mp4', poster: '/videos/gallery/curso.jpg', sponsor: 'Academia Pro' },
+  { title: 'Evento 01', duration: '0:55', src: '/videos/gallery/video-01.mp4', poster: '/videos/gallery/video-01.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento 02', duration: '0:09', src: '/videos/gallery/video-02.mp4', poster: '/videos/gallery/video-02.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento 03', duration: '0:17', src: '/videos/gallery/video-03.mp4', poster: '/videos/gallery/video-03.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento 04', duration: '0:09', src: '/videos/gallery/video-04.mp4', poster: '/videos/gallery/video-04.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento 05', duration: '0:24', src: '/videos/gallery/video-05.mp4', poster: '/videos/gallery/video-05.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento 07', duration: '0:12', src: '/videos/gallery/video-07.mp4', poster: '/videos/gallery/video-07.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento 08', duration: '0:10', src: '/videos/gallery/video-08.mp4', poster: '/videos/gallery/video-08.jpg', sponsor: 'Empresa Aliada' },
+  { title: 'Evento 09', duration: '0:08', src: '/videos/gallery/video-09.mp4', poster: '/videos/gallery/video-09.jpg', sponsor: 'Empresa Aliada' },
 ];
+
+/**
+ * Video con carga diferida: muestra solo el poster hasta que el usuario
+ * le da play, así no se descarga nada de video en el arranque de la página.
+ */
+function LazyVideo({
+  src,
+  poster,
+  title,
+  className,
+}: {
+  src: string;
+  poster: string;
+  title: string;
+  className?: string;
+}) {
+  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (playing) {
+      videoRef.current?.play().catch(() => {});
+    } else {
+      videoRef.current?.pause();
+    }
+  }, [playing]);
+
+  useEffect(() => {
+    setPlaying(false);
+  }, [src]);
+
+  return (
+    <div className={cn('group relative overflow-hidden', className)}>
+      <video
+        ref={videoRef}
+        src={playing ? src : undefined}
+        poster={poster}
+        controls={playing}
+        playsInline
+        preload="none"
+        aria-label={title}
+        className="h-full w-full bg-black object-contain"
+      />
+      {!playing && (
+        <button
+          type="button"
+          onClick={() => setPlaying(true)}
+          aria-label={`Reproducir ${title}`}
+          className="absolute inset-0 flex items-center justify-center bg-black/30 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+        >
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/90 text-primary-foreground shadow-xl transition-transform duration-200 group-hover:scale-105">
+            <Play className="h-7 w-7 translate-x-0.5 fill-current" />
+          </span>
+        </button>
+      )}
+    </div>
+  );
+}
 
 export function EventsSection({ className }: EventsSectionProps) {
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
-  const playerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const isFirstRender = useRef(true);
 
   const current = EVENTS[active];
@@ -45,28 +110,6 @@ export function EventsSection({ className }: EventsSectionProps) {
     const el = listRef.current?.querySelector<HTMLElement>('[data-active="true"]');
     el?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
   }, [active]);
-
-  useEffect(() => {
-    const container = playerRef.current;
-    if (!container) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Se lee el ref en el callback para apuntar siempre al <video> montado
-        const video = videoRef.current;
-        if (!video) return;
-        if (entry.isIntersecting) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      },
-      { root: null, threshold: 0.1 }
-    );
-
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <section id="eventos" className={cn('relative py-16 sm:py-20 lg:py-28 bg-surface-container-low overflow-hidden scroll-mt-24', className)}>
@@ -86,6 +129,27 @@ export function EventsSection({ className }: EventsSectionProps) {
           </p>
         </div>
 
+        {/* Reel destacado de Work Services */}
+        <div className="mb-10 lg:mb-14">
+          <div className="rounded-2xl border border-outline-variant/40 bg-surface-container-lowest p-3 sm:p-4">
+            <LazyVideo
+              src="/videos/gallery/reel.mp4"
+              poster="/videos/gallery/reel.jpg"
+              title="Reel de Work Services"
+              className="mx-auto aspect-[9/16] h-[55svh] max-h-[560px] w-auto overflow-hidden rounded-xl shadow-2xl"
+            />
+          </div>
+          <div className="mt-4 flex flex-col items-center text-center">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#d99414]/10 px-3 py-1 text-xs font-semibold text-[#a8720f]">
+              Reel oficial de Work Services
+            </span>
+            <p className="mt-2 max-w-xl text-sm text-secondary">
+              Un vistazo en video a los espacios, el ambiente y la energía de
+              Work Services.
+            </p>
+          </div>
+        </div>
+
         <div className="grid gap-8 lg:grid-cols-[340px_1fr] lg:gap-10">
           {/* Lista de eventos */}
           <div
@@ -103,7 +167,10 @@ export function EventsSection({ className }: EventsSectionProps) {
                   role="option"
                   aria-selected={isActive}
                   data-active={isActive}
-                  onClick={() => setActive(i)}
+                  onClick={() => {
+                    setActive(i);
+                    track('event_select', { title: event.title, sponsor: event.sponsor, section: 'videos' });
+                  }}
                   className={cn(
                     'group flex shrink-0 snap-center lg:snap-align-none lg:shrink lg:w-full items-center gap-4 rounded-xl border p-3 text-left transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                     isActive
@@ -137,6 +204,9 @@ export function EventsSection({ className }: EventsSectionProps) {
                     <span className="mt-1 block text-xs text-secondary">
                       {event.duration} min · video
                     </span>
+                    <span className="mt-0.5 block truncate text-xs text-secondary/70">
+                      Patrocinado por {event.sponsor}
+                    </span>
                   </span>
                   {isActive && (
                     <span className="hidden lg:flex h-2 w-2 shrink-0 rounded-full bg-primary" aria-hidden />
@@ -147,34 +217,51 @@ export function EventsSection({ className }: EventsSectionProps) {
           </div>
 
           {/* Reproductor */}
-          <div ref={playerRef} className="min-w-0">
+          <div className="min-w-0">
             <div className="flex items-center justify-center rounded-2xl border border-outline-variant/40 bg-surface-container-lowest p-4 sm:p-6">
-              <video
-                ref={videoRef}
+              <LazyVideo
                 key={current.src}
                 src={current.src}
                 poster={current.poster}
-                controls
-                playsInline
-                preload="metadata"
-                aria-label={current.title}
+                title={current.title}
                 className="max-h-[72vh] w-auto max-w-full rounded-xl shadow-2xl"
               />
             </div>
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-2 px-1 text-sm">
-              <p className="font-semibold text-foreground">{current.title}</p>
-              <p className="text-secondary">
-                {active + 1} / {EVENTS.length}
+            <div className="mt-4 px-1">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
+                <p className="font-semibold text-foreground">{current.title}</p>
+                <p className="text-secondary">
+                  {active + 1} / {EVENTS.length}
+                </p>
+              </div>
+              <p className="mt-1 text-sm text-secondary">
+                Patrocinado por{' '}
+                <span className="font-medium text-foreground">{current.sponsor}</span>
               </p>
+              <a
+                href={whatsappUrl(
+                  `¡Hola! Quiero más información sobre el video/evento "${current.title}" (patrocinado por ${current.sponsor}).`
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() =>
+                  track('event_click', {
+                    title: current.title,
+                    sponsor: current.sponsor,
+                    section: 'videos',
+                  })
+                }
+                className="mt-3 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#1eb958]"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                Consultar por WhatsApp
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Nota inferior */}
-        <div className="mt-8 sm:mt-10 flex items-center justify-center gap-2 text-sm text-secondary text-center px-4">
-          <CalendarDays className="w-4 h-4 shrink-0" />
-          <span>Organiza tu evento con nosotros: desde 50 hasta 120 personas</span>
-        </div>
+        {/* CTA de venta del espacio publicitario */}
+        <PublishEventCta section="videos" />
       </div>
     </section>
   );

@@ -112,7 +112,13 @@ export const SPACES: Space[] = [
     ],
     capacity: '1 unidad disponible',
     image: '/images/spaces/SALA_OFICINA_B_1.jpg',
-    gallery: [{ type: 'image', src: '/images/spaces/SALA_OFICINA_B_1.jpg' }],
+    gallery: [
+      { type: 'image', src: '/images/spaces/SALA_OFICINA_B_1.jpg' },
+      { type: 'image', src: '/images/spaces/oficina_tipo_B_1.jpg' },
+      { type: 'image', src: '/images/spaces/oficina_tipo_B_2.jpg' },
+      { type: 'image', src: '/images/spaces/oficina_tipo_B_3.jpg' },
+      { type: 'image', src: '/images/spaces/oficina_tipo_B_4.jpg' },
+    ],
     pricing: [
       {
         label: 'Plan mensual',
