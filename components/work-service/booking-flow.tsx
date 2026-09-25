@@ -155,6 +155,15 @@ export function BookingFlow() {
   return (
     <section className="py-24 lg:py-32">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+            Reserva tu espacio en Maracaibo
+          </h1>
+          <p className="text-base sm:text-lg text-secondary mt-3 max-w-2xl mx-auto">
+            Elige tu espacio, selecciona fecha y hora, y confirma tu reservación
+            por WhatsApp o correo. Sin pago por adelantado.
+          </p>
+        </div>
         {/* Progress indicator */}
         <div className="mb-16">
           <div className="flex items-center justify-between mb-8">

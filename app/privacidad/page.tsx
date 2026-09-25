@@ -3,9 +3,12 @@ import { LegalPage } from "@/components/landing/legal-page";
 import { PRIVACY_POLICY } from "@/lib/legal-content";
 
 export const metadata: Metadata = {
-  title: "Política de Privacidad | Work Services",
+  title: "Política de Privacidad",
   description:
     "Cómo Work Services recopila, usa y protege tus datos personales al usar nuestro sitio web y reservar nuestros espacios de trabajo en Maracaibo.",
+  alternates: {
+    canonical: "/privacidad",
+  },
 };
 
 export default function PrivacyPage() {

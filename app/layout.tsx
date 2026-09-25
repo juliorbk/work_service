@@ -20,26 +20,37 @@ const quicksand = Quicksand({
   variable: '--font-quicksand'
 })
 
+const SITE_URL = 'https://www.workservice.site'
+
 export const metadata: Metadata = {
-  title: 'Work Services | Coworking, Oficinas Privadas y Salas de Conferencias en Maracaibo',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Coworking y Oficinas en Maracaibo | Work Services',
+    template: '%s | Work Services',
+  },
   description:
-    'Work Services, ¡tu aliado estratégico! Coworking en Maracaibo: oficinas privadas, salas de conferencias hasta 20 personas, espacios de trabajo compartidos y salones de reuniones. Soporte incluido, internet con respaldo y disponibilidad 24 horas.',
-  keywords: [
-    'coworking',
-    'coworking Maracaibo',
-    'oficinas privadas',
-    'salas de conferencias',
-    'salones de reuniones',
-    'espacios de trabajo compartidos',
-    'Work Services',
-  ],
+    'Coworking y oficinas privadas en Maracaibo: salas de conferencias para 20 personas, internet con respaldo y disponibilidad 24/7. Reserva hoy.',
   openGraph: {
-    title: 'Work Services | Coworking, Oficinas Privadas y Salas de Conferencias',
-    description:
-      'No somos un coworking más, somos tu asistente ejecutivo. Oficinas privadas, salas de conferencias y coworking en Maracaibo.',
     type: 'website',
     locale: 'es_VE',
+    url: '/',
     siteName: 'Work Services',
+    title: 'Coworking y Oficinas en Maracaibo | Work Services',
+    description:
+      'Coworking, oficinas privadas y salas de conferencias en Maracaibo. Soporte incluido, internet con respaldo y disponibilidad 24 horas.',
+    images: [
+      {
+        url: '/images/gallery/highlight.jpg',
+        alt: 'Instalaciones de Work Services en Maracaibo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Coworking y Oficinas en Maracaibo | Work Services',
+    description:
+      'Coworking, oficinas privadas y salas de conferencias en Maracaibo.',
+    images: ['/images/gallery/highlight.jpg'],
   },
   icons: {
     icon: [

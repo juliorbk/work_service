@@ -122,7 +122,7 @@ export const SPACES: Space[] = [
     pricing: [
       {
         label: 'Plan mensual',
-        price: '$200 USD/mes',
+        price: '$150 USD/mes',
         whatsapp: spaceBookingMessage('Oficina Privada (Tipo B)'),
       },
     ],

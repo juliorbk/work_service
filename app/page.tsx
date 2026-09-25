@@ -1,3 +1,6 @@
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/json-ld";
+import { localBusinessSchema, faqSchema } from "@/lib/seo/schema";
 import { Navigation } from "@/components/landing/navigation";
 import { HeroSection } from "@/components/landing/hero-section";
 import { SpacesCoverFlow } from "@/components/work-service/spaces-coverflow";
@@ -15,9 +18,18 @@ import { FaqSection } from "@/components/landing/faq-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FooterSection } from "@/components/landing/footer-section";
 
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
+
 export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-background">
+    <>
+      <JsonLd data={localBusinessSchema()} />
+      <JsonLd data={faqSchema()} />
+      <main className="relative min-h-screen overflow-x-hidden bg-background">
       <Navigation />
       {/* 1. Propuesta de valor + CTA principal */}
       <HeroSection />
@@ -44,6 +56,7 @@ export default function Home() {
       {/* 13. Cierre */}
       <CtaSection />
       <FooterSection />
-    </main>
+      </main>
+    </>
   );
 }

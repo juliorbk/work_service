@@ -290,3 +290,35 @@ Regla: **sin `sponsor` no se publica** — solo aparece lo que se cobra.
 The admin panel (`/admin`) shows example data and is optionally protected with HTTP Basic
 Auth by setting the `ADMIN_PASSWORD` env var. The Yoko chat concierge remains **disabled**
 until its backend is deployed (enable with `NEXT_PUBLIC_YOKO_ENABLED=true`).
+
+---
+
+## Bitácora de cambios
+
+### 2026-09-24 — Fix de SEO (auditoría + implementación)
+
+**Dominio:** https://www.workservice.site
+
+**Críticos (indexación y seguridad):**
+- `/admin` convertido a server page con metadata `noindex, nofollow, nocache`; se requiere `ADMIN_PASSWORD` en producción (sin ella queda público).
+- Creado `app/robots.ts`: permite el rastreo, bloquea `/admin` y referencia el sitemap.
+- Creado `app/sitemap.ts`: `/`, `/booking`, `/privacidad`, `/terminos`.
+- `metadataBase` global en `app/layout.tsx` con el dominio oficial y canonical autoconsistente en `/`.
+- Eliminado `public/videos/gallery/reel.MOV` (91,8 MB sin referencias).
+
+**Alto impacto (rankings):**
+- Schema JSON-LD nuevo: `LocalBusiness` (NAP, horario 24/7, `sameAs`, `makesOffer` con los 4 espacios reservables y precios) y `FAQPage` (9 preguntas desde `lib/site-config.ts`). Fuentes: `lib/seo/schema.ts` y `components/seo/json-ld.tsx`, insertados en la home.
+- `og:image` y Twitter Card (`summary_large_image`) con foto real de las instalaciones.
+- Título corto y posicionado: "Coworking y Oficinas en Maracaibo | Work Services" + template de marca (`%s | Work Services`).
+- Description acortada a ~140 caracteres con keyword y llamada a la acción.
+
+**On-page:**
+- `/booking` con metadata propia + canonical y un único `<h1>`.
+- `/privacidad` y `/terminos` con canonical y títulos limpios (la marca la agrega el template).
+- `/` con canonical propio (`https://www.workservice.site/`).
+- Hero: en móvil se reemplazó el video autoplay (1,4 MB) por el poster estático; el video ambient quedó solo para escritorio.
+
+**Pendientes:**
+- Publicar dirección física completa (calle/edificio) en la landing para completar el schema `LocalBusiness` y el Google Business Profile.
+- Verificar en Search Console: propiedad de `workservice.site`, enviar `sitemap.xml`, revisar cobertura y CWV de campo.
+- Comprimir `reel.mp4` (12,3 MB) y `publicidad-eventos.mp4` (10,9 MB).
