@@ -14,6 +14,15 @@ export const BRAND = {
   email: 'workservicesmcbo@gmail.com',
 } as const;
 
+/**
+ * URL canonica del sitio, sin barra final. Se usa en canonical, Open Graph,
+ * sitemap y robots. El apex workservice.site responde 308 hacia www, asi que
+ * el canonico es www. Se puede sobreescribir con NEXT_PUBLIC_SITE_URL.
+ */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.workservice.site'
+).replace(/\/+$/, '');
+
 export const HERO = {
   headlineA: 'No somos un coworking más,',
   headlineB: 'somos tu asistente ejecutivo.',

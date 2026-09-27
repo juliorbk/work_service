@@ -1,26 +1,25 @@
 import type { MetadataRoute } from 'next'
-
-const BASE_URL = 'https://www.workservice.site'
+import { SITE_URL } from '@/lib/site-config'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: `${BASE_URL}/`,
+      url: `${SITE_URL}/`,
       changeFrequency: 'monthly',
       priority: 1,
     },
     {
-      url: `${BASE_URL}/booking`,
+      url: `${SITE_URL}/booking`,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/privacidad`,
+      url: `${SITE_URL}/privacidad`,
       changeFrequency: 'yearly',
       priority: 0.2,
     },
     {
-      url: `${BASE_URL}/terminos`,
+      url: `${SITE_URL}/terminos`,
       changeFrequency: 'yearly',
       priority: 0.2,
     },

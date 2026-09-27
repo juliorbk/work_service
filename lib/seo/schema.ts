@@ -1,6 +1,4 @@
-import { BRAND, PRICING, FAQ } from '@/lib/site-config'
-
-const SITE_URL = 'https://www.workservice.site'
+import { BRAND, PRICING, FAQ, SITE_URL } from '@/lib/site-config'
 
 export function localBusinessSchema() {
   return {
