@@ -328,3 +328,14 @@ Se amplió el contenido de `/privacidad` y `/terminos` en `lib/legal-content.ts`
 
 **Pendientes (datos que debe completar la empresa):**
 - RIF y dirección física exacta para incluir en la identificación del prestador y en el schema `LocalBusiness`.
+
+### 2026-09-27 — Banner de consentimiento de cookies
+
+Se agregó un banner de cookies y se condicionó Vercel Analytics a la decisión del usuario (compatibilidad con la sección "Cookies y analítica" de la Política de Privacidad).
+
+- `lib/consent.ts` (nuevo): estado de consentimiento con `localStorage` (`ws_cookie_consent`) y hook `useCookieConsent` basado en `useSyncExternalStore` (sin `setState` en efectos, mantiene el lint limpio). Eventos sincronizan entre pestañas.
+- `components/cookies-banner.tsx` (nuevo): banner fijo inferior (`z-[70]`, estilo `bg-background/90` + `backdrop-blur` + `animate-menu-in`) con botones **Aceptar** / **Rechazar** y enlace a `/privacidad#cookies`. Solo se muestra hasta que el usuario decide.
+- `components/analytics-with-consent.tsx` (nuevo): monta `<Analytics />` de `@vercel/analytics/next` únicamente cuando el consentimiento es `accepted`.
+- `app/layout.tsx`: se reemplazó `<Analytics />` por `<AnalyticsWithConsent />` y se montó `<CookiesBanner />`.
+
+**Comportamiento:** si el usuario rechaza o nunca decide, Insights no se cargan ni se envía telemetría. Si acepta, la analítica se monta al instante (no requiere recarga).

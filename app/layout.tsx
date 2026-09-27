@@ -1,9 +1,10 @@
 import React from "react"
 import type { Metadata, Viewport } from 'next'
 import { Montserrat, Quicksand } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
 import { WhatsAppFloatButton } from '@/components/work-service/whatsapp-float-button'
 import { MobileBottomBar } from '@/components/work-service/mobile-bottom-bar'
+import { CookiesBanner } from '@/components/cookies-banner'
+import { AnalyticsWithConsent } from '@/components/analytics-with-consent'
 import { YokoWidget } from '@/components/work-service/yoko-widget'
 import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
@@ -97,9 +98,10 @@ export default function RootLayout({
         >
           {children}
           <MobileBottomBar />
-          <Analytics />
+          <AnalyticsWithConsent />
           <WhatsAppFloatButton />
           {YOKO_ENABLED && <YokoWidget />}
+          <CookiesBanner />
         </ThemeProvider>
       </body>
     </html>
