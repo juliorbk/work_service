@@ -303,3 +303,28 @@ Se eliminó el panel `/admin` del sitio (decisión de producto, "por ahora").
 - Cleanup de referencias: `mobile-bottom-bar`, `whatsapp-float-button` y `yoko-widget` ya no comprueban `/admin` (y se removieron los hooks `usePathname` que quedaban sin uso en los dos últimos).
 - `.env.example`: eliminada la variable `ADMIN_PASSWORD`.
 - La ruta `/admin` ya no existe (404). El sitemap no la incluía y sigue igual.
+
+### 2026-09-27 — Mejora del contenido legal
+
+Se amplió el contenido de `/privacidad` y `/terminos` en `lib/legal-content.ts` (solo contenido; la UI de `LegalPage` no cambió).
+
+**Política de Privacidad (12 secciones, antes 10):**
+- Responsable del tratamiento con referencia expresa a la Ley Orgánica de Protección de Datos Personales de Venezuela.
+- Aclaración de que el sitio **no recopila datos de pago** (no hay pagos en línea).
+- Sección nueva de **transferencias internacionales** (proveedores en el extranjero: WhatsApp/Meta, correo y Vercel).
+- Base jurídica ampliada: consentimiento, relación comercial, obligaciones legales e interés legítimo.
+- Derechos ARCO ampliados (acceso, rectificación/actualización, supresión, oposición, retiro de consentimiento y conocimiento de cesiones).
+- Sección nueva de **canales externos** (WhatsApp/Instagram) con remisión a sus políticas.
+- Cookies y analítica actualizada a Vercel Analytics.
+
+**Términos de Servicio (14 secciones, antes 10):**
+- Nueva sección de **identificación del prestador** (razón social y domicilio).
+- Descripción del servicio aclara que el sitio es informativo/de contacto y no formaliza contratos en línea.
+- Reservas: distinción entre *solicitud* y *confirmación*.
+- Pagos: forma de pago directa y aclaración de que el sitio no recopila datos de pago.
+- Nueva política de **cancelaciones, modificaciones e inasistencia** (24 h sugeridas, reprogramación sin penalización).
+- Nueva sección de **eventos, cursos y contenido patrocinado** alineada con el modelo comercial de la galería (sponsors con derechos sobre el contenido).
+- Responsabilidad ampliada con **fuerza mayor**; nueva sección de conducta en el sitio y enlaces a terceros.
+
+**Pendientes (datos que debe completar la empresa):**
+- RIF y dirección física exacta para incluir en la identificación del prestador y en el schema `LocalBusiness`.
