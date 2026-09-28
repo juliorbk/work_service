@@ -10,7 +10,7 @@ import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 const footerLinks = [
   { label: "Política de Privacidad", href: "/privacidad" },
   { label: "Términos de Servicio", href: "/terminos" },
-  { label: "Contacto", href: "/booking" },
+  { label: "Contacto", href: "/#contacto" },
   { label: "Preguntas Frecuentes", href: "/#faq" },
 ];
 
