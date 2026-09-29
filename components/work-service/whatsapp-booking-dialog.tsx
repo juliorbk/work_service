@@ -13,9 +13,11 @@ import {
   TextField,
 } from '@heroui/react';
 import { WhatsAppIcon } from '@/components/ui/whatsapp-icon';
+import { getBookingMode } from '@/components/landing/spaces-data';
 import {
   WHATSAPP_NUMBER,
   SPACE_OPTIONS,
+  START_MONTH_OPTIONS,
   buildWhatsAppMessage,
   buildWhatsAppUrl,
   formatDate,
@@ -45,11 +47,14 @@ export function WhatsAppBookingDialog({
     date: '',
     time: '',
     duration: '1 hora',
+    startMonth: '',
     people: '',
     message: '',
   });
 
   const [errors, setErrors] = useState<Record<string, boolean>>({});
+
+  const isMonthly = getBookingMode(form.space) === 'monthly';
 
   const set = (key: keyof typeof form, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -57,7 +62,9 @@ export function WhatsAppBookingDialog({
   };
 
   const handleSubmit = () => {
-    const required = ['space', 'name', 'phone', 'date', 'time'] as const;
+    const required = isMonthly
+      ? (['space', 'name', 'phone', 'startMonth', 'people'] as const)
+      : (['space', 'name', 'phone', 'date', 'time'] as const);
     const nextErrors: Record<string, boolean> = {};
     for (const field of required) {
       if (!form[field].trim()) nextErrors[field] = true;
@@ -69,6 +76,7 @@ export function WhatsAppBookingDialog({
 
     const message = buildWhatsAppMessage({
       ...form,
+      mode: isMonthly ? 'monthly' : 'hourly',
       date: formatDate(form.date),
     });
     window.open(buildWhatsAppUrl(WHATSAPP_NUMBER, message), '_blank', 'noopener,noreferrer');
@@ -84,8 +92,9 @@ export function WhatsAppBookingDialog({
             <Modal.Header>
               <Modal.Heading>{title}</Modal.Heading>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Completa los datos de tu reservación y te enviaremos el mensaje listo por
-                WhatsApp para confirmarla.
+                {isMonthly
+                  ? 'Elige el mes de inicio de tu plan y el tamaño de tu equipo. Te enviamos el mensaje listo por WhatsApp para confirmarlo.'
+                  : 'Completa los datos de tu reservación y te enviaremos el mensaje listo por WhatsApp para confirmarla.'}
               </p>
             </Modal.Header>
             <Modal.Body>
@@ -151,74 +160,127 @@ export function WhatsAppBookingDialog({
                   <Input placeholder="tucorreo@ejemplo.com" />
                 </TextField>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <TextField
-                    type="date"
-                    value={form.date}
-                    onChange={(v) => set('date', v)}
-                    isInvalid={!!errors.date}
-                    className="w-full"
-                  >
-                    <Label>Fecha *</Label>
-                    <Input />
-                    <FieldError>Ingresa la fecha.</FieldError>
-                  </TextField>
-                  <Select
-                    value={form.time || null}
-                    onChange={(v) => set('time', String(v ?? ''))}
-                    placeholder="Hora"
-                    isInvalid={!!errors.time}
-                    className="w-full"
-                  >
-                    <Label>Hora *</Label>
-                    <Select.Trigger>
-                      <Select.Value />
-                      <Select.Indicator />
-                    </Select.Trigger>
-                    <Select.Popover>
-                      <ListBox>
-                        {TIME_OPTIONS.map((time) => (
-                          <ListBox.Item key={time} id={time} textValue={time}>
-                            {time}
-                            <ListBox.ItemIndicator />
-                          </ListBox.Item>
-                        ))}
-                      </ListBox>
-                    </Select.Popover>
-                    <FieldError>Selecciona la hora.</FieldError>
-                  </Select>
-                  <Select
-                    value={form.duration}
-                    onChange={(v) => set('duration', String(v ?? ''))}
-                    className="w-full"
-                  >
-                    <Label>Duración</Label>
-                    <Select.Trigger>
-                      <Select.Value />
-                      <Select.Indicator />
-                    </Select.Trigger>
-                    <Select.Popover>
-                      <ListBox>
-                        {DURATION_OPTIONS.map((duration) => (
-                          <ListBox.Item key={duration} id={duration} textValue={duration}>
-                            {duration}
-                            <ListBox.ItemIndicator />
-                          </ListBox.Item>
-                        ))}
-                      </ListBox>
-                    </Select.Popover>
-                  </Select>
-                </div>
+                {isMonthly ? (
+                  <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <Select
+                        value={form.startMonth || null}
+                        onChange={(v) => set('startMonth', String(v ?? ''))}
+                        placeholder="Mes de inicio"
+                        isInvalid={!!errors.startMonth}
+                        className="w-full"
+                      >
+                        <Label>Mes de inicio *</Label>
+                        <Select.Trigger>
+                          <Select.Value />
+                          <Select.Indicator />
+                        </Select.Trigger>
+                        <Select.Popover>
+                          <ListBox>
+                            {START_MONTH_OPTIONS.map(({ value, label }) => (
+                              <ListBox.Item
+                                key={value}
+                                id={value}
+                                textValue={label}
+                                className="capitalize"
+                              >
+                                {label}
+                                <ListBox.ItemIndicator />
+                              </ListBox.Item>
+                            ))}
+                          </ListBox>
+                        </Select.Popover>
+                        <FieldError>Selecciona el mes de inicio.</FieldError>
+                      </Select>
+                      <TextField
+                        type="number"
+                        value={form.people}
+                        onChange={(v) => set('people', v)}
+                        isInvalid={!!errors.people}
+                        className="w-full"
+                      >
+                        <Label>Personas *</Label>
+                        <Input min={1} placeholder="Ej. 3" />
+                        <FieldError>Ingresa cuántas personas usarán la oficina.</FieldError>
+                      </TextField>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      El plan se renueva cada mes y puedes cancelarlo cuando quieras, sin
+                      penalización.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <TextField
+                        type="date"
+                        value={form.date}
+                        onChange={(v) => set('date', v)}
+                        isInvalid={!!errors.date}
+                        className="w-full"
+                      >
+                        <Label>Fecha *</Label>
+                        <Input />
+                        <FieldError>Ingresa la fecha.</FieldError>
+                      </TextField>
+                      <Select
+                        value={form.time || null}
+                        onChange={(v) => set('time', String(v ?? ''))}
+                        placeholder="Hora"
+                        isInvalid={!!errors.time}
+                        className="w-full"
+                      >
+                        <Label>Hora *</Label>
+                        <Select.Trigger>
+                          <Select.Value />
+                          <Select.Indicator />
+                        </Select.Trigger>
+                        <Select.Popover>
+                          <ListBox>
+                            {TIME_OPTIONS.map((time) => (
+                              <ListBox.Item key={time} id={time} textValue={time}>
+                                {time}
+                                <ListBox.ItemIndicator />
+                              </ListBox.Item>
+                            ))}
+                          </ListBox>
+                        </Select.Popover>
+                        <FieldError>Selecciona la hora.</FieldError>
+                      </Select>
+                      <Select
+                        value={form.duration}
+                        onChange={(v) => set('duration', String(v ?? ''))}
+                        className="w-full"
+                      >
+                        <Label>Duración</Label>
+                        <Select.Trigger>
+                          <Select.Value />
+                          <Select.Indicator />
+                        </Select.Trigger>
+                        <Select.Popover>
+                          <ListBox>
+                            {DURATION_OPTIONS.map((duration) => (
+                              <ListBox.Item key={duration} id={duration} textValue={duration}>
+                                {duration}
+                                <ListBox.ItemIndicator />
+                              </ListBox.Item>
+                            ))}
+                          </ListBox>
+                        </Select.Popover>
+                      </Select>
+                    </div>
 
-                <TextField
-                  type="number"
-                  value={form.people}
-                  onChange={(v) => set('people', v)}
-                  className="w-full"
-                >
-                  <Label>Número de personas</Label>
-                  <Input min={1} placeholder="Ej. 8" />
-                </TextField>
+                    <TextField
+                      type="number"
+                      value={form.people}
+                      onChange={(v) => set('people', v)}
+                      className="w-full"
+                    >
+                      <Label>Número de personas</Label>
+                      <Input min={1} placeholder="Ej. 8" />
+                    </TextField>
+                  </>
+                )}
 
                 <TextField
                   value={form.message}

@@ -12,15 +12,17 @@ import {
 } from '@heroui/react';
 import { Check, ChevronRight, Mail } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/ui/whatsapp-icon';
-import { SPACES } from '@/components/landing/spaces-data';
+import { SPACES, getBookingMode } from '@/components/landing/spaces-data';
 import {
   WHATSAPP_NUMBER,
   CONTACT_EMAIL,
+  START_MONTH_OPTIONS,
   buildWhatsAppMessage,
   buildWhatsAppUrl,
   buildEmailMessage,
   buildMailtoUrl,
   formatDate,
+  formatMonth,
 } from '@/components/work-service/whatsapp';
 
 type Step = 1 | 2 | 3;
@@ -34,6 +36,7 @@ interface BookingState {
   date: string;
   time: string;
   duration: string;
+  startMonth: string;
   people: string;
   name: string;
   phone: string;
@@ -41,29 +44,37 @@ interface BookingState {
   message: string;
 }
 
+const EMPTY_BOOKING: BookingState = {
+  space: null,
+  date: '',
+  time: '',
+  duration: '1 hora',
+  startMonth: '',
+  people: '',
+  name: '',
+  phone: '',
+  email: '',
+  message: '',
+};
+
 const spaceOptions = SPACES.map((space) => ({
   id: space.title,
   name: space.title,
   description: space.description,
   capacity: space.capacity,
   price: space.pricing[0]?.price ?? '',
+  mode: space.bookingMode,
 }));
 
 export function BookingFlow() {
   const [currentStep, setCurrentStep] = useState<Step>(1);
   const [sentChannel, setSentChannel] = useState<Channel | null>(null);
   const [errors, setErrors] = useState<Record<string, boolean>>({});
-  const [booking, setBooking] = useState<BookingState>({
-    space: null,
-    date: '',
-    time: '',
-    duration: '1 hora',
-    people: '',
-    name: '',
-    phone: '',
-    email: '',
-    message: '',
-  });
+  const [booking, setBooking] = useState<BookingState>(EMPTY_BOOKING);
+
+  const selectedSpace = spaceOptions.find((s) => s.id === booking.space);
+  const mode = booking.space ? getBookingMode(booking.space) : 'hourly';
+  const isMonthly = mode === 'monthly';
 
   const set = (key: keyof BookingState, value: string | null) => {
     setBooking((prev) => ({ ...prev, [key]: value }));
@@ -85,9 +96,24 @@ export function BookingFlow() {
     []
   );
 
+  // Al cambiar de espacio se descartan los datos que no aplican a su modalidad.
   const handleSpaceSelect = (space: string) => {
-    set('space', space);
+    setBooking((prev) => ({
+      ...EMPTY_BOOKING,
+      name: prev.name,
+      phone: prev.phone,
+      email: prev.email,
+      message: prev.message,
+      space,
+    }));
+    setErrors({});
     setCurrentStep(2);
+  };
+
+  const handlePlanSubmit = () => {
+    if (booking.startMonth && booking.people.trim()) {
+      setCurrentStep(3);
+    }
   };
 
   const handleDateTimeSubmit = () => {
@@ -104,8 +130,10 @@ export function BookingFlow() {
     date: formatDate(booking.date),
     time: booking.time,
     duration: booking.duration,
+    startMonth: booking.startMonth,
     people: booking.people,
     message: booking.message,
+    mode,
   });
 
   const handleSend = (channel: Channel) => {
@@ -126,7 +154,9 @@ export function BookingFlow() {
     } else {
       window.location.href = buildMailtoUrl(
         CONTACT_EMAIL,
-        `Solicitud de Reservación — ${fields.space}`,
+        isMonthly
+          ? `Solicitud de Plan Mensual — ${fields.space}`
+          : `Solicitud de Reservación — ${fields.space}`,
         buildEmailMessage(fields)
       );
     }
@@ -134,23 +164,11 @@ export function BookingFlow() {
   };
 
   const reset = () => {
-    setBooking({
-      space: null,
-      date: '',
-      time: '',
-      duration: '1 hora',
-      people: '',
-      name: '',
-      phone: '',
-      email: '',
-      message: '',
-    });
+    setBooking(EMPTY_BOOKING);
     setErrors({});
     setSentChannel(null);
     setCurrentStep(1);
   };
-
-  const selectedSpace = spaceOptions.find((s) => s.id === booking.space);
 
   return (
     <section className="py-24 lg:py-32">
@@ -192,7 +210,7 @@ export function BookingFlow() {
           </div>
           <div className="flex justify-between text-xs font-medium text-muted-foreground">
             <span>Elige el Espacio</span>
-            <span>Fecha y Hora</span>
+            <span>{isMonthly ? 'Plan Mensual' : 'Fecha y Hora'}</span>
             <span>Revisa y Envía</span>
           </div>
         </div>
@@ -207,14 +225,27 @@ export function BookingFlow() {
               {sentChannel === 'whatsapp' ? '¡Abre WhatsApp para enviar!' : '¡Abre tu correo para enviar!'}
             </h2>
             <p className="text-muted-foreground max-w-md mx-auto mb-8 leading-relaxed">
-              Preparamos tu solicitud de {booking.space} para el{' '}
-              {formatDate(booking.date)} a las {booking.time} ({booking.duration}
-              ). Solo falta que presiones <strong>enviar</strong> en{' '}
-              {sentChannel === 'whatsapp' ? 'WhatsApp' : 'tu aplicación de correo'} y
-              te responderemos para confirmar la reservación.
+              {isMonthly ? (
+                <>
+                  Preparamos tu solicitud de plan mensual de {booking.space} para{' '}
+                  {formatMonth(booking.startMonth)} ({booking.people}{' '}
+                  {booking.people === '1' ? 'persona' : 'personas'}). Solo falta que presiones{' '}
+                  <strong>enviar</strong> en{' '}
+                  {sentChannel === 'whatsapp' ? 'WhatsApp' : 'tu aplicación de correo'} y te
+                  confirmamos disponibilidad de la unidad.
+                </>
+              ) : (
+                <>
+                  Preparamos tu solicitud de {booking.space} para el {formatDate(booking.date)} a
+                  las {booking.time} ({booking.duration}). Solo falta que presiones{' '}
+                  <strong>enviar</strong> en{' '}
+                  {sentChannel === 'whatsapp' ? 'WhatsApp' : 'tu aplicación de correo'} y te
+                  responderemos para confirmar la reservación.
+                </>
+              )}
             </p>
             <Button onPress={reset} className="min-h-11">
-              Hacer otra reservación
+              {isMonthly ? 'Solicitar otro plan' : 'Hacer otra reservación'}
             </Button>
           </div>
         )}
@@ -240,7 +271,12 @@ export function BookingFlow() {
                     >
                       <Card className="p-4 sm:p-6 rounded-lg border-2 cursor-pointer transition-all hover:border-primary hover:shadow-lg">
                         <Card.Content>
-                          <h3 className="text-lg font-bold text-foreground mb-2">{space.name}</h3>
+                          <div className="flex items-start justify-between gap-3 mb-2">
+                            <h3 className="text-lg font-bold text-foreground">{space.name}</h3>
+                            <span className="shrink-0 rounded-full bg-primary-container/15 px-2.5 py-1 text-xs font-semibold text-primary">
+                              {space.mode === 'monthly' ? 'Plan mensual' : 'Por hora'}
+                            </span>
+                          </div>
                           <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{space.description}</p>
                           <p className="text-xs text-muted-foreground mb-4">{space.capacity}</p>
                           <div className="flex items-center justify-between">
@@ -255,8 +291,8 @@ export function BookingFlow() {
               </div>
             )}
 
-            {/* Step 2: Date & Time Selection */}
-            {currentStep === 2 && (
+            {/* Step 2: Date & Time Selection (por hora) */}
+            {currentStep === 2 && !isMonthly && (
               <div className="animate-in fade-in duration-300">
                 <h2 className="text-3xl font-bold text-foreground mb-2">Elige Fecha y Hora</h2>
                 <p className="text-muted-foreground mb-8">
@@ -359,10 +395,87 @@ export function BookingFlow() {
               </div>
             )}
 
+            {/* Step 2: Plan Mensual */}
+            {currentStep === 2 && isMonthly && (
+              <div className="animate-in fade-in duration-300">
+                <h2 className="text-3xl font-bold text-foreground mb-2">Configura Tu Plan Mensual</h2>
+                <p className="text-muted-foreground mb-8">
+                  Seleccionado:{' '}
+                  <span className="font-semibold text-foreground">{booking.space}</span> ·{' '}
+                  {selectedSpace?.price}
+                </p>
+
+                <div className="space-y-6">
+                  {/* Start month */}
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-4">
+                      ¿Desde qué mes quieres comenzar?
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {START_MONTH_OPTIONS.map(({ value, label }) => (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => set('startMonth', value)}
+                          className={`min-h-11 p-3 rounded-lg text-sm capitalize transition-all ${
+                            booking.startMonth === value
+                              ? 'bg-primary text-primary-foreground'
+                              : 'bg-muted hover:bg-muted/80 text-foreground'
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="mt-3 text-xs text-muted-foreground">
+                      Tu plan se renueva cada mes y puedes cancelarlo cuando quieras, sin
+                      penalización.
+                    </p>
+                  </div>
+
+                  {/* People */}
+                  <div>
+                    <Label className="block text-sm font-semibold text-foreground mb-4">
+                      ¿Cuántas personas trabajarán en la oficina?
+                    </Label>
+                    <TextField
+                      type="number"
+                      value={booking.people}
+                      onChange={(v) => set('people', v)}
+                      isRequired
+                      className="max-w-[12rem]"
+                    >
+                      <Input min={1} placeholder="Ej. 3" />
+                    </TextField>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6">
+                    <Button
+                      variant="outline"
+                      onPress={() => setCurrentStep(1)}
+                      className="flex-1 min-h-11"
+                    >
+                      Atrás
+                    </Button>
+                    <Button
+                      onPress={handlePlanSubmit}
+                      isDisabled={!booking.startMonth || !booking.people.trim()}
+                      className="flex-1 min-h-11"
+                    >
+                      Continuar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Step 3: Review & Send */}
             {currentStep === 3 && (
               <div className="animate-in fade-in duration-300">
-                <h2 className="text-3xl font-bold text-foreground mb-2">Revisa Tu Reservación</h2>
+                <h2 className="text-3xl font-bold text-foreground mb-2">
+                  {isMonthly ? 'Revisa Tu Plan Mensual' : 'Revisa Tu Reservación'}
+                </h2>
                 <p className="text-muted-foreground mb-8">
                   Completa tus datos y envía la solicitud por el canal que prefieras. Te
                   responderemos para confirmar.
@@ -374,30 +487,57 @@ export function BookingFlow() {
                     {/* Booking details */}
                     <div>
                       <h3 className="text-sm font-semibold text-secondary uppercase tracking-wide mb-6">
-                        Detalles de la Reservación
+                        {isMonthly ? 'Detalles del Plan' : 'Detalles de la Reservación'}
                       </h3>
                       <div className="space-y-4">
                         <div>
                           <p className="text-xs text-muted-foreground mb-1">Tipo de Espacio</p>
                           <p className="font-semibold text-foreground">{booking.space}</p>
                         </div>
-                        <div>
-                          <p className="text-xs text-muted-foreground mb-1">Fecha</p>
-                          <p className="font-semibold text-foreground">{formatDate(booking.date)}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-muted-foreground mb-1">Hora</p>
-                          <p className="font-semibold text-foreground">{booking.time}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-muted-foreground mb-1">Duración</p>
-                          <p className="font-semibold text-foreground">{booking.duration}</p>
-                        </div>
-                        {booking.people && (
-                          <div>
-                            <p className="text-xs text-muted-foreground mb-1">Personas</p>
-                            <p className="font-semibold text-foreground">{booking.people}</p>
-                          </div>
+                        {isMonthly ? (
+                          <>
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">Modalidad</p>
+                              <p className="font-semibold text-foreground">
+                                Plan mensual (renovable)
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">Mes de inicio</p>
+                              <p className="font-semibold text-foreground capitalize">
+                                {formatMonth(booking.startMonth)}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">
+                                Personas en la oficina
+                              </p>
+                              <p className="font-semibold text-foreground">{booking.people}</p>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">Fecha</p>
+                              <p className="font-semibold text-foreground">
+                                {formatDate(booking.date)}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">Hora</p>
+                              <p className="font-semibold text-foreground">{booking.time}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">Duración</p>
+                              <p className="font-semibold text-foreground">{booking.duration}</p>
+                            </div>
+                            {booking.people && (
+                              <div>
+                                <p className="text-xs text-muted-foreground mb-1">Personas</p>
+                                <p className="font-semibold text-foreground">{booking.people}</p>
+                              </div>
+                            )}
+                          </>
                         )}
                         {selectedSpace?.price && (
                           <div>

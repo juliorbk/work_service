@@ -12,6 +12,12 @@ export interface SpacePricing {
   whatsapp?: string;
 }
 
+/**
+ * `hourly`: se reserva por fecha, hora y duración.
+ * `monthly`: es una suscripción mensal, se contrata por mes de inicio y tamaño de equipo.
+ */
+export type BookingMode = 'hourly' | 'monthly';
+
 export interface Space {
   title: string;
   description: string;
@@ -20,6 +26,7 @@ export interface Space {
   image: string;
   gallery: SpaceMedia[];
   pricing: SpacePricing[];
+  bookingMode: BookingMode;
 }
 
 export const SPACES: Space[] = [
@@ -42,6 +49,7 @@ export const SPACES: Space[] = [
       { type: 'image', src: '/images/spaces/SALA_CONFERENCIAS_3.jpg' },
       { type: 'image', src: '/images/spaces/SALA_CONFERENCIAS_4.jpg' },
     ],
+    bookingMode: 'hourly',
     pricing: [
       {
         label: 'Por hora',
@@ -65,11 +73,12 @@ export const SPACES: Space[] = [
     capacity: 'Reuniones y presentaciones',
     image: '/images/spaces/SALA_REUNION_B.jpg',
     gallery: [{ type: 'image', src: '/images/spaces/SALA_REUNION_B.jpg' }],
+    bookingMode: 'hourly',
     pricing: [
       {
         label: 'Por hora',
         price: '$10 USD/hora',
-        whatsapp: spaceBookingMessage('Sala de Conferencias'),
+        whatsapp: spaceBookingMessage('Salón de Reuniones'),
       },
       { label: 'Salas disponibles', price: '2' },
     ],
@@ -91,6 +100,7 @@ export const SPACES: Space[] = [
       { type: 'image', src: '/images/spaces/SALA_OFICINA_A_1.jpg' },
       { type: 'image', src: '/images/spaces/SALA_OFICINA_A_2.jpg' },
     ],
+    bookingMode: 'monthly',
     pricing: [
       {
         label: 'Plan mensual',
@@ -119,6 +129,7 @@ export const SPACES: Space[] = [
       { type: 'image', src: '/images/spaces/oficina_tipo_B_3.jpg' },
       { type: 'image', src: '/images/spaces/oficina_tipo_B_4.jpg' },
     ],
+    bookingMode: 'monthly',
     pricing: [
       {
         label: 'Plan mensual',
@@ -128,3 +139,16 @@ export const SPACES: Space[] = [
     ],
   },
 ];
+
+/**
+ * Espacios reservables que no tienen ficha en `SPACES` pero se contratan por mes.
+ * Cubre el coworking, que solo aparece en la sección de precios.
+ */
+const MONTHLY_RENTABLE_SPACES = new Set<string>(['Espacio de Trabajo Compartido']);
+
+/** Modo de reserva de un espacio por nombre. Por defecto, reserva por hora. */
+export function getBookingMode(spaceTitle: string): BookingMode {
+  const space = SPACES.find((s) => s.title === spaceTitle);
+  if (space) return space.bookingMode;
+  return MONTHLY_RENTABLE_SPACES.has(spaceTitle) ? 'monthly' : 'hourly';
+}
