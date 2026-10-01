@@ -1,35 +1,44 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { AnimatedButton } from "@/components/ui/animated-button";
 import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { BRAND, HERO, whatsappUrl } from "@/lib/site-config";
 
+const HERO_VIDEO = "/videos/gallery/video-09-hero.mp4";
+const HERO_POSTER = "/videos/gallery/video-09-hero.jpg";
+
 export function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    // Reintento explícito: iOS Safari ignora `autoPlay` en algunos WebViews,
+    // y con Data Saver / Low Power Mode la promesa se rechaza. El poster
+    // queda como fallback visual en ese caso.
+    el.play().catch(() => {});
+  }, []);
+
   return (
     <section className="relative min-h-svh md:min-h-[85svh] flex items-center justify-center overflow-hidden bg-surface-variant pt-24 pb-16 md:pt-28">
       {/* Cielo de Maracaibo: resplandores que el acrílico refracta */}
       <div className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
-        {/* Video ambiente de las instalaciones (solo escritorio; móvil usa el poster) */}
-        <Image
-          src="/videos/gallery/video-09.jpg"
-          alt=""
-          aria-hidden
-          sizes="100vw"
-          fill
-          className="object-cover opacity-60 motion-reduce:hidden md:hidden"
-        />
+        {/* Video ambiente de las instalaciones. 1080px de ancho para que sea
+            casi nativo en pantallas DPR 3; sin pista de audio. */}
         <video
-          src="/videos/gallery/video-09.mp4"
-          poster="/videos/gallery/video-09.jpg"
+          ref={videoRef}
+          src={HERO_VIDEO}
+          poster={HERO_POSTER}
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
-          className="absolute inset-0 w-full h-full object-cover opacity-60 motion-reduce:hidden hidden md:block"
+          preload="auto"
+          disablePictureInPicture
+          className="absolute inset-0 w-full h-full object-cover opacity-60 motion-reduce:hidden"
         />
         <div className="absolute -inset-[10%] bg-[radial-gradient(circle_at_78%_18%,rgba(217,148,20,0.20),transparent_42%)] animate-drift-a" />
         <div className="absolute -inset-[10%] bg-[radial-gradient(circle_at_12%_88%,rgba(191,62,33,0.16),transparent_40%)] animate-drift-b" />
