@@ -16,10 +16,36 @@ export function HeroSection() {
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
-    // Reintento explícito: iOS Safari ignora `autoPlay` en algunos WebViews,
-    // y con Data Saver / Low Power Mode la promesa se rechaza. El poster
-    // queda como fallback visual en ese caso.
-    el.play().catch(() => {});
+
+    // La politica de autoplay de Chromium (y por tanto Opera) evalua la
+    // propiedad IDL `muted`, no el atributo HTML: hay que asignarla.
+    el.muted = true;
+
+    const start = () => {
+      el.play().catch((err: unknown) => {
+        if (process.env.NODE_ENV !== "production") {
+          console.warn("[hero] autoplay bloqueado", el.error ?? err);
+        }
+      });
+    };
+
+    // Con preload="metadata" el video no esta listo al montar, y un unico
+    // intento fallido lo dejaba muerto de forma permanente (el caso de
+    // Opera). Se reintenta en cuanto los datos permiten reproducir.
+    if (el.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) start();
+    el.addEventListener("canplay", start);
+
+    // Algunos navegadores suspenden el video fuera de pantalla; al volver
+    // hay que reanudarlo.
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") start();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      el.removeEventListener("canplay", start);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, []);
 
   return (
