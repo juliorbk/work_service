@@ -414,6 +414,16 @@
     pointer-events: none;
   }
 
+  /* Sobre el video del hero: en movil el repintado de backdrop-filter por
+     frame (30fps) mas los gradientes animados causa tirones.
+     Se conserva el tinte solido, que mantiene el aspecto acrilico. */
+  @media (max-width: 767px) {
+    .acrylic-over-video {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
   .acrylic-raised {
     box-shadow: var(--acrylic-shadow-raised), inset 0 1px 0 var(--acrylic-highlight);
   }

@@ -36,7 +36,7 @@ export function HeroSection() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           disablePictureInPicture
           className="absolute inset-0 w-full h-full object-cover opacity-60 motion-reduce:hidden"
         />
@@ -81,7 +81,7 @@ export function HeroSection() {
           />
           <Link
             href={HERO.secondaryCta.href}
-            className="btn-premium acrylic relative rounded-full px-8 py-4 font-medium text-sm tracking-[0.05em] text-secondary hover:text-primary hover:border-primary inline-flex items-center justify-center w-full sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="btn-premium acrylic acrylic-over-video relative rounded-full px-8 py-4 font-medium text-sm tracking-[0.05em] text-secondary hover:text-primary hover:border-primary inline-flex items-center justify-center w-full sm:w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             {HERO.secondaryCta.label}
             <ArrowRight className="ml-2 w-4 h-4" />
@@ -89,7 +89,7 @@ export function HeroSection() {
         </div>
 
         {/* Stats */}
-        <div className="acrylic relative rounded-2xl mx-auto mt-10 sm:mt-16 max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 px-4 py-5 sm:px-6 sm:py-8 opacity-0 animate-[fade-in_0.7s_ease-out_500ms_both] motion-reduce:animate-none motion-reduce:opacity-100">
+        <div className="acrylic acrylic-over-video relative rounded-2xl mx-auto mt-10 sm:mt-16 max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 px-4 py-5 sm:px-6 sm:py-8 opacity-0 animate-[fade-in_0.7s_ease-out_500ms_both] motion-reduce:animate-none motion-reduce:opacity-100">
           {HERO.stats.map((stat) => (
             <div key={stat.label} className="min-w-0">
               <p className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-1 sm:mb-2">
