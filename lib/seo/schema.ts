@@ -43,7 +43,7 @@ export function localBusinessSchema() {
       '@type': 'Offer',
       name: space.name,
       description: space.description,
-      price: space.price.replace(/\D/g, ''),
+      price: space.price.replace(/[^\d.]/g, ''),
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: `${SITE_URL}/#pricing`,

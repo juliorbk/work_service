@@ -203,7 +203,7 @@ export const PRICING: {
       name: 'Sala de Conferencias',
       description: 'Salones equipados para tus reuniones y presentaciones.',
       details: ['Capacidad hasta 20 personas', '2 salas disponibles'],
-      price: '$10',
+      price: '$12.50',
       period: '/ hora',
       cta: 'Reservar',
     },
