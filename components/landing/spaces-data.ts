@@ -53,7 +53,7 @@ export const SPACES: Space[] = [
     pricing: [
       {
         label: 'Por hora',
-        price: '$10 USD/hora',
+        price: '$12.50 USD/hora',
         whatsapp: spaceBookingMessage('Sala de Conferencias'),
       },
       { label: 'Salas disponibles', price: '2' },
